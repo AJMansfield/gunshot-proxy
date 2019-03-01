@@ -15,3 +15,15 @@ class dotdict(dict):
     __getattr__ = dict.get
     __setattr__ = dict.__setitem__
     __delattr__ = dict.__delitem__
+
+    
+import socket
+from contextlib import contextmanager
+
+@contextmanager
+def socketcontext(*args, **kw):
+    s = socket.socket(*args, **kw)
+    try:
+        yield s
+    finally:
+        s.close()

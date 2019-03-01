@@ -1,7 +1,16 @@
 
 settings = {
-	'server': 'sentri://10.0.0.200:10002', # *THIS* device, the one running the proxy
-	'conn': 'tunnel://10.0.0.100:10002', # The Sentri Server
+	#'server': 'sentri://10.0.0.200:10002', # *THIS* device, the one running the proxy
+	#'conn': 'tunnel://10.0.0.100:10002', # The Sentri Server
+
+	'server': {
+		'host': '10.0.0.200',
+		'port': 10002,
+	},
+	'sentri': {
+		'host': '10.0.0.100',
+		'port': 10002,
+	},
 	
 	'camera': {
 		'onvif': {
