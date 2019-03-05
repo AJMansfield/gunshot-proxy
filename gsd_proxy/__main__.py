@@ -118,13 +118,13 @@ def prx_task_loop(sock, log):
     finally:
         prx_queue.task_done()
 
-with socketserver.TCPServer(server_tup, GSDHandler) as server:
-    try:
-        threading.Thread(target=server.serve_forever, daemon=True, name='server').start()
-        threading.Thread(target=cam_forever, daemon=True, name='camera').start()
-        threading.Thread(target=prx_forever, daemon=True, name='proxy').start()
-    
-        while True:
-            time.sleep(0.5)
-    finally:
-        server.shutdown()
+try:
+    server = socketserver.TCPServer(server_tup, GSDHandler)
+    threading.Thread(target=server.serve_forever, daemon=True, name='server').start()
+    threading.Thread(target=cam_forever, daemon=True, name='camera').start()
+    threading.Thread(target=prx_forever, daemon=True, name='proxy').start()
+
+    while True:
+        time.sleep(0.5)
+finally:
+    server.shutdown()
