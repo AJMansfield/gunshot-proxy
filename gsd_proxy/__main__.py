@@ -19,9 +19,8 @@ camparam = settings['camera']
 server_tup = (settings['server']['host'], settings['server']['port'])
 sentri_tup = (settings['sentri']['host'], settings['sentri']['port'])
 
-
-cam_queue = queue.Queue() # thread safe, auto-discards when overfull
-prx_queue = queue.Queue() # thread safe, auto-discards when overfull
+cam_queue = queue.Queue()
+prx_queue = queue.Queue()
 
 class GSDHandler(socketserver.BaseRequestHandler):
     def setup(self, *args, **kwargs):
@@ -31,7 +30,7 @@ class GSDHandler(socketserver.BaseRequestHandler):
     def handle(self):
         # log = logging.getLogger('GSDHandler')
         data = self.request.recv(1024).strip()
-        self.log.info(f"data={data}")
+        self.log.info("data={}".format(data))
 
         try: cam_queue.put_nowait(data)
         except queue.Full: pass
@@ -45,7 +44,7 @@ class GSDHandler(socketserver.BaseRequestHandler):
 
 def cam_forever():
     log = logging.getLogger(threading.current_thread().getName())
-    log.info(f'starting camera thread')
+    log.info('starting camera thread')
     while True:
         cam_reinit_loop(log)
         time.sleep(10)
@@ -53,7 +52,7 @@ def cam_forever():
 def cam_reinit_loop(log):
     log = log.getChild('handler')
     try:
-        log.info(f'setting up ONVIF control')
+        log.info('setting up ONVIF control')
         camera = ONVIFCamera(**camparam['onvif'])
         limits = dotdict(camparam['limits'])
         ptz = OnvifPTZ(camera, limits)
@@ -62,9 +61,9 @@ def cam_reinit_loop(log):
             cam_task_loop(ptz, log)
 
     except (AssertionError, KeyError, ONVIFError):
-        log.exception(f'error, reinit ptz')
+        log.exception('error, reinit ptz')
     except:
-        log.exception(f'error')
+        log.exception('error')
         raise
 
 def cam_task_loop(ptz, log):
@@ -72,9 +71,9 @@ def cam_task_loop(ptz, log):
     try:
         cam_command(ptz, data, log)
     except AssertionError:
-        log.exception(f'error parsing {repr(data)}')
+        log.exception('error parsing {}'.format(repr(data)))
     except:
-        log.exception(f'error processing {repr(data)}')
+        log.exception('error processing {}'.format(repr(data)))
         raise
     finally:
         cam_queue.task_done()
@@ -84,12 +83,12 @@ def cam_command(ptz, data, log):
     log.debug(pkt)
     if pkt.haslayer(Alarm):
         #return loop.run_in_executor(executor, ptz.move, int(pkt.az), int(pkt.el), None)
-        log.info(f"moving to {int(pkt.az)}, {int(pkt.el)}")
+        log.info("moving to {}, {}".format(int(pkt.az), int(pkt.el)))
         ptz.move(int(pkt.az), int(pkt.el), None)
 
 def prx_forever():
     log = logging.getLogger(threading.current_thread().getName())
-    log.info(f'starting proxy thread')
+    log.info('starting proxy thread')
     while True:
         prx_reinit_loop(log)
         time.sleep(10)
@@ -97,15 +96,15 @@ def prx_forever():
 def prx_reinit_loop(log):
     log = log.getChild('handler')
     try:
-        log.info(f'setting up proxy socket')
+        log.info('setting up proxy socket')
         with socketcontext(socket.AF_INET, socket.SOCK_STREAM) as sock:
             sock.connect(sentri_tup)
             while True:
                 prx_task_loop(sock, log)
     except (ConnectionError, TimeoutError, OSError):
-        log.exception(f'error connecting to {repr(sentri_tup)}')
+        log.exception('error connecting to {}'.format(repr(sentri_tup)))
     except:
-        log.exception(f'error')
+        log.exception('error')
         raise
 
 def prx_task_loop(sock, log):
@@ -114,7 +113,7 @@ def prx_task_loop(sock, log):
         sent = sock.send(data)
         assert sent == len(data), "was unable to send full packet"
     except:
-        log.exception(f'error sending {repr(data)}')
+        log.exception('error sending {}'.format(repr(data)))
         raise
     finally:
         prx_queue.task_done()

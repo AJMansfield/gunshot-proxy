@@ -10,7 +10,6 @@ setup(
 	install_requires=[
 		'angles',
 		'onvif-zeep',
-        'pproxy',
         'scapy',
 	],
 	zip_safe=False,

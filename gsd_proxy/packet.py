@@ -11,9 +11,9 @@ class AssertStringField(StrFixedLenField):
         r, v = super().getfield(pkt, s)
         if v != self.default:
             if self.ex:
-                raise self.ex(f"invalid value {v}")
+                raise self.ex("invalid value {}".format(v))
             else:
-                scapy.error.log_runtime.getChild('assert-field').warn(f"invalid value {v}")
+                scapy.error.log_runtime.getChild('assert-field').warn("invalid value {}".format(v))
         return r, v
         
 class Alarm(Packet):
@@ -28,7 +28,7 @@ class Alarm(Packet):
         *(ByteField(s, 0) for s in [ # TODO verify correct order, cuz this is wack.
             "century", "day", "hour", "minute", "month", "second", "weekday", "year"]), 
         ByteField("alarm_num", 0),
-        *(ByteField(f"mic{d}_{s}", 0) for d in range(4) for s in "wsd")
+        *(ByteField("mic{}_{}".format(d,s), 0) for d in range(4) for s in "wsd")
     ]
 
 headers = {
