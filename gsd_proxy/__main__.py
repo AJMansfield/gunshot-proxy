@@ -16,8 +16,10 @@ from .packet import parse_pkt, Alarm
 
 from .settings import settings
 camparam = settings['camera']
-server_tup = (settings['server']['host'], settings['server']['port'])
-sentri_tup = (settings['sentri']['host'], settings['sentri']['port'])
+s_l_tup = (settings['sentri']['local']['host'], settings['sentri']['local']['port'])
+s_r_tup = (settings['sentri']['remote']['host'], settings['sentri']['remote']['port'])
+g_l_tup = (settings['gunshot']['local']['host'], settings['gunshot']['local']['port'])
+g_r_tup = (settings['gunshot']['remote']['host'], settings['gunshot']['remote']['port'])
 
 cam_queue = queue.Queue()
 prx_queue = queue.Queue()
@@ -98,11 +100,12 @@ def prx_reinit_loop(log):
     try:
         log.info('setting up proxy socket')
         with socketcontext(socket.AF_INET, socket.SOCK_STREAM) as sock:
-            sock.connect(sentri_tup)
+            sock.bind(s_l_tup)
+            sock.connect(s_r_tup)
             while True:
                 prx_task_loop(sock, log)
     except (ConnectionError, TimeoutError, OSError):
-        log.exception('error connecting to {}'.format(repr(sentri_tup)))
+        log.exception('error connecting to {}'.format(repr(s_r_tup)))
     except:
         log.exception('error')
         raise
@@ -119,7 +122,7 @@ def prx_task_loop(sock, log):
         prx_queue.task_done()
 
 try:
-    server = socketserver.TCPServer(server_tup, GSDHandler)
+    server = socketserver.TCPServer(g_l_tup, GSDHandler)
     threading.Thread(target=server.serve_forever, daemon=True, name='server').start()
     threading.Thread(target=cam_forever, daemon=True, name='camera').start()
     threading.Thread(target=prx_forever, daemon=True, name='proxy').start()

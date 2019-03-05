@@ -2,14 +2,25 @@
 settings = {
 	#'server': 'sentri://10.0.0.200:10002', # *THIS* device, the one running the proxy
 	#'conn': 'tunnel://10.0.0.100:10002', # The Sentri Server
-
-	'server': {
-		'host': '10.0.2.4',
-		'port': 10002,
+	'gunshot': {
+		'local': {
+			'host': '10.0.2.4',
+			'port': 10002,
+		},
+		'remote': {
+			'host': '10.0.2.2',
+			'port': 10002,
+		},
 	},
 	'sentri': {
-		'host': '10.0.0.100',
-		'port': 10002,
+		'local': {
+			'host': '10.0.2.4',
+			'port': 10001,
+		},
+		'remote': {
+			'host': '10.0.0.100',
+			'port': 10002,
+		},
 	},
 	
 	'camera': {
