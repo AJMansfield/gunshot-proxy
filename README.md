@@ -4,18 +4,18 @@ Proxies GSD traffic from the gunshot detector to the Sentri Server,
   parsing each packet and issuing the correct ONVIF PTZ commands locally
   rather than depending on the Sentri Server to command the camera.
 
-To install (WIP):
+### Installation
 
-- install the python package: `pip install -e ./gsdproxy`
-- install the wsdl files
-- configure the settings file: `nano settings.py`
-- copy or link the .service file
-  - link: `ln -s gsdproxy.service -t /etc/systemd/system/`
-  - copy: `cp gsdproxy.service /etc/systemd/system/`
-- reload systemd services: `systemctl daemon-reload`
-- enable the service: `systemctl enable gsdproxy`
-- reboot: `systemctl reboot`
-
+```sh
+sudo apt install python3 python3-pip python3-lxml python3-scapy mosquitto
+pip3 install -r requirements.txt
+cp wsdl/ /home/pi/.local/lib/python3.5/site-packages/
+sudo cp *.service /etc/systemd/system/
+sudo cp gunshot.target /etc/systend/system/
+sudo systemctl daemon-reload
+sudo systemctl enable gunshot.target
+sudo systemctl reboot
+```
 
 ### Architecture
 
