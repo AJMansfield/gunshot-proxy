@@ -19,10 +19,17 @@ sudo systemctl reboot
 
 ### Architecture
 
-A bunch of separate microservices that all connect to a single MQTT service.
+A bunch of separate microservices that all connect to a single MQTT broker to pass messages.
 
 Topics:
 - `sentri/detector/event/raw`
   Subscribe to this one to recieve everything the GSD emits.
 - `sentri/detector/command/raw`
   Publish here to submit commands to the GSD.
+
+This decouples the different aspects of the functionality from each other, so a single failed microservice does not inhibit any other functionality.
+Services are free to (and in fact are expected to) crash if and when they encounter a failure condition, such as inability to connect to a required network port;
+  fault tolerance is achieved by automatically restarting failed units at the service layer.
+
+This also makes the design modular; for instance in an environment without a central server the `sentri_server` service can simply be omitted.
+Additional custom modules can be added by subscribing and publishing to these channels.
