@@ -15,12 +15,19 @@ class AssertStringField(StrFixedLenField):
             else:
                 scapy.error.log_runtime.getChild('assert-field').warn("invalid value {}".format(v))
         return r, v
-        
+
+alarm_types = {
+    b'C': "gunshot",
+    b'I': "non-gunshot",
+    b'M': "engine alarm",
+    b'P': "footstep alarm",
+    b'Q': "fence alarm",
+}
 class Alarm(Packet):
     name = "Alarm "
     fields_desc=[
         AssertStringField("header", b'MD5'),
-        StrFixedLenEnumField("type", b'C', length=1, enum={b'C':"gunshot", b'I':"non-gunshot"}),
+        StrFixedLenEnumField("type", b'C', length=1, enum=alarm_types),
         StrFixedLenField("az", b'000', length=3),
         AssertStringField("", b' '),
         StrFixedLenField("el", b'00', length=2),
