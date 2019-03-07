@@ -5,13 +5,12 @@ Requires=mosquitto.service
 After=network-online.target mosquitto.service
 
 [Service]
-Type=simple
-
+SyslogIdentifier=camera
 User=pi
 Group=pi
 WorkingDirectory=/home/pi
 
+Type=simple
 ExecStart=/usr/bin/python3 /home/pi/camera_service.py
-
 Restart=always
 RestartSec=5
