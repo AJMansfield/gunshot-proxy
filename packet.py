@@ -22,6 +22,7 @@ alarm_types = {
     b'M': "engine alarm",
     b'P': "footstep alarm",
     b'Q': "fence alarm",
+    b'V': "version", # TODO these are actually *packet* types, need to refactor to use different packet classes
 }
 class Alarm(Packet):
     name = "Alarm "
