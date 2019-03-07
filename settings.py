@@ -4,22 +4,28 @@ settings = {
 	#'conn': 'tunnel://10.0.0.100:10002', # The Sentri Server
 	'gunshot': {
 		'local': {
-			'host': '10.0.2.4',
+			'host': '10.0.0.200',
 			'port': 10002,
 		},
 		'remote': {
 			'host': '10.0.2.2',
-			'port': 10002,
+			'port': 10001,
 		},
 	},
 	'sentri': {
 		'local': {
-			'host': '10.0.2.4',
+			'host': '10.0.0.200',
 			'port': 10001,
 		},
 		'remote': {
 			'host': '10.0.0.100',
 			'port': 10002,
+		},
+	},
+	'cal': {
+		'local': {
+			'host': '10.0.0.200',
+			'port': 10004,
 		},
 	},
 	

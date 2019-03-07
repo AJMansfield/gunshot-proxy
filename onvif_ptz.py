@@ -1,4 +1,4 @@
-from .utils import translate
+from utils import translate
 import angles
 
 class CameraHasNoPTZProfiles(Exception):

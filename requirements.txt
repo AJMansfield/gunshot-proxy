@@ -1,0 +1,4 @@
+angles
+onvif-zeep
+scapy
+paho-mqtt

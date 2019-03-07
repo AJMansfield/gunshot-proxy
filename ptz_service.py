@@ -10,11 +10,11 @@ import paho.mqtt.client as mqtt
 from onvif import ONVIFCamera
 from onvif.exceptions import ONVIFError
 
-from gsd_proxy.onvif_ptz import OnvifPTZ
-from gsd_proxy.utils import dotdict, socketcontext
-from gsd_proxy.packet import parse_pkt, Alarm
+from onvif_ptz import OnvifPTZ
+from utils import dotdict, socketcontext
+from packet import parse_pkt, Alarm
 
-from gsd_proxy.settings import settings
+from settings import settings
 camparam = settings['camera']
 
 def on_connect(client, userdata, flags, rc):

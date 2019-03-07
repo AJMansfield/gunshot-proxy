@@ -8,7 +8,7 @@ mqlog = log.getChild('mqtt')
 import paho.mqtt.client as mqtt
 import socket
 
-from gsd_proxy.settings import settings
+from settings import settings
 local_tup = (settings['sentri']['local']['host'], settings['sentri']['local']['port'])
 remote_tup = (settings['sentri']['remote']['host'], settings['sentri']['remote']['port'])
 

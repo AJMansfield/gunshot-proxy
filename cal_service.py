@@ -8,9 +8,8 @@ mqlog = log.getChild('mqtt')
 import paho.mqtt.client as mqtt
 import socketserver
 
-from gsd_proxy.settings import settings
-local_tup = (settings['gunshot']['local']['host'], settings['gunshot']['local']['port'])
-remote_tup = (settings['gunshot']['remote']['host'], settings['gunshot']['remote']['port'])
+from settings import settings
+local_tup = (settings['cal']['local']['host'], settings['cal']['local']['port'])
 
 class CalHandler(socketserver.BaseRequestHandler):
     def setup(self, *args, **kwargs):
@@ -54,7 +53,7 @@ class CalHandler(socketserver.BaseRequestHandler):
         log.warning("disconnected")
         self.client.disconnect()
 
-
+log.info("listening on {}".format(local_tup))
 server = socketserver.TCPServer(local_tup, CalHandler)
-
+log.info("waiting for connection")
 server.serve_forever()
