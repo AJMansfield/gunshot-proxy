@@ -1,32 +1,17 @@
 
 settings = {
-	#'server': 'sentri://10.0.0.200:10002', # *THIS* device, the one running the proxy
-	#'conn': 'tunnel://10.0.0.100:10002', # The Sentri Server
-	'gunshot': {
-		'local': {
-			'host': '10.0.0.200',
-			'port': 10002,
-		},
-		'remote': {
-			'host': '10.0.2.2',
-			'port': 10001,
-		},
+	'mqtt': {
+		'host': '10.0.2.4',
 	},
-	'sentri': {
-		'local': {
-			'host': '10.0.0.200',
-			'port': 10001,
-		},
-		'remote': {
-			'host': '10.0.0.100',
-			'port': 10002,
-		},
+	'senseit_server': {
+		'bind': ('10.0.0.200', 10001),
+		'connect': ('10.0.0.100', 10002),
 	},
-	'cal': {
-		'local': {
-			'host': '10.0.0.200',
-			'port': 10004,
-		},
+	'senseit_client': {
+		'listen': ('10.0.0.200', 10004),
+	},
+	'detector': {
+		'listen': ('10.0.0.200', 10002),
 	},
 	
 	'camera': {

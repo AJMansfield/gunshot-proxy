@@ -40,8 +40,8 @@ try:
     client = mqtt.Client()
     client.on_connect = on_connect
     client.on_message = on_message
-
-    client.connect("10.0.2.4")
+    client.connect(**settings['mqtt'])
+    
     client.loop_forever()
     
 except (AssertionError, KeyError, ONVIFError):

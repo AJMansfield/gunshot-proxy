@@ -9,8 +9,7 @@ import paho.mqtt.client as mqtt
 import socket
 
 from settings import settings
-local_tup = (settings['sentri']['local']['host'], settings['sentri']['local']['port'])
-remote_tup = (settings['sentri']['remote']['host'], settings['sentri']['remote']['port'])
+srv_settings = settings['senseit_server']
 
 def on_connect(client, userdata, flags, rc):
     mqlog.info("connected to broker")
@@ -24,15 +23,17 @@ def on_message(client, userdata, msg):
 try:
     senlog.info('setting up socket')
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.bind(local_tup)
-    sock.connect(remote_tup)
+
+    if 'bind' in srv_settings:
+        sock.bind(srv_settings['bind'])
+    sock.connect(srv_settings['connect'])
     sock.setblocking(False)
 
     mqlog.info('connnecting to MQTT')
     client = mqtt.Client()
     client.on_connect = on_connect
     client.on_message = on_message
-    client.connect("10.0.2.4")
+    client.connect(**settings['mqtt'])
     
     while True:
         client.loop()

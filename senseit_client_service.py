@@ -9,10 +9,9 @@ import paho.mqtt.client as mqtt
 import socketserver
 
 from settings import settings
-local_tup = (settings['gunshot']['local']['host'], settings['gunshot']['local']['port'])
-remote_tup = (settings['gunshot']['remote']['host'], settings['gunshot']['remote']['port'])
+srv_settings = settings['senseit_client']
 
-class GSDHandler(socketserver.BaseRequestHandler):
+class CalHandler(socketserver.BaseRequestHandler):
     def setup(self, *args, **kwargs):
         super().setup(*args, **kwargs)
 
@@ -23,18 +22,18 @@ class GSDHandler(socketserver.BaseRequestHandler):
 
         def on_connect(client, userdata, flags, rc):
             mqlog.info("connected to broker")
-            client.subscribe("sentri/detector/command/raw")
+            client.subscribe("sentri/detector/event/raw")
 
         def on_message(client, userdata, msg):
-            mqlog.info("recieved command {}".format(repr(msg)))
-            gsdlog.info("sending command {}".format(repr(msg.payload)))
+            mqlog.info("recieved event {}".format(repr(msg)))
+            gsdlog.info("sending event {}".format(repr(msg.payload)))
             self.request.sendall(msg.payload)
             # mqttlog.getChild(msg.topic.replace('/','.')).info(str(msg.payload))
         
         self.client = mqtt.Client()
         self.client.on_connect = on_connect
         self.client.on_message = on_message
-        self.client.connect("10.0.2.4")
+        self.client.connect(**settings['mqtt'])
 
         log.info("ready")
 
@@ -43,9 +42,9 @@ class GSDHandler(socketserver.BaseRequestHandler):
             self.client.loop()
             try:
                 data = self.request.recv(1024)
-                gsdlog.info("recieved event {}".format(repr(data)))
-                event = self.client.publish("sentri/detector/event/raw", data)
-                mqlog.info("published {}".format(repr(event)))
+                gsdlog.info("recieved command {}".format(repr(data)))
+                event = self.client.publish("sentri/detector/command/raw", data)
+                mqlog.info("sent command {}".format(repr(event)))
             except BlockingIOError:
                 pass
 
@@ -54,7 +53,7 @@ class GSDHandler(socketserver.BaseRequestHandler):
         log.warning("disconnected")
         self.client.disconnect()
 
-log.info("listening on {}".format(local_tup))
-server = socketserver.TCPServer(local_tup, GSDHandler)
+log.info("listening on {}".format(srv_settings['listen']))
+server = socketserver.TCPServer(srv_settings['listen'], CalHandler)
 log.info("waiting for connection")
 server.serve_forever()
