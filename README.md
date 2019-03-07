@@ -7,6 +7,7 @@ Proxies GSD traffic from the gunshot detector to the Sentri Server,
 To install (WIP):
 
 - install the python package: `pip install -e ./gsdproxy`
+- install the wsdl files
 - configure the settings file: `nano settings.py`
 - copy or link the .service file
   - link: `ln -s gsdproxy.service -t /etc/systemd/system/`
@@ -14,3 +15,14 @@ To install (WIP):
 - reload systemd services: `systemctl daemon-reload`
 - enable the service: `systemctl enable gsdproxy`
 - reboot: `systemctl reboot`
+
+
+### Architecture
+
+A bunch of separate microservices that all connect to a single MQTT service.
+
+Topics:
+- `sentri/detector/event/raw`
+  Subscribe to this one to recieve everything the GSD emits.
+- `sentri/detector/command/raw`
+  Publish here to submit commands to the GSD.
