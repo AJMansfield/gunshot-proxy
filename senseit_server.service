@@ -1,0 +1,17 @@
+[Unit]
+Description=Connects to the SenseIT Sentri Server and proxies traffic to it.
+Wants=network-online.target
+Requires=mosquitto.service
+After=network-online.target mosquitto.service
+
+[Service]
+Type=simple
+
+User=pi
+Group=pi
+WorkingDirectory=/home/pi
+
+ExecStart=/usr/bin/python3 /home/pi/senseit_server_service.py
+
+Restart=always
+RestartSec=5

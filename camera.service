@@ -1,0 +1,17 @@
+[Unit]
+Description=Issues camera commands based on gunshot events.
+Wants=network-online.target
+Requires=mosquitto.service
+After=network-online.target mosquitto.service
+
+[Service]
+Type=simple
+
+User=pi
+Group=pi
+WorkingDirectory=/home/pi
+
+ExecStart=/usr/bin/python3 /home/pi/camera_service.py
+
+Restart=always
+RestartSec=5
