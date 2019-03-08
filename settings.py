@@ -49,5 +49,16 @@ settings = {
 			('SetRelayOutputState', {'RelayOutputToken':4, 'LogicalState':'active'}),
 		]
 	},
-	
+
+	'osrd_ptz': {
+		'addr': 0,
+		'limits': {
+			'az_min': 0,
+			'az_max': 127999,
+			'az_off': 0,
+			'el_min': 0,
+			'el_max': 31999,
+			'el_off': 0,
+		},
+	},
 }
