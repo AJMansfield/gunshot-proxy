@@ -2,7 +2,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 log = logging.getLogger('')
-ptzlog = log.getChild('ptz')
+ptzlog = log.getChild('relay')
 mqlog = log.getChild('mqtt')
 
 import paho.mqtt.client as mqtt
@@ -15,7 +15,7 @@ from utils import dotdict, socketcontext
 from alarm_packet import parse_pkt, Alarm
 
 from settings import settings
-camparam = settings['onvif_ptz']
+camparam = settings['onvif_relay']
 
 def on_connect(client, userdata, flags, rc):
     mqlog.info("connected to broker")
@@ -26,15 +26,15 @@ def on_message(client, userdata, msg):
 
     pkt = parse_pkt(msg.payload)
     if pkt.haslayer(Alarm):
-        az, el = int(pkt.az), int(pkt.el)
-        ptzlog.info("moving to {}, {}".format(az, el))
-        ptz.move(az, el, None)
+        for cmd, params in camparam['alarm']: # issue all of the configured devmgmt commands
+            getattr(camera.devicemgmt, cmd)(params)
 
 try:
     log.info('setting up ONVIF control')
     camera = ONVIFCamera(**camparam['onvif'])
-    limits = dotdict(camparam['limits'])
-    ptz = OnvifPTZ(camera, limits)
+
+    for cmd, params in camparam['setup']: # issue all of the configured devmgmt commands
+        getattr(camera.devicemgmt, cmd)(params)
 
     log.info('connnecting to MQTT')
     client = mqtt.Client()
