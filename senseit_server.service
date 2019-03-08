@@ -14,3 +14,6 @@ Type=simple
 ExecStart=/usr/bin/python3 /home/pi/senseit_server_service.py
 Restart=always
 RestartSec=5
+
+[Install]
+WantedBy=gunshot.target

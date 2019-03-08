@@ -1,6 +1,5 @@
 [Unit]
 Description=Gunshot detector proxy and camera control functionality.
-Wants=camera.service detector.service senseit_client.service senseit_server.service
 
 [Install]
 WantedBy=multi-user.target

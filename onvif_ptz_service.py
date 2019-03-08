@@ -12,7 +12,7 @@ from onvif.exceptions import ONVIFError
 
 from onvif_ptz import OnvifPTZ
 from utils import dotdict, socketcontext
-from packet import parse_pkt, Alarm
+from alarm_packet import parse_pkt, Alarm
 
 from settings import settings
 camparam = settings['camera']
