@@ -4,6 +4,7 @@ settings = {
 	'mqtt': {
 		'host': '10.0.2.4',
 	},
+
 	'senseit_server': {
 		'bind': ('10.0.2.4', 10001),
 		'connect': ('10.0.0.100', 10002),
@@ -37,13 +38,13 @@ settings = {
 	
 	'onvif_relay': {
 		'onvif': {
-			'host': '10.0.2.3',
+			'host': '10.0.2.5',
 			'port': 80,
-			'user': 'operator',
-			'passwd': 'password',
+			'user': '',
+			'passwd': '',
 		},
 		'setup': [
-			('SetRelayOutputSettings', {'RelayOutputToken':4, 'Properties': {'Mode': 'Monostable', 'DelayTime': datetime.timedelta(seconds=1), 'IdleState': 'open'}}),
+			('SetRelayOutputSettings', {'RelayOutputToken':4, 'Properties': {'Mode': 'Monostable', 'DelayTime': datetime.timedelta(seconds=2), 'IdleState': 'closed'}}),
 		],
 		'alarm': [
 			('SetRelayOutputState', {'RelayOutputToken':4, 'LogicalState':'active'}),
@@ -53,12 +54,23 @@ settings = {
 	'osrd_ptz': {
 		'addr': 0,
 		'limits': {
-			'az_min': 0,
-			'az_max': 127999,
 			'az_off': 0,
-			'el_min': 0,
-			'el_max': 31999,
+			'az_flip': False,
 			'el_off': 0,
+			'z_off': 0,
+		},
+	},
+
+	'rcp_ptz': {
+		'conn': {
+            'url': 'http://10.0.2.5/rcp.xml',
+            # 'auth': ('user', 'pass'),
+		},
+		'limits': {
+			'az_off': 0,
+			'az_flip': False,
+			'el_off': 0,
+			'z_off': 0,
 		},
 	},
 }

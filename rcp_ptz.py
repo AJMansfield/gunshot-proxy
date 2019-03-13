@@ -1,4 +1,4 @@
-from bicom_packet import *
+from bicom_packet import BiCom, PTZCommand, PTZPosSet
 from utils import translate, clamp
 import angles
 import requests
@@ -23,6 +23,7 @@ class RCPPTZ:
             tilt = tilt + self.limits.el_off
         if pan is not None:
             pan = pan + self.limits.az_off
+            pan = pan * {True:1, False:-1}[self.limits.az_flip]
             pan, tilt = angles.normalize_sphere(pan, tilt)
             pan = angles.normalize(pan, 0, 360)
         if zoom is not None:
