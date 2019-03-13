@@ -1,17 +1,17 @@
 [Unit]
-Description=Connects to the gunshot detector to read events and issue detector commands.
+Description=Gunshot detector %I service.
 Wants=network-online.target
 Requires=mosquitto.service
 After=network-online.target mosquitto.service
 
 [Service]
-SyslogIdentifier=detector
+SyslogIdentifier=%i
 User=pi
 Group=pi
 WorkingDirectory=/home/pi
 
 Type=simple
-ExecStart=/usr/bin/python3 /home/pi/detector_service.py
+ExecStart=/usr/bin/python3 /home/pi/%i_service.py
 Restart=always
 RestartSec=5
 
