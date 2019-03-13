@@ -1,33 +1,50 @@
+import logging
+logging.basicConfig(level=logging.INFO)
 
 """
-Commands from:
+RCP command set:
 https://st-tpp.resource.bosch.com/media/technology_partner_programm/10_public/downloads_1/video_8/documents_1/rcp_commands_for_advanced_integration_package_2013-11-08.pdf
-
-Also need to implement BiCom:
-https://st-tpp.resource.bosch.com/media/technology_partner_programm/10_public/downloads_1/video_8/protocols_1/bicom.pdf
 """
 
-"""
-payload: 
-80 (flags)
-0006 (bicom ptz server)
-one of:
-    01d0 (PTZPosMoveStatus)
-    0112 (Position.Pan)
-    0113 (Position.Tilt)
-    0114 (Position.ZoomTicks)
-02 (operation = set)
+log = logging.getLogger('')
+ptzlog = log.getChild('ptz')
+mqlog = log.getChild('mqtt')
 
-for Position.pan, tilt, or zoom
-    4-bytes pan in rads * 10000
-    4-bytes tilt in rads * 10000
-    4-bytes zoom in ticks from 0 to 255
+import paho.mqtt.client as mqtt
 
-for PTZPosMoveStatus or AutoTracker.AT
-    2-bytes pan in degree * 100
-    2-bytes tilt in degree * 100
-    2-bytes zoom in focal length * 100
-    1-byte ignore mask?
-    1-byte don't care
-    1-byte CRC
-"""
+from rcp_ptz import RCPPTZ
+from utils import dotdict, socketcontext
+from alarm_packet import parse_pkt, Alarm
+
+from settings import settings
+camparam = settings['rcp_ptz']
+
+def on_connect(client, userdata, flags, rc):
+    mqlog.info("connected to broker")
+    client.subscribe("sentri/detector/event/raw")
+
+def on_message(client, userdata, msg):
+    mqlog.info("recieved message {}".format(repr(msg)))
+
+    pkt = parse_pkt(msg.payload)
+    if pkt.haslayer(Alarm):
+        az, el = int(pkt.az), int(pkt.el)
+        ptzlog.info("moving to {}, {}".format(az, el))
+        ptz.move(az, el, None)
+
+try:
+    log.info('setting up RCP control')
+    limits = dotdict(camparam['limits'])
+    ptz = RCPPTZ(camparam['conn'], limits)
+
+    log.info('connnecting to MQTT')
+    client = mqtt.Client()
+    client.on_connect = on_connect
+    client.on_message = on_message
+    client.connect(**settings['mqtt'])
+    
+    client.loop_forever()
+    
+except:
+    log.exception('error')
+    raise
