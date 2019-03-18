@@ -12,7 +12,7 @@ from onvif.exceptions import ONVIFError
 
 from onvif_ptz import OnvifPTZ
 from utils import dotdict, socketcontext
-from alarm_packet import parse_pkt, Alarm
+from alarm_packet import parse_pkt, Alarm, is_trigger_event
 
 from settings import settings
 camparam = settings['onvif_relay']
@@ -25,7 +25,7 @@ def on_message(client, userdata, msg):
     mqlog.info("recieved message {}".format(repr(msg)))
 
     pkt = parse_pkt(msg.payload)
-    if pkt.haslayer(Alarm):
+    if is_trigger_event(pkt):
         for cmd, params in camparam['alarm']: # issue all of the configured devmgmt commands
             getattr(camera.devicemgmt, cmd)(params)
 

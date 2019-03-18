@@ -1,6 +1,10 @@
 import datetime
 
 settings = {
+	'events': {
+		b'C': "gunshot",
+		b'I': "non-gunshot",
+	},
 	'mqtt': {
 		'host': '10.0.2.4',
 	},

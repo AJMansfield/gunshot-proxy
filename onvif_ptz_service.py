@@ -12,7 +12,7 @@ from onvif.exceptions import ONVIFError
 
 from onvif_ptz import OnvifPTZ
 from utils import dotdict, socketcontext
-from alarm_packet import parse_pkt, Alarm
+from alarm_packet import parse_pkt, Alarm, is_trigger_event
 
 from settings import settings
 camparam = settings['onvif_ptz']
@@ -25,7 +25,7 @@ def on_message(client, userdata, msg):
     mqlog.info("recieved message {}".format(repr(msg)))
 
     pkt = parse_pkt(msg.payload)
-    if pkt.haslayer(Alarm):
+    if is_trigger_event(pkt):
         az, el = int(pkt.az), int(pkt.el)
         ptzlog.info("moving to {}, {}".format(az, el))
         ptz.move(az, el, None)
