@@ -2,7 +2,7 @@ from scapy.packet import Packet, bind_layers
 from scapy.fields import FlagsField, ConditionalField, ShortField, XShortField, ShortEnumField, XShortEnumField, IntField, XByteField, ByteEnumField
 import scapy.error
 
-from bicom_defs import *
+from bicom_defs import bicom_servers, bicom_operation, bicom_ptz_objects
 
 """
 References: 
