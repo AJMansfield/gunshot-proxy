@@ -5,11 +5,12 @@ log = logging.getLogger('')
 gsdlog = log.getChild('gsd')
 mqlog = log.getChild('mqtt')
 
-import paho.mqtt.client as mqtt
-import socketserver
+import settings
+config = settings.load('mqtt', 'senseit_client', log.getChild('config'))
 
-from settings import settings
-srv_settings = settings['senseit_client']
+import paho.mqtt.client as mqtt
+import socket
+import socketserver
 
 class CalHandler(socketserver.BaseRequestHandler):
     def setup(self, *args, **kwargs):
@@ -29,11 +30,11 @@ class CalHandler(socketserver.BaseRequestHandler):
             gsdlog.info("sending event {}".format(repr(msg.payload)))
             self.request.sendall(msg.payload)
             # mqttlog.getChild(msg.topic.replace('/','.')).info(str(msg.payload))
-        
+
         self.client = mqtt.Client()
         self.client.on_connect = on_connect
         self.client.on_message = on_message
-        self.client.connect(**settings['mqtt'])
+        self.client.connect(**config.mqtt)
 
         log.info("ready")
 
@@ -53,7 +54,7 @@ class CalHandler(socketserver.BaseRequestHandler):
         log.warning("disconnected")
         self.client.disconnect()
 
-log.info("listening on {}".format(srv_settings['listen']))
-server = socketserver.TCPServer(srv_settings['listen'], CalHandler)
+log.info("listening on {}".format(config.senseit_server.listen))
+server = socketserver.TCPServer(socket.getaddrinfo(**config.senseit_server.listen)[4], CalHandler)
 log.info("waiting for connection")
 server.serve_forever()

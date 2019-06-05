@@ -7,15 +7,8 @@ from binascii import b2a_hex
 # http://10.0.2.5/rcp.xml?command=0x09A5&type=P_OCTET&direction=WRITE&num=1&payload=0x
 class RCPPTZ:
 
-    def __init__(self, conn, limits):
-        """
-        conn is a dict like this:
-        {
-            'url': 'http://10.0.2.5/rcp.xml',
-            'auth': ('user', 'pass'),
-        }
-        """
-        self.conn = conn
+    def __init__(self, url, limits):
+        self.url = url
         self.limits = limits
 
     def move(self, pan, tilt, zoom):
@@ -39,7 +32,7 @@ class RCPPTZ:
 
         # return pkt
         
-        requests.get(**self.conn, params=dict(
+        requests.get(self.url, params=dict(
             command = 0x09A5,
             type = 'P_OCTET',
             direction = 'WRITE',

@@ -5,11 +5,12 @@ log = logging.getLogger('')
 gsdlog = log.getChild('gsd')
 mqlog = log.getChild('mqtt')
 
-import paho.mqtt.client as mqtt
-import socketserver
+import settings
+config = settings.load('mqtt', 'detector', log=log.getChild('config'))
 
-from settings import settings
-srv_settings = settings['detector']
+import paho.mqtt.client as mqtt
+import socket
+import socketserver
 
 class GSDHandler(socketserver.BaseRequestHandler):
     def setup(self, *args, **kwargs):
@@ -33,7 +34,7 @@ class GSDHandler(socketserver.BaseRequestHandler):
         self.client = mqtt.Client()
         self.client.on_connect = on_connect
         self.client.on_message = on_message
-        self.client.connect(**settings['mqtt'])
+        self.client.connect(**config.mqtt)
 
         log.info("ready")
 
@@ -53,7 +54,7 @@ class GSDHandler(socketserver.BaseRequestHandler):
         log.warning("disconnected")
         self.client.disconnect()
 
-log.info("listening on {}".format(srv_settings['listen']))
-server = socketserver.TCPServer(srv_settings['listen'], GSDHandler)
+log.info("listening on {}".format(config.detector.listen))
+server = socketserver.TCPServer(socket.getaddrinfo(**config.senseit_server.listen)[4], GSDHandler)
 log.info("waiting for connection")
 server.serve_forever()

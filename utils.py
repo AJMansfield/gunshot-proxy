@@ -12,13 +12,6 @@ def translate(value, leftMin, leftMax, rightMin, rightMax):
 
 def clamp(value, lower, upper):
     return sorted([value, lower, upper])[1]
-
-class dotdict(dict):
-    """dot.notation access to dictionary attributes"""
-    __getattr__ = dict.get
-    __setattr__ = dict.__setitem__
-    __delattr__ = dict.__delitem__
-
     
 import socket
 from contextlib import contextmanager
@@ -30,3 +23,22 @@ def socketcontext(*args, **kw):
         yield s
     finally:
         s.close()
+    
+class DotDict(dict):
+    """
+    a dictionary that supports dot notation 
+    as well as dictionary access notation 
+    usage: d = DotDict() or d = DotDict({'val1':'first'})
+    set attributes: d.val2 = 'second' or d['val2'] = 'second'
+    get attributes: d.val2 or d['val2']
+    """
+    __getattr__ = dict.__getitem__
+    __setattr__ = dict.__setitem__
+    __delattr__ = dict.__delitem__
+
+    def __init__(self, dct):
+        import collections
+        for key, value in dct.items():
+            if isinstance(value, collections.Mapping):
+                value = DotDict(value)
+            self[key] = value

@@ -45,7 +45,6 @@ headers = {
 def parse_pkt(data):
     return headers.get(data[:3], Packet)(data)
 
-def is_trigger_event(pkt):
-    from settings import settings
-    return pkt.haslayer(Alarm) and pkt.type in settings['events']
+def is_trigger_event(pkt, event_config):
+    return pkt.haslayer(Alarm) and event_config.get(alarm_types[pkt.type], False)
 
