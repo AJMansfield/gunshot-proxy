@@ -15,7 +15,7 @@ def load(*names:List[str], log:logging.Logger=logging.getLogger('config')) -> Do
 		with open('config.yaml', 'r') as f: # load config from file
 			full_config = yaml.safe_load(f)
 
-		config = {k:v for k,v in full_config.iteritems() if k in names} # filter to just the requested configs
+		config = {k:v for k,v in full_config.items() if k in names} # filter to just the requested configs
 		
 		for name in names:
 			assert name in config # ensure all required configs are present
