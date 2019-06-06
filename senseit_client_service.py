@@ -54,7 +54,7 @@ class CalHandler(socketserver.BaseRequestHandler):
         log.warning("disconnected")
         self.client.disconnect()
 
-log.info("listening on {}".format(config.senseit_server.listen))
-server = socketserver.TCPServer(socket.getaddrinfo(**config.senseit_server.listen)[0][4], CalHandler)
+log.info("listening on {}".format(config.senseit_client.listen))
+server = socketserver.TCPServer(socket.getaddrinfo(**config.senseit_client.listen)[0][4], CalHandler)
 log.info("waiting for connection")
 server.serve_forever()
