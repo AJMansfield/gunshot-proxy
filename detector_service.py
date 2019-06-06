@@ -6,7 +6,7 @@ gsdlog = log.getChild('gsd')
 mqlog = log.getChild('mqtt')
 
 import settings
-config = settings.load(['mqtt', 'detector'], log=log.getChild('config'))
+config = settings.load('mqtt', 'detector', log=log.getChild('config'))
 
 import paho.mqtt.client as mqtt
 import socket
@@ -55,6 +55,6 @@ class GSDHandler(socketserver.BaseRequestHandler):
         self.client.disconnect()
 
 log.info("listening on {}".format(config.detector.listen))
-server = socketserver.TCPServer(socket.getaddrinfo(**config.senseit_server.listen)[4], GSDHandler)
+server = socketserver.TCPServer(socket.getaddrinfo(**config.detector.listen)[0][4], GSDHandler)
 log.info("waiting for connection")
 server.serve_forever()

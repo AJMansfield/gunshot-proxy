@@ -6,7 +6,7 @@ gsdlog = log.getChild('gsd')
 mqlog = log.getChild('mqtt')
 
 import settings
-config = settings.load('mqtt', 'senseit_client', log.getChild('config'))
+config = settings.load('mqtt', 'senseit_client', log=log.getChild('config'))
 
 import paho.mqtt.client as mqtt
 import socket
@@ -55,6 +55,6 @@ class CalHandler(socketserver.BaseRequestHandler):
         self.client.disconnect()
 
 log.info("listening on {}".format(config.senseit_server.listen))
-server = socketserver.TCPServer(socket.getaddrinfo(**config.senseit_server.listen)[4], CalHandler)
+server = socketserver.TCPServer(socket.getaddrinfo(**config.senseit_server.listen)[0][4], CalHandler)
 log.info("waiting for connection")
 server.serve_forever()

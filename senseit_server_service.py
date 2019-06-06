@@ -6,7 +6,7 @@ senlog = log.getChild('senseit')
 mqlog = log.getChild('mqtt')
 
 import settings
-config = settings.load('mqtt', 'senseit_server', log.getChild('config'))
+config = settings.load('mqtt', 'senseit_server', log=log.getChild('config'))
 
 import paho.mqtt.client as mqtt
 import socket
@@ -25,8 +25,8 @@ try:
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     if 'bind' in config.senseit_server:
-        sock.bind(socket.getaddrinfo(**config.senseit_server.bind)[4])
-    sock.connect(socket.getaddrinfo(**config.senseit_server.connect)[4])
+        sock.bind(socket.getaddrinfo(**config.senseit_server.bind)[0][4])
+    sock.connect(socket.getaddrinfo(**config.senseit_server.connect)[0][4])
     sock.setblocking(False)
 
     mqlog.info('connnecting to MQTT')

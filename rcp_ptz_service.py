@@ -11,7 +11,7 @@ ptzlog = log.getChild('ptz')
 mqlog = log.getChild('mqtt')
 
 import settings
-config = settings.load('mqtt', 'events', 'rcp_ptz', log.getChild('config'))
+config = settings.load('mqtt', 'events', 'rcp_ptz', log=log.getChild('config'))
 
 import paho.mqtt.client as mqtt
 
