@@ -7,11 +7,11 @@ Proxies GSD traffic from the gunshot detector to the Sentri Server,
 ### Installation
 
 ```sh
-sudo apt install python3 python3-pip python3-lxml python3-scapy mosquitto
+sudo apt install python3 python3-pip python3-lxml python3-scapy python3-yaml mosquitto
 pip3 install -r requirements.txt
 cp wsdl/ /home/pi/.local/lib/python3.5/site-packages/
 sudo cp *.service /etc/systemd/system/
-sudo cp gunshot.target /etc/systend/system/
+sudo cp gunshot.target /etc/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable gunshot.target
 sudo systemctl reboot

@@ -6,7 +6,7 @@ gsdlog = log.getChild('gsd')
 mqlog = log.getChild('mqtt')
 
 import settings
-config = settings.load('mqtt', 'detector', log=log.getChild('config'))
+config = settings.load(['mqtt', 'detector'], log=log.getChild('config'))
 
 import paho.mqtt.client as mqtt
 import socket
