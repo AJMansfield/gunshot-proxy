@@ -1,0 +1,292 @@
+
+type: section
+title: Gunshot Detector Proxy Configuration
+settings:
+  network:
+    type: section
+    title: Networking
+    on_edit: sudo systemctl restart gunshot_network_config.service
+    settings:
+      client_ip:
+        type: text
+        label: IP Address
+        default: &pi_ip 10.0.2.2
+      gw_ip:
+        type: text
+        label: Default Gateway
+      netmask:
+        type: text
+        label: Subnet Mask
+      hostname:
+        type: text
+        label: Hostname
+      autoconf:
+        type: select
+        label: Autoconfiguration
+        options:
+          none: Use Static IP
+          any: Use any available method (DHCP + BOOTP + RARP)
+          dhcp: Use DHCP only.
+          bootp: Use BOOTP only.
+          rarp: Use RARP only.
+        default: any
+      dns0_ip:
+        type: text
+        label: Primary DNS
+      dns1_ip:
+        type: text
+        label: Secondary DNS
+      ntp0_ip:
+        type: text
+        label: NTP Server
+  events:
+    type: section
+    title: Event Types
+    on_edit:
+      - sudo systemctl restart gunshot@onvif_ptz.service
+      - sudo systemctl restart gunshot@onvif_relay.service
+      - sudo systemctl restart gunshot@rcp_ptz.service
+    settings:
+      gunshot:
+        type: checkbox
+        label: gunshot
+        default: true
+      non-gunshot:
+        type: checkbox
+        label: non-gunshot
+        default: true
+  mqtt:
+    type: section
+    title: MQTT Broker Settings
+    on_edit:
+      - sudo systemctl restart gunshot@senseit_server.service
+      - sudo systemctl restart gunshot@senseit_client.service
+      - sudo systemctl restart gunshot@detector.service
+      - sudo systemctl restart gunshot@onvif_ptz.service
+      - sudo systemctl restart gunshot@onvif_relay.service
+      - sudo systemctl restart gunshot@rcp_ptz.service
+    settings:
+      host:
+        type: text
+        label: Hostname
+        default: 127.0.0.1
+      port:
+        type: number
+        label: Port
+        default: 1883
+  senseit_server:
+    type: section
+    title: SenseIT Server
+    on_edit: sudo systemctl restart gunshot@senseit_server.service
+    settings:
+      enable:
+        type: checkbox
+        label: Enable SenseIT Server
+        default: true
+      bind:
+        type: section
+        title: Bind
+        settings:
+          host:
+            type: text
+            label: Hostname
+            default: *pi_ip
+          port:
+            type: number
+            label: Port
+            default: 10001
+      connect:
+        type: section
+        title: Connect
+        settings:
+          host:
+            type: text
+            label: Hostname
+            default: 10.0.0.100
+          port:
+            type: number
+            label: Port
+            default: 10002
+  senseit_client:
+    type: section
+    title: SenseIT Client
+    on_edit: sudo systemctl restart gunshot@senseit_client.service
+    settings:
+      enable:
+        type: checkbox
+        label: Enable SenseIT Client
+        default: true
+      listen:
+        type: section
+        title: Listen
+        settings:
+          host:
+            type: text
+            label: Hostname
+            default: *pi_ip
+          port:
+            type: number
+            label: Port
+            default: 10004
+  detector:
+    type: section
+    title: Detector
+    on_edit: sudo systemctl restart gunshot@detector.service
+    settings:
+      enable:
+        type: checkbox
+        label: Enable Detector
+        default: true
+      listen:
+        type: section
+        title: Listen
+        settings:
+          host:
+            type: text
+            label: Hostname
+            default: *pi_ip
+          port:
+            type: number
+            label: Port
+            default: 10002
+  onvif_ptz:
+    type: section
+    title: ONVIF PTZ
+    on_edit: sudo systemctl restart gunshot@onvif_ptz.service
+    settings:
+      enable:
+        type: checkbox
+        label: Enable ONVIF PTZ
+        default: true
+      onvif: &onvif
+        type: section
+        title: ONVIF
+        settings:
+          host:
+            type: text
+            label: Hostname
+            default: 10.0.2.3
+          port:
+            type: number
+            label: Port
+            default: 80
+          user:
+            type: text
+            label: Username
+            # default: operator
+          passwd:
+            type: text
+            label: Password
+            # default: password
+      limits:
+        type: section
+        title: Limits
+        settings:
+          az_min:
+            type: number
+            label: Azimuth Min
+            default: -180
+          az_max:
+            type: number
+            label: Azimuth Max
+            default: 180
+          az_off:
+            type: number
+            label: Azimuth Offset
+            default: 0
+          el_min:
+            type: number
+            label: Elevation Min
+            default: 0
+          el_max:
+            type: number
+            label: Elevation Max
+            default: 90
+          el_off:
+            type: number
+            label: Elevation Offset
+            default: 0
+          z_min:
+            type: number
+            label: Zoom Min
+            default: 0
+          z_max:
+            type: number
+            label: Zoom Max
+            default: 1
+          z_off:
+            type: number
+            label: Zoom Offset
+            default: 0
+  onvif_relay:
+    type: section
+    title: ONVIF Relay
+    on_edit: sudo systemctl restart gunshot@onvif_relay.service
+    settings:
+      enable:
+        type: checkbox
+        label: Enable ONVIF Relay
+        # default: true
+      onvif: *onvif
+      relay:
+        type: section
+        title: Relay Settings
+        settings:
+          token:
+            type: number
+            label: Relay Number
+            hint: usually 1-4
+            # default: 4
+          mode:
+            type: select
+            label: Mode
+            options:
+              Monostable: Monostable
+              Bistable: Bistable
+            default: Monostable
+          time:
+            type: number
+            label: Activation Time
+            hint: seconds
+            default: 2
+          idle:
+            type: select
+            label: Idle State
+            options:
+              open: Open
+              closed: Closed
+            default: open
+  rcp_ptz:
+    type: section
+    title: RCP PTZ
+    on_edit: sudo systemctl restart gunshot@rcp_ptz.service
+    settings:
+      enable:
+        type: checkbox
+        label: Enable RCP PTZ
+        # default: true
+      url:
+        type: text
+        label: URL
+        hint: e.g. http://username@password:10.0.2.3/rcp.xml
+        # default: http://10.0.2.3/rcp.xml
+      limits:
+        type: section
+        title: Limits
+        settings:
+          az_off:
+            type: number
+            label: Azimuth Offset
+            default: 0
+          az_flip:
+            type: checkbox
+            label: Azimuth Flip
+            default: false
+          el_off:
+            type: number
+            label: Elevation Offset
+            default: 0
+          z_off:
+            type: number
+            label: Zoom Offset
+            default: 0

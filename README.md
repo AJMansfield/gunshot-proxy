@@ -7,15 +7,40 @@ Proxies GSD traffic from the gunshot detector to the Sentri Server,
 ### Installation
 
 ```sh
-sudo apt install python3 python3-pip python3-lxml python3-scapy python3-yaml mosquitto
+# Install packages
+sudo apt install python3 python3-pip python3-lxml python3-scapy python3-yaml mosquitto apache2 php php-yaml
 pip3 install -r requirements.txt
-cp wsdl/ /home/pi/.local/lib/python3.5/site-packages/
+
+# Install WDSL files
+cp -r wsdl/ /home/pi/.local/lib/python3.5/site-packages/
+
+# Create admin user for managing the script
+sudo useradd admin
+# Set up the required groups and sudoers permissions
+sudo usermod -aG pi admin
+sudo cp gunshot_sudoers /etc/sudoers.d/
+
+# Install settings page
+sudo cp -r settings-site/* /var/www/html/
+
+# Install and enable systemd services
 sudo cp *.service /etc/systemd/system/
 sudo cp gunshot.target /etc/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable gunshot.target
+sudo systemctl enable gunshot@senseit_server.service
+sudo systemctl enable gunshot@senseit_client.service
+sudo systemctl enable gunshot@detector.service
+sudo systemctl enable gunshot@onvif_ptz.service
+sudo systemctl enable gunshot@onvif_relay.service
+sudo systemctl enable gunshot@rcp_ptz.service
+sudo systemctl enable gunshot_network_config.service
+
+# Reboot the system
 sudo systemctl reboot
 ```
+
+You can now navigate to the Pi's IP address in your browser and configure the scripts there.
 
 ### Architecture
 

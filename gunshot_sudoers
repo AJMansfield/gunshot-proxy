@@ -1,0 +1,10 @@
+# Allow www-data to sudo to another user with their password and execute specific commands.
+Defaults:www-data	targetpw
+Defaults:www-data	timestamp_timeout=0
+www-data	ALL=(ALL:ALL) /bin/true
+www-data	ALL=(ALL:ALL) /usr/bin/sudo systemctl restart *
+www-data	ALL=(ALL:ALL) /bin/cp *
+www-data	ALL=(ALL:ALL) /bin/cat *
+
+# Allow admin to run systemctl restart without password
+admin	ALL=(ALL:ALL) NOPASSWD:/bin/systemctl restart *
