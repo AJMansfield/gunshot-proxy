@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# system user to run the gunshot services
+useradd gunshot --system --no-create-home --user-group
+
+# create admin user with password "password", for authenticating from the webpage and performing actions
+useradd admin \
+  --no-create-home \
+  --password '$6$31q0e/npvu5yXPlc$T/M2RqBuQ.FGro.QmW/ku.cBfOzfcLI4rOHosee6vMWJcTZOEOjlhWIIR9AKbbWTZn6rrtKvpzRIC86PYfVH/0' \
+  --groups gunshot
+
 # give the gunshot user access to its config file
 chown gunshot /opt/gunshot/config.yaml
 
