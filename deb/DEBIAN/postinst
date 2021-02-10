@@ -9,8 +9,15 @@ useradd admin \
   --password '$6$31q0e/npvu5yXPlc$T/M2RqBuQ.FGro.QmW/ku.cBfOzfcLI4rOHosee6vMWJcTZOEOjlhWIIR9AKbbWTZn6rrtKvpzRIC86PYfVH/0' \
   --groups gunshot
 
-# give the gunshot user access to its config file
-chown gunshot /opt/gunshot/config.yaml
+# give members of the gunshot group the ability to modify the config files
+chown gunshot:gunshot /opt/gunshot/
+chown gunshot:gunshot /opt/gunshot/config.yaml
+chown gunshot:gunshot /opt/gunshot/config.yaml.old
+chmod g+w /opt/gunshot/config.yaml
+chmod g+w /opt/gunshot/config.yaml.old
+
+# make sure we have the latest and greatest
+python3 -m pip install --upgrade pip
 
 # install python packages that weren't available as debs
-pip3 install -r /opt/gunshot/requirements.txt
+python3 -m pip install -r /opt/gunshot/requirements.txt

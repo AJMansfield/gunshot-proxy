@@ -1,9 +1,9 @@
 ---
 network:
-  client_ip: 10.0.2.4
+  client_ip: ""
   gw_ip: ""
   netmask: ""
-  hostname: gsd-proxy
+  hostname: ""
   autoconf: none
   dns0_ip: ""
   dns1_ip: ""
@@ -15,7 +15,7 @@ mqtt:
   host: 127.0.0.1
   port: 1883
 senseit_server:
-  enable: true
+  enable: false
   bind:
     host: 10.0.2.4
     port: 10001
@@ -23,17 +23,17 @@ senseit_server:
     host: 10.0.0.100
     port: 10002
 senseit_client:
-  enable: true
+  enable: false
   listen:
     host: 10.0.2.4
     port: 10004
 detector:
-  enable: true
+  enable: false
   listen:
     host: 10.0.2.4
     port: 10002
 onvif_ptz:
-  enable: true
+  enable: false
   onvif:
     host: 10.0.2.6
     port: 80
@@ -50,7 +50,7 @@ onvif_ptz:
     z_max: 1
     z_off: 0
 onvif_relay:
-  enable: true
+  enable: false
   onvif:
     host: 10.0.2.6
     port: 80
