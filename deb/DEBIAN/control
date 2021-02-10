@@ -1,0 +1,19 @@
+Package: gunshot-proxy
+Version: 1.0.1
+Section: base
+Priority: optional
+Depends:
+ python3 (>= 3.7.3),
+ python3-pip (>= 18.1),
+ python3-lxml (>= 4.3.2),
+ python3-scapy (>= 2.4.0),
+ python3-yaml (>= 3.13),
+ mosquitto (>= 1.5.7),
+ apache2 (>= 2.4.38),
+ php (>= 2:7.3),
+ php-yaml (>= 2.0.2)
+Maintainer: Anson Mansfield <amansfield@mantaro.com>
+Description: Gunshot Proxy
+ Services and configuration for proxying Safety Dynamics 
+ gunshot detector packets, and sending camera commands 
+ based on that data.

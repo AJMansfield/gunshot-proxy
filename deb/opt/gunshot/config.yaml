@@ -1,0 +1,72 @@
+---
+network:
+  client_ip: 10.0.2.4
+  gw_ip: ""
+  netmask: ""
+  hostname: gsd-proxy
+  autoconf: none
+  dns0_ip: ""
+  dns1_ip: ""
+  ntp0_ip: ""
+events:
+  gunshot: true
+  non-gunshot: true
+mqtt:
+  host: 127.0.0.1
+  port: 1883
+senseit_server:
+  enable: true
+  bind:
+    host: 10.0.2.4
+    port: 10001
+  connect:
+    host: 10.0.0.100
+    port: 10002
+senseit_client:
+  enable: true
+  listen:
+    host: 10.0.2.4
+    port: 10004
+detector:
+  enable: true
+  listen:
+    host: 10.0.2.4
+    port: 10002
+onvif_ptz:
+  enable: true
+  onvif:
+    host: 10.0.2.6
+    port: 80
+    user: admin
+    passwd: P@ssw0rd
+  limits:
+    az_min: -180
+    az_max: 180
+    az_off: 0
+    el_min: -20
+    el_max: 91
+    el_off: 0
+    z_min: 0
+    z_max: 1
+    z_off: 0
+onvif_relay:
+  enable: true
+  onvif:
+    host: 10.0.2.6
+    port: 80
+    user: admin
+    passwd: P@ssw0rd
+  relay:
+    token: Relay-1
+    mode: Monostable
+    time: 2
+    idle: open
+rcp_ptz:
+  enable: false
+  url: ""
+  limits:
+    az_off: 90
+    az_flip: false
+    el_off: -20
+    z_off: 0
+...

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# system user to run the gunshot services
+adduser --system gunshot
+
+# create admin user with password "password", for authenticating from the webpage
+adduser admin --password '$6$31q0e/npvu5yXPlc$T/M2RqBuQ.FGro.QmW/ku.cBfOzfcLI4rOHosee6vMWJcTZOEOjlhWIIR9AKbbWTZn6rrtKvpzRIC86PYfVH/0'
+
+pip3 install -r /opt/gunshot/requirements.txt

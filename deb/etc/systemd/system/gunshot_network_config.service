@@ -5,12 +5,12 @@ After=network-online.target
 
 [Service]
 SyslogIdentifier=network_config
-User=pi
-Group=pi
-WorkingDirectory=/home/pi
+User=gunshot
+Group=gunshot
+WorkingDirectory=/opt/gunshot
 
 Type=oneshot
-ExecStart=/usr/bin/python3 /home/pi/network_config_service.py
+ExecStart=/usr/bin/python3 /opt/gunshot/network_config_service.py
 
 [Install]
 WantedBy=gunshot.target
