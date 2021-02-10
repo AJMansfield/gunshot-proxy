@@ -1,5 +1,8 @@
 <?php
 
+  $settings_filename = "/opt/gunshot/settings.yaml"; // setting schema definition
+  $config_filename = "/opt/gunshot/config.yaml"; // output settings file
+
   function bash($cmd){
     return ' bash -c '.escapeshellarg($cmd);
   }
@@ -65,9 +68,6 @@ function refsToValues($arr) {
   return yaml_parse(yaml_emit($arr));
 }
 
-$settings_filename = "/home/pi/settings.yaml";
-$config_filename = "/home/pi/config.yaml";
-
 $settings_yaml = shell_exec_as_user('cat '.escapeshellarg($settings_filename));
 $settings = yaml_parse($settings_yaml, 0);
 $settings = refsToValues($settings);
@@ -104,7 +104,12 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
   $token = $setting[$token_name];
   $value = is_null($config) ? get($setting["default"], $config) : $config;
 
-  switch ($setting["type"]) {
+  $type = $setting["type"];
+  if ($_GET["yaml"] ?? $_GET["debug"] ?? "0") { // pass yaml or debug params to fall back to raw yaml
+    $type = "yaml";
+  }
+
+  switch ($type) {
     case "section":
       switch ($level) {
         case 0:
@@ -218,8 +223,13 @@ function applySettings ($setting, &$config, &$restartcmds=array()) {
   $token = $setting[$token_name];
   $newcfg = $config;
   $changed = false;
+  
+  $type = $setting["type"];
+  if ($_GET["yaml"] ?? $_GET["debug"] ?? "0") { // pass yaml or debug params to fall back to raw yaml
+    $type = "yaml";
+  }
 
-  switch ($setting["type"]) {
+  switch ($type) {
     case "section":
       if (is_null($newcfg)) {
         $newcfg = array();
