@@ -7,4 +7,4 @@ www-data	ALL=(ALL:ALL) /bin/cp *
 www-data	ALL=(ALL:ALL) /bin/cat *
 
 # Allow admin to run systemctl restart without password
-admin	ALL=(ALL:ALL) NOPASSWD:/bin/systemctl restart *
+admin	ALL=(ALL) NOPASSWD:/bin/systemctl restart *
