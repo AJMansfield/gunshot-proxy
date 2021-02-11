@@ -24,7 +24,7 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe(config.mqtt.topics.evt_alarm)
 
 def on_message(client, userdata, msg):
-    data = json.loads(msg)
+    data = json.loads(msg.payload)
     mqlog.info("recieved message {}".format(repr(data)))
 
     az = data.get('az', data.get('az_raw'))

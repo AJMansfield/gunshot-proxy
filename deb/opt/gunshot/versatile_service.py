@@ -31,7 +31,7 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe(config.mqtt.topics.evt_all)
 
 def on_message(client, userdata, msg):
-    data = json.loads(msg)
+    data = json.loads(msg.payload)
     mqlog.info("recieved message {}".format(repr(data)))
     output = form.format(config.versatile.template.str, evt=data)
     verlog.info("sending packet {}".format(repr(output)))
