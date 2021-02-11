@@ -23,19 +23,19 @@ def on_message(client, userdata, msg):
     mqlog.info("recieved message {}".format(repr(msg)))
 
     data = {
-        "time": datetime.date.today().isoformat(),
+        "time": datetime.datetime.now().isoformat(),
         "raw": base64.b64encode(msg.payload).decode('ascii'),
     }
     try:
         pkt = parse_pkt(msg.payload)
         if pkt.haslayer(Alarm):
             data.update({
-                "device": source_types.get(pkt.device),
-                "type": alarm_types.get(pkt.type),
+                "device_type": source_types.get(pkt.device),
+                "event_type": alarm_types.get(pkt.type),
                 "raw_az": int(pkt.az),
                 "raw_el": int(pkt.el),
                 "alarm_num": pkt.alarm_num,
-                "time_reported": "{x.century:02d}{x.year:02d}-{x.month:02d}-{x.day:02d}T{x.hour:02d}:{x.minute:02d}:{x.second:02d}".format(x=pkt),
+                "time_detector": "{x.century:02d}{x.year:02d}-{x.month:02d}-{x.day:02d}T{x.hour:02d}:{x.minute:02d}:{x.second:02d}".format(x=pkt),
                 "mic_data": {alarm_dat: getattr(pkt, alarm_dat) for alarm_dat in ["mic{}_{}".format(d,s) for d in range(4) for s in "wsd"]},
             })
 
@@ -54,7 +54,7 @@ def on_message(client, userdata, msg):
 
     client.publish(config.mqtt.topics.evt_all, json_data)
 
-    if config.events.get(data.get("type"), False):
+    if config.events.get(data.get("event_type"), False):
         client.publish(config.mqtt.topics.evt_alarm, json_data)
     
 
