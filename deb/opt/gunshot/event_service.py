@@ -48,9 +48,9 @@ def on_message(client, userdata, msg):
     # TODO incorporate compass data to produce north-referenced az,el
     # TODO incorporate GPS and height data to produce lat,lon
 
-    json_data = json.dumps(data)
+    evlog.info("processed event {}".format(repr(data)))
 
-    evlog.info("processed event {}".format(repr(json_data)))
+    json_data = json.dumps(data)
 
     client.publish(config.mqtt.topics.evt_all, json_data)
 
