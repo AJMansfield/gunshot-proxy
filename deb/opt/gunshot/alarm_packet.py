@@ -22,8 +22,8 @@ class AssertStringField(StrFixedLenField):
 class AssertStrFixedLenEnumField(StrFixedLenEnumField):
     __slots__ = ["ex", "allowed"]
     def __init__(self, *args, **kwargs):
-        self.ex = kwargs.get("ex", WrongPacketType)
-        self.allowed = kwargs.get("allowed") or [kwargs.get('default')]
+        self.ex = kwargs.pop("ex", WrongPacketType)
+        self.allowed = kwargs.pop("allowed", None) or [kwargs.get('default')]
         super().__init__(*args, **kwargs)
     def getfield(self, pkt, s):
         r, v = super().getfield(pkt, s)
