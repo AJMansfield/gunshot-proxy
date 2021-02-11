@@ -37,6 +37,7 @@ systemctl enable gunshot@detector.service
 systemctl enable gunshot@onvif_ptz.service
 systemctl enable gunshot@onvif_relay.service
 systemctl enable gunshot@rcp_ptz.service
+systemctl enable gunshot@versatile.service
 
 systemctl restart gunshot@event.service
 systemctl restart gunshot@senseit_server.service
@@ -45,3 +46,4 @@ systemctl restart gunshot@detector.service
 systemctl restart gunshot@onvif_ptz.service
 systemctl restart gunshot@onvif_relay.service
 systemctl restart gunshot@rcp_ptz.service
+systemctl restart gunshot@versatile.service

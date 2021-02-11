@@ -67,6 +67,7 @@ settings:
       - sudo systemctl restart gunshot@onvif_ptz.service
       - sudo systemctl restart gunshot@onvif_relay.service
       - sudo systemctl restart gunshot@rcp_ptz.service
+      - sudo systemctl restart gunshot@versatile.service
     settings:
       server:
         type: section
@@ -335,6 +336,7 @@ settings:
   versatile:
     type: section
     title: Versatile Packet Output
+    on_edit: sudo systemctl restart gunshot@versatile.service
     settings:
       enable:
         type: checkbox

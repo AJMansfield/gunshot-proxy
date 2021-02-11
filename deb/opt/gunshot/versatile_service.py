@@ -38,7 +38,7 @@ def on_message(client, userdata, msg):
     sock.send(output)
 
 try:
-    senlog.info('setting up socket')
+    verlog.info('setting up socket')
 
     if config.versatile.protocol == "udp":
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
