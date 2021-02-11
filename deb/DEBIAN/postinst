@@ -19,10 +19,10 @@ chmod g+w /opt/gunshot/config.yaml.old
 
 # The version of pip that comes in the rpi's python3-pip package is slightly buggy
 # and will fail on some of the requirements.txt packages. Upgrade this first.
-python3 -m pip install --upgrade pip
+echo "skipping python3 -m pip install --upgrade pip"
 
 # install python packages that weren't available as debs
-python3 -m pip install -r /opt/gunshot/requirements.txt
+echo "skipping python3 -m pip install -r /opt/gunshot/requirements.txt"
 
 # enable the relevant systemd units
 sudo systemctl daemon-reload

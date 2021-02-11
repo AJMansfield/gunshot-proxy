@@ -38,7 +38,7 @@ for ip_field in ip_fields:
 if str(config.network.get('netmask')) != "":
     try:
         netmask_bytes = socket.inet_aton(config.network.get('netmask'))
-        netmask_bits = '{0:032b}'.format(sum(a*256**b for a,b in zip(netmask, range(3,-1,-1))))
+        netmask_bits = '{0:032b}'.format(sum(a*256**b for a,b in zip(netmask_bytes, range(3,-1,-1))))
 
         assert len(netmask_bits.split('10')) in {1,2}
         assert len(netmask_bits.split('01')) == 1
