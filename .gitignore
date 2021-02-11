@@ -104,3 +104,4 @@ venv.bak/
 
 # packaged debian files
 *.deb
+.vscode/
