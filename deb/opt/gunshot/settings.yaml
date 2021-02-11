@@ -92,12 +92,12 @@ settings:
           host:
             type: text
             label: Host
-            hint: IP or Hostname (blank for default)
+            hint: Local IP or Hostname (blank for default)
           port:
             type: number
             label: Port
             default: 10001
-            hint: (usually 10001)
+            hint: Local Port (usually 10001)
       connect:
         type: section
         title: Connect
@@ -105,13 +105,12 @@ settings:
           host:
             type: text
             label: Host
-            default: 10.0.0.100
-            hint: Upstream IP or Hostname
+            hint: Remote IP or Hostname
           port:
             type: number
             label: Port
             default: 10002
-            hint: (usually 10002)
+            hint: Remote Port (usually 10002)
   senseit_client:
     type: section
     title: SenseIT Client
@@ -128,12 +127,12 @@ settings:
           host:
             type: text
             label: Host
-            hint: IP or Hostname (blank for default)
+            hint: Local IP or Hostname (blank for default)
           port:
             type: number
             label: Port
             default: 10004
-            hint: (usually 10004)
+            hint: Local Port (usually 10004)
   detector:
     type: section
     title: Detector
@@ -150,12 +149,12 @@ settings:
           host:
             type: text
             label: Host
-            hint: IP or Hostname (blank for default)
+            hint: Local IP or Hostname (blank for default)
           port:
             type: number
             label: Port
             default: 10002
-            hint: (usually 10002)
+            hint: Local Port (usually 10002)
   onvif:
     type: section
     title: ONVIF Device
@@ -171,14 +170,16 @@ settings:
         type: number
         label: Port
         default: 80
-        hint: (usually 80)
+        hint: Camera ONVIF Port (usually 80)
       user:
         type: text
         label: Username
+        hint: Operator Username
         # default: operator
       passwd:
         type: text
         label: Password
+        hint: Operator Password
         # default: password
   onvif_ptz:
     type: section
@@ -248,7 +249,7 @@ settings:
       relay_id:
         type: text
         label: Relay Identifier
-        hint: 1 / Relay-1
+        hint: (usually "1" or "Relay-1")
       relay:
         type: section
         title: Relay Settings
