@@ -64,6 +64,7 @@ try:
     client.loop_forever()
 except:
     log.exception('error')
+    sock.close()
     raise
 finally:
     sock.close()
