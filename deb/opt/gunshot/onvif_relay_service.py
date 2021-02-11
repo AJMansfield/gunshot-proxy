@@ -23,7 +23,7 @@ def get_relay_token(devmgmt):
         return config.onvif_relay.relay_id
     elif config.onvif_relay.relay_type == "number":
         index = int(config.onvif_relay.relay_id)
-        relay = devmgmt.GetRelayOutputs()[index]
+        relay = devmgmt.GetRelayOutputs()[index-1]
         token = relay['token']
         ptzlog.info("relay #{} has token {}".format(index, repr(token)))
         return token

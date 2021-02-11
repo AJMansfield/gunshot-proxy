@@ -269,13 +269,12 @@ settings:
         type: select
         label: Identifier Type
         options:
-          number: Relay Number (a number)
-          token: Relay Token (usually something like "Relay-1")
+          number: Relay Number (specify ID as a number)
+          token: Relay Token (specify ID as a string)
         default: token
       relay_id:
         type: text
         label: Relay Identifier
-        hint: (usually "1" or "Relay-1")
       relay:
         type: section
         title: Relay Settings
