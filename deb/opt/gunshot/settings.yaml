@@ -43,6 +43,7 @@ settings:
     type: section
     title: Event Types
     on_edit:
+      - sudo systemctl restart gunshot@event.service
       - sudo systemctl restart gunshot@onvif_ptz.service
       - sudo systemctl restart gunshot@onvif_relay.service
       - sudo systemctl restart gunshot@rcp_ptz.service
@@ -59,6 +60,7 @@ settings:
     type: section
     title: MQTT Broker Settings
     on_edit:
+      - sudo systemctl restart gunshot@event.service
       - sudo systemctl restart gunshot@senseit_server.service
       - sudo systemctl restart gunshot@senseit_client.service
       - sudo systemctl restart gunshot@detector.service
@@ -84,9 +86,17 @@ settings:
         type: section
         title: Topics
         settings:
+          evt_all:
+            type: text
+            label: All Events (JSON)
+            default: sentri/detector/event/all
+          evt_alarm:
+            type: text
+            label: Alarm Events (JSON)
+            default: sentri/detector/event/alarm
           evt_raw:
             type: text
-            label: Raw Events
+            label: Raw Event Data
             default: sentri/detector/event/raw
           cmd_raw:
             type: text

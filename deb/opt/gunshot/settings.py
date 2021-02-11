@@ -25,5 +25,5 @@ def load(*names:List[str], log:logging.Logger=logging.getLogger('config')) -> Do
 		config = DotDict(config) # allow dotted access
 		return config
 	except:
-		sys.exit(6)
+		sys.exit(6) # exit status 6/NOTCONFIGURED
 
