@@ -68,12 +68,14 @@ settings:
     settings:
       host:
         type: text
-        label: Hostname
+        label: Host
         default: 127.0.0.1
+        hint: IP or Hostname
       port:
         type: number
         label: Port
         default: 1883
+        hint: (usually 1883)
   senseit_server:
     type: section
     title: SenseIT Server
@@ -89,24 +91,27 @@ settings:
         settings:
           host:
             type: text
-            label: Hostname
-            default: *pi_ip
+            label: Host
+            hint: IP or Hostname (blank for default)
           port:
             type: number
             label: Port
             default: 10001
+            hint: (usually 10001)
       connect:
         type: section
         title: Connect
         settings:
           host:
             type: text
-            label: Hostname
+            label: Host
             default: 10.0.0.100
+            hint: Upstream IP or Hostname
           port:
             type: number
             label: Port
             default: 10002
+            hint: (usually 10002)
   senseit_client:
     type: section
     title: SenseIT Client
@@ -122,12 +127,13 @@ settings:
         settings:
           host:
             type: text
-            label: Hostname
-            default: *pi_ip
+            label: Host
+            hint: IP or Hostname (blank for default)
           port:
             type: number
             label: Port
             default: 10004
+            hint: (usually 10004)
   detector:
     type: section
     title: Detector
@@ -143,12 +149,13 @@ settings:
         settings:
           host:
             type: text
-            label: Hostname
-            default: *pi_ip
+            label: Host
+            hint: IP or Hostname (blank for default)
           port:
             type: number
             label: Port
             default: 10002
+            hint: (usually 10002)
   onvif:
     type: section
     title: ONVIF Device
@@ -158,12 +165,13 @@ settings:
     settings:
       host:
         type: text
-        label: Hostname
-        default: 10.0.2.3
+        label: Host
+        hint: Camera IP or Hostname
       port:
         type: number
         label: Port
         default: 80
+        hint: (usually 80)
       user:
         type: text
         label: Username
@@ -276,7 +284,7 @@ settings:
       url:
         type: text
         label: URL
-        hint: e.g. http://username@password:10.0.2.3/rcp.xml
+        hint: e.g. http://username@password:mycamera.mydomain/rcp.xml
         # default: http://10.0.2.3/rcp.xml
       limits:
         type: section
