@@ -13,7 +13,7 @@ import socket
 
 def on_connect(client, userdata, flags, rc):
     mqlog.info("connected to broker")
-    client.subscribe("sentri/detector/event/raw")
+    client.subscribe(config.mqtt.topics.evt_raw)
 
 def on_message(client, userdata, msg):
     mqlog.info("recieved message {}".format(repr(msg)))
@@ -33,14 +33,14 @@ try:
     client = mqtt.Client()
     client.on_connect = on_connect
     client.on_message = on_message
-    client.connect(**config.mqtt)
+    client.connect(**config.mqtt.server)
     
     while True:
         client.loop()
         try:
             data = sock.recv(1024)
             senlog.info("recieved command {}".format(repr(data)))
-            event = client.publish("sentri/detector/command/raw", data)
+            event = client.publish(config.mqtt.topics.cmd_raw, data)
             mqlog.info("published {}".format(repr(event)))
         except BlockingIOError:
             pass

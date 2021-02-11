@@ -20,7 +20,7 @@ from alarm_packet import parse_pkt, Alarm, is_trigger_event
 
 def on_connect(client, userdata, flags, rc):
     mqlog.info("connected to broker")
-    client.subscribe("sentri/detector/event/raw")
+    client.subscribe(config.mqtt.topics.evt_raw)
 
 def on_message(client, userdata, msg):
     mqlog.info("recieved message {}".format(repr(msg)))
@@ -40,7 +40,7 @@ try:
     client = mqtt.Client()
     client.on_connect = on_connect
     client.on_message = on_message
-    client.connect(**config.mqtt)
+    client.connect(**config.mqtt.server)
     
     client.loop_forever()
     

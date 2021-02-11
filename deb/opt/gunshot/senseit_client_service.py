@@ -23,7 +23,7 @@ class CalHandler(socketserver.BaseRequestHandler):
 
         def on_connect(client, userdata, flags, rc):
             mqlog.info("connected to broker")
-            client.subscribe("sentri/detector/event/raw")
+            client.subscribe(config.mqtt.topics.evt_raw)
 
         def on_message(client, userdata, msg):
             mqlog.info("recieved event {}".format(repr(msg)))
@@ -34,7 +34,7 @@ class CalHandler(socketserver.BaseRequestHandler):
         self.client = mqtt.Client()
         self.client.on_connect = on_connect
         self.client.on_message = on_message
-        self.client.connect(**config.mqtt)
+        self.client.connect(**config.mqtt.server)
 
         log.info("ready")
 
@@ -44,7 +44,7 @@ class CalHandler(socketserver.BaseRequestHandler):
             try:
                 data = self.request.recv(1024)
                 gsdlog.info("recieved command {}".format(repr(data)))
-                event = self.client.publish("sentri/detector/command/raw", data)
+                event = self.client.publish(config.mqtt.topics.cmd_raw, data)
                 mqlog.info("sent command {}".format(repr(event)))
             except BlockingIOError:
                 pass

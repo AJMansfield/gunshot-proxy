@@ -66,16 +66,32 @@ settings:
       - sudo systemctl restart gunshot@onvif_relay.service
       - sudo systemctl restart gunshot@rcp_ptz.service
     settings:
-      host:
-        type: text
-        label: Host
-        default: 127.0.0.1
-        hint: IP or Hostname
-      port:
-        type: number
-        label: Port
-        default: 1883
-        hint: (usually 1883)
+      server:
+        type: section
+        title: Server
+        settings:
+          host:
+            type: text
+            label: Host
+            default: 127.0.0.1
+            hint: IP or Hostname
+          port:
+            type: number
+            label: Port
+            default: 1883
+            hint: (usually 1883)
+      topics:
+        type: section
+        title: Topics
+        settings:
+          evt_raw:
+            type: text
+            label: Raw Events
+            default: sentri/detector/event/raw
+          cmd_raw:
+            type: text
+            label: Raw Commands
+            default: sentri/detector/command/raw
   senseit_server:
     type: section
     title: SenseIT Server

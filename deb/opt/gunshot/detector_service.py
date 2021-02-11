@@ -23,7 +23,7 @@ class GSDHandler(socketserver.BaseRequestHandler):
 
         def on_connect(client, userdata, flags, rc):
             mqlog.info("connected to broker")
-            client.subscribe("sentri/detector/command/raw")
+            client.subscribe(config.mqtt.topics.cmd_raw)
 
         def on_message(client, userdata, msg):
             mqlog.info("recieved command {}".format(repr(msg)))
@@ -34,7 +34,7 @@ class GSDHandler(socketserver.BaseRequestHandler):
         self.client = mqtt.Client()
         self.client.on_connect = on_connect
         self.client.on_message = on_message
-        self.client.connect(**config.mqtt)
+        self.client.connect(**config.mqtt.server)
 
         log.info("ready")
 
@@ -44,7 +44,7 @@ class GSDHandler(socketserver.BaseRequestHandler):
             try:
                 data = self.request.recv(1024)
                 gsdlog.info("recieved event {}".format(repr(data)))
-                event = self.client.publish("sentri/detector/event/raw", data)
+                event = self.client.publish(config.mqtt.topics.evt_raw, data)
                 mqlog.info("published {}".format(repr(event)))
             except BlockingIOError:
                 pass
