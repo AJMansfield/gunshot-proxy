@@ -149,6 +149,29 @@ settings:
             type: number
             label: Port
             default: 10002
+  onvif:
+    type: section
+    title: ONVIF Device
+    on_edit:
+      - sudo systemctl restart gunshot@onvif_ptz.service
+      - sudo systemctl restart gunshot@onvif_relay.service
+    settings:
+      host:
+        type: text
+        label: Hostname
+        default: 10.0.2.3
+      port:
+        type: number
+        label: Port
+        default: 80
+      user:
+        type: text
+        label: Username
+        # default: operator
+      passwd:
+        type: text
+        label: Password
+        # default: password
   onvif_ptz:
     type: section
     title: ONVIF PTZ
@@ -157,27 +180,7 @@ settings:
       enable:
         type: checkbox
         label: Enable ONVIF PTZ
-        default: true
-      onvif: &onvif
-        type: section
-        title: ONVIF
-        settings:
-          host:
-            type: text
-            label: Hostname
-            default: 10.0.2.3
-          port:
-            type: number
-            label: Port
-            default: 80
-          user:
-            type: text
-            label: Username
-            # default: operator
-          passwd:
-            type: text
-            label: Password
-            # default: password
+        # default: true
       limits:
         type: section
         title: Limits
@@ -227,16 +230,21 @@ settings:
         type: checkbox
         label: Enable ONVIF Relay
         # default: true
-      onvif: *onvif
+      relay_type:
+        type: select
+        label: Identifier Type
+        options:
+          number: Relay Number (a number)
+          token: Relay Token (usually something like "Relay-1")
+        default: token
+      relay_id:
+        type: text
+        label: Relay Identifier
+        hint: 1 / Relay-1
       relay:
         type: section
         title: Relay Settings
         settings:
-          token:
-            type: number
-            label: Relay Number
-            hint: usually 1-4
-            # default: 4
           mode:
             type: select
             label: Mode
