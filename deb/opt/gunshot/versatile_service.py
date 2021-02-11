@@ -37,7 +37,7 @@ def on_message(client, userdata, msg):
     mqlog.info("recieved message {}".format(repr(data)))
     output = form.format(config.versatile.template.str, evt=DotDict(data))
     verlog.info("sending packet {}".format(repr(output)))
-    sock.send(output)
+    sock.send(output.encode("utf-8"))
 
 try:
     verlog.info('setting up socket')
