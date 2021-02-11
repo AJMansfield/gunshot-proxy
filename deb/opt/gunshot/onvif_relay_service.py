@@ -47,8 +47,7 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe(config.mqtt.topics.evt_alarm)
 
 def on_message(client, userdata, msg):
-    data = json.loads(msg)
-    mqlog.info("recieved message {}".format(repr(data)))
+    mqlog.info("recieved message {}".format(repr(msg)))
     do_alarm(camera.devicemgmt)
 
 log.info('setting up ONVIF control')
