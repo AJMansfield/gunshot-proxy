@@ -15,6 +15,8 @@ import paho.mqtt.client as mqtt
 import json
 import socket
 
+from utils import DotDict
+
 from string import Formatter
 class SafeFormatter(Formatter):
         def get_field(self, field_name, args, kwargs):
@@ -33,7 +35,7 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, msg):
     data = json.loads(msg.payload.decode("utf-8","ignore"))
     mqlog.info("recieved message {}".format(repr(data)))
-    output = form.format(config.versatile.template.str, evt=data)
+    output = form.format(config.versatile.template.str, evt=DotDict(data))
     verlog.info("sending packet {}".format(repr(output)))
     sock.send(output)
 
