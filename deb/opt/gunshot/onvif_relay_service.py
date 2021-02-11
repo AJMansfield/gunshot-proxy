@@ -22,6 +22,7 @@ def get_relay_token(devmgmt):
     if config.onvif_relay.relay_type == "token":
         return config.onvif_relay.relay_id
     elif config.onvif_relay.relay_type == "number":
+        raise NotImplemented
         # TODO look up the relay token based on the index number
     else:
         raise NotImplemented
