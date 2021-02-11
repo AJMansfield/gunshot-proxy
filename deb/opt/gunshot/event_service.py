@@ -11,6 +11,7 @@ config = settings.load('mqtt', 'events', log=log.getChild('config'))
 import paho.mqtt.client as mqtt
 import json
 import datetime
+import base64
 
 from alarm_packet import parse_pkt, Alarm
 
@@ -23,7 +24,7 @@ def on_message(client, userdata, msg):
 
     data = {
         "rxtime": datetime.date.today().isoformat(),
-        "raw": msg.payload,
+        "raw": base64.b64encode(msg.payload).decode('ascii'),
     }
     try:
         pkt = parse_pkt(msg.payload)
@@ -34,7 +35,7 @@ def on_message(client, userdata, msg):
                 "raw_az": int(pkt.az),
                 "raw_el": int(pkt.el),
                 "alarm_num": pkt.alarm_num,
-                "time_reported": "{century:02d}{year:02d}-{month:02d}-{day:02d}T{hour:02d}:{minute:02d}:{second:02d}".format(**pkt),
+                "time_reported": "{x.century:02d}{x.year:02d}-{x.month:02d}-{x.day:02d}T{x.hour:02d}:{x.minute:02d}:{x.second:02d}".format(x=pkt),
                 "mic_data": {alarm_dat: getattr(pkt, alarm_dat) for alarm_dat in ["mic{}_{}".format(d,s) for d in range(4) for s in "wsd"]},
             })
 
