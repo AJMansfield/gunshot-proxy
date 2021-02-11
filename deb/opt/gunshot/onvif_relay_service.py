@@ -18,53 +18,45 @@ from utils import socketcontext
 from alarm_packet import parse_pkt, Alarm, is_trigger_event
 import datetime
 
-setup_cmd = ( 'SetRelayOutputSettings', {
-    'RelayOutputToken': config.onvif_relay.relay.token,
-    'Properties': {
-        'Mode': config.onvif_relay.relay.mode,
-        'DelayTime': datetime.timedelta(seconds=config.onvif_relay.relay.time),
-        'IdleState': config.onvif_relay.relay.idle,
-    }})
-alarm_cmd = ('SetRelayOutputState', {
-    'RelayOutputToken': config.onvif_relay.relay.token,
-    'LogicalState':'active'
-    })
+def get_relay_token(devmgmt):
+    if config.onvif_relay.relay_type == "token":
+        return config.onvif_relay.relay_id
+    elif config.onvif_relay.relay_type == "number":
+        # TODO look up the relay token based on the index number
+    else:
+        raise NotImplemented
 
-def on_connect(client, userdata, flags, rc):
-    mqlog.info("connected to broker")
-    client.subscribe(config.mqtt.topics.evt_raw)
+def do_setup(devmgmt):
+    devmgmt.SetRelayOutputSettings({
+        'RelayOutputToken': get_relay_token(devmgmt),
+        'Properties': {
+            'Mode': config.onvif_relay.relay.mode,
+            'DelayTime': datetime.timedelta(seconds=config.onvif_relay.relay.time),
+            'IdleState': config.onvif_relay.relay.idle,
+        }})
 
-def on_message(client, userdata, msg):
-    mqlog.info("recieved message {}".format(repr(msg)))
-
-    pkt = parse_pkt(msg.payload)
-    if is_trigger_event(pkt, config.events):
-        camera.devicemgmt.SetRelayOutputSettings({
-            'RelayOutputToken': config.onvif_relay.relay.token,
-            'Properties': {
-                'Mode': config.onvif_relay.relay.mode,
-                'DelayTime': datetime.timedelta(seconds=config.onvif_relay.relay.time),
-                'IdleState': config.onvif_relay.relay.idle,
-            }})
-
-try:
-    log.info('setting up ONVIF control')
-    camera = ONVIFCamera(**config.onvif_relay.onvif)
-    camera.devicemgmt.SetRelayOutputState({
-        'RelayOutputToken': config.onvif_relay.relay.token,
+def do_alarm(devmgmt):
+    devmgmt.SetRelayOutputState({
+        'RelayOutputToken': get_relay_token(devmgmt),
         'LogicalState':'active'
         })
 
-    log.info('connnecting to MQTT')
-    client = mqtt.Client()
-    client.on_connect = on_connect
-    client.on_message = on_message
-    client.connect(**config.mqtt.server)
-    
-    client.loop_forever()
-    
-except (AssertionError, KeyError, ONVIFError):
-    log.exception('error, reinit ptz')
-except:
-    log.exception('error')
-    raise
+def on_connect(client, userdata, flags, rc):
+    mqlog.info("connected to broker")
+    client.subscribe(config.mqtt.topics.evt_alarm)
+
+def on_message(client, userdata, msg):
+    mqlog.info("recieved message {}".format(repr(msg)))
+    do_alarm(camera.devicemgmt)
+
+log.info('setting up ONVIF control')
+camera = ONVIFCamera(**config.onvif_relay.onvif)
+do_setup(camera.devicemgmt)
+
+log.info('connnecting to MQTT')
+client = mqtt.Client()
+client.on_connect = on_connect
+client.on_message = on_message
+client.connect(**config.mqtt.server)
+
+client.loop_forever()
