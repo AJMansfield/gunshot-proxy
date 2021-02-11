@@ -13,7 +13,7 @@ import json
 import datetime
 import base64
 
-from alarm_packet import parse_pkt, Alarm
+from alarm_packet import parse_pkt, Alarm, source_types, alarm_types
 
 def on_connect(client, userdata, flags, rc):
     mqlog.info("connected to broker")
@@ -23,15 +23,15 @@ def on_message(client, userdata, msg):
     mqlog.info("recieved message {}".format(repr(msg)))
 
     data = {
-        "rxtime": datetime.date.today().isoformat(),
+        "time": datetime.date.today().isoformat(),
         "raw": base64.b64encode(msg.payload).decode('ascii'),
     }
     try:
         pkt = parse_pkt(msg.payload)
         if pkt.haslayer(Alarm):
             data.update({
-                "device": pkt.device,
-                "type": pkt.type,
+                "device": source_types.get(pkt.device),
+                "type": alarm_types.get(pkt.type),
                 "raw_az": int(pkt.az),
                 "raw_el": int(pkt.el),
                 "alarm_num": pkt.alarm_num,
