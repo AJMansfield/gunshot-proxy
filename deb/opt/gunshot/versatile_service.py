@@ -20,9 +20,7 @@ from utils import DotDict
 from string import Formatter
 class SafeFormatter(Formatter):
         def get_field(self, field_name, args, kwargs):
-            # TODO sanitize more aggressively (but we need to support dotted access)
-            if '_' in field_name:
-                raise Exception('Unsafe format string!')
+            # TODO sanitize aggressively (but we need to support dotted access)
             return super().get_field(field_name,args,kwargs)
 
 form = SafeFormatter()
