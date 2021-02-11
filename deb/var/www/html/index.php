@@ -195,6 +195,25 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
       <?php
       break;
 
+    case "blocktext":
+      ?>
+        <div class="form-group row">
+          <label for="<?=$token?>" class="col-sm-2 col-form-label"><?=get($setting["label"], $name)?></label>
+          <div class="col-sm-10">
+            <textarea id="<?=$token?>" name="<?=$token?>" class="form-control"><?=$value?></textarea>
+            <script>
+            $(document).ready(function() {
+              var editor = CodeMirror.fromTextArea(document.getElementById("<?=$token?>"), {
+                mode: "text/raw",
+                lineNumbers: true,
+              });
+            });
+            </script>
+          </div>
+        </div>
+      <?php
+      break;
+
     case "yaml":
     default:
       ?>
@@ -205,7 +224,7 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
             <script>
             $(document).ready(function() {
               var editor = CodeMirror.fromTextArea(document.getElementById("<?=$token?>"), {
-                mode: "text/html",
+                mode: "text/x-yaml",
                 lineNumbers: true,
               });
             });
@@ -253,6 +272,7 @@ function applySettings ($setting, &$config, &$restartcmds=array()) {
       break;
 
     case "text":
+    case "blocktext":
       if (array_key_exists($token, $_POST)) {
         $newcfg = $_POST[$token];
       } else {
