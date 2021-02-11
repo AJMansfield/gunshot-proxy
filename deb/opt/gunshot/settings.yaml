@@ -7,19 +7,6 @@ settings:
     title: Networking
     on_edit: sudo systemctl restart gunshot_network_config.service
     settings:
-      client_ip:
-        type: text
-        label: IP Address
-        default: &pi_ip 10.0.2.2
-      gw_ip:
-        type: text
-        label: Default Gateway
-      netmask:
-        type: text
-        label: Subnet Mask
-      hostname:
-        type: text
-        label: Hostname
       autoconf:
         type: select
         label: Autoconfiguration
@@ -30,6 +17,19 @@ settings:
           bootp: Use BOOTP only.
           rarp: Use RARP only.
         default: any
+      hostname:
+        type: text
+        label: Hostname
+      client_ip:
+        type: text
+        label: IP Address
+        hint: (Static IP or Fallback)
+      netmask:
+        type: text
+        label: Subnet Mask
+      gw_ip:
+        type: text
+        label: Default Gateway
       dns0_ip:
         type: text
         label: Primary DNS
