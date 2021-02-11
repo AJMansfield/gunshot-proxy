@@ -12,7 +12,7 @@ import paho.mqtt.client as mqtt
 import json
 import datetime
 
-from alarm_packet import parse_pkt
+from alarm_packet import parse_pkt, Alarm
 
 def on_connect(client, userdata, flags, rc):
     mqlog.info("connected to broker")
