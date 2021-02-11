@@ -42,11 +42,13 @@ try:
 
     if config.versatile.protocol == "udp":
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         sock.bind(socket.getaddrinfo(**config.versatile.bind)[0][4])
         sock.connect(socket.getaddrinfo(**config.versatile.connect)[0][4])
         sock.setblocking(False)
     elif config.versatile.protocol == "tcp_client":
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         sock.bind(socket.getaddrinfo(**config.versatile.bind)[0][4])
         sock.connect(socket.getaddrinfo(**config.versatile.connect)[0][4])
         sock.setblocking(False)
@@ -64,7 +66,6 @@ try:
     client.loop_forever()
 except:
     log.exception('error')
-    sock.close()
     raise
 finally:
     sock.close()
