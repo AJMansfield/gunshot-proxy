@@ -21,3 +21,14 @@ python3 -m pip install --upgrade pip
 
 # install python packages that weren't available as debs
 python3 -m pip install -r /opt/gunshot/requirements.txt
+
+sudo systemctl daemon-reload
+sudo systemctl enable gunshot.target
+sudo systemctl enable gunshot@senseit_server.service
+sudo systemctl enable gunshot@senseit_client.service
+sudo systemctl enable gunshot@detector.service
+sudo systemctl enable gunshot@onvif_ptz.service
+sudo systemctl enable gunshot@onvif_relay.service
+sudo systemctl enable gunshot@rcp_ptz.service
+sudo systemctl enable gunshot_network_config.service
+
