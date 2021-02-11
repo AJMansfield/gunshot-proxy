@@ -1,27 +1,30 @@
 #!/bin/bash
+set -x
 
-# system user to run the gunshot services
+# Create system user to run the gunshot services
 useradd gunshot --system --no-create-home --user-group
 
-# create admin user with password "password", for authenticating from the webpage and performing actions
+# Create admin user with default pass "password", for authenticating from the webpage and performing actions
 useradd admin \
   --no-create-home \
   --password '$6$31q0e/npvu5yXPlc$T/M2RqBuQ.FGro.QmW/ku.cBfOzfcLI4rOHosee6vMWJcTZOEOjlhWIIR9AKbbWTZn6rrtKvpzRIC86PYfVH/0' \
   --groups gunshot
 
-# give members of the gunshot group the ability to modify the config files
+# Give members of the gunshot group the ability to modify the config files
 chown gunshot:gunshot /opt/gunshot/
 chown gunshot:gunshot /opt/gunshot/config.yaml
 chown gunshot:gunshot /opt/gunshot/config.yaml.old
 chmod g+w /opt/gunshot/config.yaml
 chmod g+w /opt/gunshot/config.yaml.old
 
-# make sure we have the latest and greatest
+# The version of pip that comes in the rpi's python3-pip package is slightly buggy
+# and will fail on some of the requirements.txt packages. Upgrade this first.
 python3 -m pip install --upgrade pip
 
 # install python packages that weren't available as debs
 python3 -m pip install -r /opt/gunshot/requirements.txt
 
+# enable the relevant systemd units
 sudo systemctl daemon-reload
 sudo systemctl enable gunshot.target
 sudo systemctl enable gunshot@senseit_server.service
