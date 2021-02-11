@@ -6,7 +6,7 @@ ptzlog = log.getChild('relay')
 mqlog = log.getChild('mqtt')
 
 import settings
-config = settings.load('mqtt', 'events', 'onvif_relay', log=log.getChild('config'))
+config = settings.load('mqtt', 'onvif', 'onvif_relay', log=log.getChild('config'))
 
 import paho.mqtt.client as mqtt
 
@@ -50,7 +50,7 @@ def on_message(client, userdata, msg):
     do_alarm(camera.devicemgmt)
 
 log.info('setting up ONVIF control')
-camera = ONVIFCamera(**config.onvif_relay.onvif)
+camera = ONVIFCamera(**config.onvif)
 do_setup(camera.devicemgmt)
 
 log.info('connnecting to MQTT')
