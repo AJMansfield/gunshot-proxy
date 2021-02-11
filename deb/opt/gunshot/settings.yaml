@@ -343,9 +343,9 @@ settings:
         type: select
         label: Protocol
         options:
-          client: TCP Client Mode
-          server: TCP Server Mode
-          datagram: UDP Mode
+          tcp_client: TCP Client Mode
+          tcp_server: TCP Server Mode
+          udp: UDP Mode
       bind:
         type: section
         title: Listen / Bind
