@@ -22,12 +22,16 @@ def get_relay_token(devmgmt):
     if config.onvif_relay.relay_type == "token":
         return config.onvif_relay.relay_id
     elif config.onvif_relay.relay_type == "number":
-        raise NotImplemented
-        # TODO look up the relay token based on the index number
+        index = int(config.onvif_relay.relay_id)
+        relay = devmgmt.GetRelayOutputs()[index]
+        token = relay['token']
+        ptzlog.info("relay #{} has token {}".format(index, repr(token)))
+        return token
     else:
         raise NotImplemented
 
 def do_setup(devmgmt):
+    ptzlog.info("setting up relay")
     devmgmt.SetRelayOutputSettings({
         'RelayOutputToken': get_relay_token(devmgmt),
         'Properties': {
@@ -37,6 +41,7 @@ def do_setup(devmgmt):
         }})
 
 def do_alarm(devmgmt):
+    ptzlog.info("triggering relay")
     devmgmt.SetRelayOutputState({
         'RelayOutputToken': get_relay_token(devmgmt),
         'LogicalState':'active'
