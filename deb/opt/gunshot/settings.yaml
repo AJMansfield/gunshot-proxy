@@ -373,6 +373,11 @@ settings:
       template:
         type: section
         title: Packet Format
+        descr: |
+          Availible Substitutions:
+            {s}: seconds
+            {p}: psc
         settings:
           str:
             type: blocktext
+            label: ""
