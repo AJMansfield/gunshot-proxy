@@ -32,8 +32,8 @@ def on_message(client, userdata, msg):
             data.update({
                 "device_type": source_types.get(pkt.device),
                 "event_type": alarm_types.get(pkt.type),
-                "raw_az": int(pkt.az),
-                "raw_el": int(pkt.el),
+                "az_raw": int(pkt.az),
+                "el_raw": int(pkt.el),
                 "alarm_num": pkt.alarm_num,
                 "time_detector": "{x.century:02d}{x.year:02d}-{x.month:02d}-{x.day:02d}T{x.hour:02d}:{x.minute:02d}:{x.second:02d}".format(x=pkt),
                 "mic_data": {alarm_dat: getattr(pkt, alarm_dat) for alarm_dat in ["mic{}_{}".format(d,s) for d in range(4) for s in "wsd"]},
