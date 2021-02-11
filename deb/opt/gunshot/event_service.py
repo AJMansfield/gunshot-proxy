@@ -49,7 +49,7 @@ def on_message(client, userdata, msg):
 
     json_data = json.dumps(data)
 
-    evlog.info("processed event {}".format(repr(json_data))
+    evlog.info("processed event {}".format(repr(json_data)))
 
     client.publish(config.mqtt.topics.evt_all, json_data)
 
