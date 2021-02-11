@@ -84,7 +84,7 @@ settings:
       enable:
         type: checkbox
         label: Enable SenseIT Server
-        default: true
+        # default: true
       bind:
         type: section
         title: Bind
@@ -119,7 +119,7 @@ settings:
       enable:
         type: checkbox
         label: Enable SenseIT Client
-        default: true
+        # default: true
       listen:
         type: section
         title: Listen
@@ -141,7 +141,7 @@ settings:
       enable:
         type: checkbox
         label: Enable Detector
-        default: true
+        # default: true
       listen:
         type: section
         title: Listen
