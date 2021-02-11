@@ -27,6 +27,9 @@ echo "skipping python3 -m pip install -r /opt/gunshot/requirements.txt"
 # enable the relevant systemd units
 sudo systemctl daemon-reload
 sudo systemctl enable gunshot.target
+
+sudo systemctl enable gunshot_network_config.service
+
 sudo systemctl enable gunshot@event.service
 sudo systemctl enable gunshot@senseit_server.service
 sudo systemctl enable gunshot@senseit_client.service
@@ -34,5 +37,11 @@ sudo systemctl enable gunshot@detector.service
 sudo systemctl enable gunshot@onvif_ptz.service
 sudo systemctl enable gunshot@onvif_relay.service
 sudo systemctl enable gunshot@rcp_ptz.service
-sudo systemctl enable gunshot_network_config.service
 
+sudo systemctl restart gunshot@event.service
+sudo systemctl restart gunshot@senseit_server.service
+sudo systemctl restart gunshot@senseit_client.service
+sudo systemctl restart gunshot@detector.service
+sudo systemctl restart gunshot@onvif_ptz.service
+sudo systemctl restart gunshot@onvif_relay.service
+sudo systemctl restart gunshot@rcp_ptz.service
