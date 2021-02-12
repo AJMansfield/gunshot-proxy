@@ -9,15 +9,12 @@ import settings
 config = settings.load('mqtt', 'onvif', 'onvif.relay', log=log.getChild('config'))
 
 import paho.mqtt.client as mqtt
-
 from onvif import ONVIFCamera
 from onvif.exceptions import ONVIFError
+import datetime
 
 from onvif_ptz import OnvifPTZ
-from utils import socketcontext
 from net_conn import decode_hostportuserpass
-from alarm_packet import parse_pkt, Alarm, is_trigger_event
-import datetime
 
 def get_relay_token(devmgmt):
     if config.onvif.relay.type == "token":
@@ -57,7 +54,7 @@ def on_message(client, userdata, msg):
     do_alarm(camera.devicemgmt)
 
 log.info('setting up ONVIF control')
-camera = ONVIFCamera(*decode_hostportuserpass(config.onvif.conn))
+camera = ONVIFCamera(*decode_hostportuserpass(config.onvif.conn), wsdl_dir='./wsdl')
 do_setup(camera.devicemgmt)
 
 log.info('connnecting to MQTT')

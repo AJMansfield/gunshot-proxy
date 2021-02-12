@@ -17,7 +17,6 @@ import paho.mqtt.client as mqtt
 import json
 
 from rcp_ptz import RCPPTZ
-from utils import socketcontext
 
 def on_connect(client, userdata, flags, rc):
     mqlog.info("connected to broker")
