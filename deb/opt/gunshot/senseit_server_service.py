@@ -13,7 +13,6 @@ import socket
 
 from net_conn import make_connection
 
-
 def on_connect(client, userdata, flags, rc):
     mqlog.info("connected to broker")
     client.subscribe(config.mqtt.topics.evt_raw)
@@ -23,8 +22,7 @@ def on_message(client, userdata, msg):
     senlog.info("sending event {}".format(repr(msg.payload)))
     sock.sendall(msg.payload)
 
-
-senlog.info('setting up socket')
+log.info('setting up socket')
 with make_connection(config.senseit_server.bind, config.senseit_server.conn) as sock:
 
     mqlog.info('connnecting to MQTT')

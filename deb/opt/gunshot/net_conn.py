@@ -111,8 +111,15 @@ class ContinuousConnection:
             if self.bind[4][1] != 0: # we have a specific port we want to use
                 self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             self.sock.bind(self.bind[4])
-        self.sock.connect(self.conn[4])
-        self.sock.setblocking(False)
+
+        if self.conn:
+            self.sock.connect(self.conn[4])
+            self.sock.setblocking(False)
+        else:
+            self.sock.listen()
+            self.sock.setblocking(False)
+            self.sock.accept()
+
         return self
         
     def __exit__(self, ex_type, ex_val, tb):
@@ -146,7 +153,8 @@ class PerMessageConnection:
         with ContinuousConnection(self.bind, self.conn) as sock:
             return sock.sendall(msg)
     def recv(self, n):
-        raise NotImplementedError()
+        with ContinuousConnection(self.bind, None) as sock:
+            return sock.recv(n)
     
 class ServerConnection:
     def __init__(self, bind_ai, handler=None): # handler is a socketserver.BaseRequestHandler if applicable
