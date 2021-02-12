@@ -30,6 +30,7 @@ def decode_addr(addr, default_proto=0, default_port=0, default_family=0, bind=Fa
 
     if bind and host=='localhost':
         host = {
+            0: '0.0.0.0',
             socket.AF_INET: '0.0.0.0',
             socket.AF_INET6: '::',
         }[default_family]
@@ -107,7 +108,7 @@ class ContinuousConnection:
     def __enter__(self):
         self.sock = socket.socket(self.family, self.stype, self.proto)
         if self.bind: # we want to bind a specific port
-            if self.bind[4][2] != 0: # we have a specific port we want to use
+            if self.bind[4][1] != 0: # we have a specific port we want to use
                 sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             sock.bind(self.bind[4])
         sock.connect(self.conn[4])
