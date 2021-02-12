@@ -35,8 +35,9 @@ with make_connection(config.senseit_server.bind, config.senseit_server.conn) as 
         client.loop()
         try:
             data = sock.recv(1024)
-            senlog.info("recieved command {}".format(repr(data)))
-            event = client.publish(config.mqtt.topics.cmd_raw, data)
-            mqlog.info("published {}".format(repr(event)))
+            if data and len(data) > 0:
+                senlog.info("recieved command {}".format(repr(data)))
+                event = client.publish(config.mqtt.topics.cmd_raw, data)
+                mqlog.info("published {}".format(repr(event)))
         except BlockingIOError:
             pass
