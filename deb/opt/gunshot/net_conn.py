@@ -2,6 +2,7 @@ from urllib.parse import urlparse
 import socket
 import socketserver
 import threading
+import requests
 
 def getservbyname(name, proto=None): # wrapper to adapt kwargs to *args only api
     if proto:
@@ -83,8 +84,7 @@ def make_connection(
     conn_ai = decode_addr(conn, default_proto=proto, default_port=conn_port, default_family=bind_ai[0]) #Tuple[family, type, proto, cannonname, sockaddr, service]
 
     if conn_ai and conn_ai[5] in ['http', 'https']: # use http requests API instead of sockets
-        # return RequestsConnection(conn)
-        raise NotImplementedError()
+        return HTTPConnection(conn)
     elif bind_ai and not conn_ai:
         return ContinuousConnection(bind_ai, conn_ai)
         #return ServerConnection(bind_ai, handler) # TODO ensure message 
@@ -136,9 +136,6 @@ class ContinuousConnection:
 
 class PerMessageConnection:
     def __init__(self, bind_ai, conn_ai): # handler is a socketserver.BaseRequestHandler if applicable
-        assert bind_ai[0] == conn_ai[0], 'must be same address family'
-        assert bind_ai[1] == conn_ai[1], 'must be same socket type'
-        assert bind_ai[2] == conn_ai[2], 'must be same IP protocol'
         self.bind = bind_ai
         self.conn = conn_ai
     def __enter__(self):
@@ -155,39 +152,19 @@ class PerMessageConnection:
     def recv(self, n):
         with ContinuousConnection(self.bind, None) as sock:
             return sock.recv(n)
-    
-class ServerConnection:
-    def __init__(self, bind_ai, handler=None): # handler is a socketserver.BaseRequestHandler if applicable
-        
-        self.bind = bind_ai
-        s = self.bind
-        self.family = s[0]
-        self.stype = s[1]
-        self.proto = s[2]
-        self.addr = s[4]
-        self.serv = s[5]
 
-        self.handler = handler
-
+class HTTPConnection:
+    def __init__(self, url): # handler is a socketserver.BaseRequestHandler if applicable
+        self.url = url
     def __enter__(self):
-        self.server = socketserver.ThreadingTCPServer(self.addr, self.handler)
-        self.thread = threading.Thread(target=self.server.serve_forever)
-        self.thread.daemon = True
-        self.thread.start()
         return self
-        
     def __exit__(self, ex_type, ex_val, tb):
-        self.server.shutdown()
-    
+        pass
     def send(self, msg):
-        self.server.request.send(msg)
+        requests.put(url, msg)
+        return len(msg)
     def sendall(self, msg):
-        self.server.request.sendall(msg)
+        requests.put(url, msg)
+        return len(msg)
     def recv(self, n):
-        raise NotImplementedError()
-
-
-
-
-
-
+        requests.get(url).body
