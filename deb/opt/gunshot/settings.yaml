@@ -157,6 +157,10 @@ settings:
       - sudo systemctl restart gunshot@onvif_ptz.service
       - sudo systemctl restart gunshot@onvif_relay.service
     settings:
+      conn:
+        type: text
+        label: ONVIF URL
+        hint: http://user@pass:camera.example
       host:
         type: text
         label: Host
@@ -185,10 +189,6 @@ settings:
         type: checkbox
         label: Enable ONVIF PTZ
         # default: true
-      conn:
-        type: text
-        label: ONVIF URL
-        hint: http://user@pass:camera.example
       limits:
         type: section
         title: Limits
@@ -238,10 +238,6 @@ settings:
         type: checkbox
         label: Enable ONVIF Relay
         # default: true
-      conn:
-        type: text
-        label: ONVIF URL
-        hint: http://user@pass:camera.example
       relay_type:
         type: select
         label: Identifier Type
