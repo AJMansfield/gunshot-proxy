@@ -115,7 +115,7 @@ class ContinuousConnection:
             self.supersock = None
         else:
             self.sock.listen()
-            tup = self.supersock.accept()
+            tup = self.sock.accept()
             self.sock.close()
             self.sock = tup[0]
 
