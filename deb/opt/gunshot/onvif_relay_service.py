@@ -15,6 +15,7 @@ from onvif.exceptions import ONVIFError
 
 from onvif_ptz import OnvifPTZ
 from utils import socketcontext
+from net_conn import decode_hostportuserpass
 from alarm_packet import parse_pkt, Alarm, is_trigger_event
 import datetime
 
@@ -56,7 +57,7 @@ def on_message(client, userdata, msg):
     do_alarm(camera.devicemgmt)
 
 log.info('setting up ONVIF control')
-camera = ONVIFCamera(*config.onvif.conn)
+camera = ONVIFCamera(*decode_hostportuserpass(config.onvif.conn))
 do_setup(camera.devicemgmt)
 
 log.info('connnecting to MQTT')

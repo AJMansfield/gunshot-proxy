@@ -16,6 +16,7 @@ from onvif.exceptions import ONVIFError
 
 from onvif_ptz import OnvifPTZ
 from utils import socketcontext
+from net_conn import decode_hostportuserpass
 
 
 def on_connect(client, userdata, flags, rc):
@@ -34,7 +35,7 @@ def on_message(client, userdata, msg):
         ptz.move(az, el, None)
 
 log.info('setting up ONVIF control')
-camera = ONVIFCamera(*config.onvif.conn)
+camera = ONVIFCamera(*decode_hostportuserpass(config.onvif.conn))
 ptz = OnvifPTZ(camera, config.onvif_ptz.limits)
 
 log.info('connnecting to MQTT')
