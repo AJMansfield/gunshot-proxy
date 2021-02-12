@@ -351,7 +351,7 @@ settings:
         hint: Local IP + Port (blank for auto)
       conn:
         type: text
-        label: Bind
+        label: Connect
         hint: Remote IP + Port (blank for auto)
       template:
         type: blocktext

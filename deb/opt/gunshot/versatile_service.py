@@ -34,7 +34,7 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, msg):
     data = json.loads(msg.payload.decode("utf-8","ignore"))
     mqlog.info("recieved message {}".format(repr(data)))
-    output = form.format(config.versatile.template.str, evt=DotDict(data))
+    output = form.format(config.versatile.template, evt=DotDict(data))
     verlog.info("sending packet {}".format(repr(output)))
     sock.send(output.encode("utf-8"))
 
