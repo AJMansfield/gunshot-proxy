@@ -82,7 +82,7 @@ def make_connection(
     bind_ai = decode_addr(bind, default_proto=proto, default_port=bind_port, default_family=family, bind=True) # Tuple[family, type, proto, cannonname, sockaddr, service]
     conn_ai = decode_addr(conn, default_proto=proto, default_port=conn_port, default_family=bind_ai[0]) #Tuple[family, type, proto, cannonname, sockaddr, service]
 
-    if conn_ai[5] in ['http', 'https']: # use http requests API instead of sockets
+    if conn_ai and conn_ai[5] in ['http', 'https']: # use http requests API instead of sockets
         # return RequestsConnection(conn)
         raise NotImplementedError()
     elif bind_ai and not conn_ai:
