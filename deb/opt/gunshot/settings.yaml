@@ -145,19 +145,11 @@ settings:
         type: checkbox
         label: Enable Detector
         # default: true
-      listen:
-        type: section
-        title: Listen
-        settings:
-          host:
-            type: text
-            label: Host
-            hint: Local IP or Hostname (blank for default)
-          port:
-            type: number
-            label: Port
-            default: 10002
-            hint: Local Port (usually 10002)
+      bind:
+        type: text
+        label: Listen
+        hint: Local IP + Port (blank for auto)
+        default: :10002
   onvif:
     type: section
     title: ONVIF Device
