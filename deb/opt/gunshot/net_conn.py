@@ -75,20 +75,18 @@ def decode_addr(addr, default_proto=0, default_port=0, default_family=0, bind=Fa
 def make_connection(
         bind=None, conn=None, # bind and conn are url-ish
         bind_port=0, conn_port=0, proto=0, family=socket.AF_INET, # default ports, protocol, ipv4/6
-        conn_per_message=True,
+        conn_per_message=False,
         handler=None): # handler is a socketserver.BaseRequestHandler if applicable
     
     bind_ai = decode_addr(bind, default_proto=proto, default_port=bind_port, default_family=family, bind=True) # Tuple[family, type, proto, cannonname, sockaddr, service]
     conn_ai = decode_addr(conn, default_proto=proto, default_port=conn_port, default_family=bind_ai[0]) #Tuple[family, type, proto, cannonname, sockaddr, service]
 
-
-    
     if conn_ai[5] in ['http', 'https']: # use http requests API instead of sockets
         # return RequestsConnection(conn)
         raise NotImplementedError()
     elif bind_ai and not conn_ai:
-        return ServerConnection(bind_ai, handler)
-    elif conn_per_message:
+        return ServerConnection(bind_ai, handler) # TODO ensure message 
+    elif conn_per_message or (conn_ai and not bind_ai):
         return PerMessageConnection(bind_ai, conn_ai)
     else:
         return ContinuousConnection(bind_ai, conn_ai)
@@ -121,6 +119,8 @@ class ContinuousConnection:
     
     def send(self, msg):
         return self.socket.send(msg)
+    def sendall(self, msg):
+        return self.socket.sendall(msg)
 
 class PerMessageConnection:
     def __init__(self, bind_ai, conn_ai): # handler is a socketserver.BaseRequestHandler if applicable
@@ -133,9 +133,13 @@ class PerMessageConnection:
         pass
     def __exit__(self, ex_type, ex_val, tb):
         pass
+
     def send(self, msg):
         with ContinuousConnection(self.bind, self.conn) as sock:
             return sock.send(msg)
+    def sendall(self, msg):
+        with ContinuousConnection(self.bind, self.conn) as sock:
+            return sock.sendall(msg)
     
 class ServerConnection:
     def __init__(self, bind_ai, handler=None): # handler is a socketserver.BaseRequestHandler if applicable
@@ -161,13 +165,9 @@ class ServerConnection:
         self.server.shutdown()
     
     def send(self, msg):
-        try:
-            if self.conn_per_message:
-                self._socket_open()
-            return self.socket.send(msg)
-        finally:
-            if self.conn_per_message:
-                self._socket_close()
+        self.server.request.send(msg)
+    def sendall(self, msg):
+        self.server.request.sendall(msg)
 
 
 
