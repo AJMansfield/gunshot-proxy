@@ -95,9 +95,6 @@ def make_connection(
 
 class ContinuousConnection:
     def __init__(self, bind_ai, conn_ai): # handler is a socketserver.BaseRequestHandler if applicable
-        assert bind_ai[0] == conn_ai[0], 'must be same address family'
-        assert bind_ai[1] == conn_ai[1], 'must be same socket type'
-        assert bind_ai[2] == conn_ai[2], 'must be same IP protocol'
         self.bind = bind_ai
         self.conn = conn_ai
         s = self.bind or self.conn
