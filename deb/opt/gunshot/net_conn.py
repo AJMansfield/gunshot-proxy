@@ -112,9 +112,11 @@ class ContinuousConnection:
 
         if self.conn:
             self.sock.connect(self.conn[4])
+            self.supersock = None
         else:
             self.sock.listen()
-            self.sock.accept()
+            self.supersock = sock
+            self.sock = self.supersock.accept()
 
         self.sock.setblocking(False)
         return self
@@ -122,7 +124,10 @@ class ContinuousConnection:
     def __exit__(self, ex_type, ex_val, tb):
         if self.sock != None:
             self.sock.close()
-        self.sock = None
+            self.sock = None
+        if self.supersock != None:
+            self.supersock.close()
+            self.supersock = None
     
     def send(self, msg):
         return self.sock.send(msg)
