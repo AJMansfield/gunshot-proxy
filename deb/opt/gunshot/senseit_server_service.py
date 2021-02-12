@@ -9,8 +9,6 @@ import settings
 config = settings.load('mqtt', 'senseit_server', log=log.getChild('config'))
 
 import paho.mqtt.client as mqtt
-import socket
-
 from net_conn import make_connection
 
 def on_connect(client, userdata, flags, rc):
@@ -35,9 +33,10 @@ with make_connection(config.senseit_server.bind, config.senseit_server.conn) as 
         client.loop()
         try:
             data = sock.recv(1024)
-            if data and len(data) > 0:
-                senlog.info("recieved command {}".format(repr(data)))
-                event = client.publish(config.mqtt.topics.cmd_raw, data)
-                mqlog.info("published {}".format(repr(event)))
         except BlockingIOError:
-            pass
+            continue
+        if len(data) == 0:
+            raise Exception("recieved empty packet")
+        senlog.info("recieved command {}".format(repr(data)))
+        event = client.publish(config.mqtt.topics.cmd_raw, data)
+        mqlog.info("published {}".format(repr(event)))
