@@ -112,6 +112,7 @@ class ContinuousConnection:
                 self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             self.sock.bind(self.bind[4])
         self.sock.connect(self.conn[4])
+        return self
         
     def __exit__(self, ex_type, ex_val, tb):
         if self.sock != None:
@@ -131,7 +132,7 @@ class PerMessageConnection:
         self.bind = bind_ai
         self.conn = conn_ai
     def __enter__(self):
-        pass
+        return self
     def __exit__(self, ex_type, ex_val, tb):
         pass
 
