@@ -112,6 +112,7 @@ class ContinuousConnection:
                 self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             self.sock.bind(self.bind[4])
         self.sock.connect(self.conn[4])
+        self.sock.setblocking(False)
         return self
         
     def __exit__(self, ex_type, ex_val, tb):

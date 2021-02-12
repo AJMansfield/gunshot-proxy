@@ -11,6 +11,9 @@ config = settings.load('mqtt', 'senseit_server', log=log.getChild('config'))
 import paho.mqtt.client as mqtt
 import socket
 
+from net_conn import make_connection
+
+
 def on_connect(client, userdata, flags, rc):
     mqlog.info("connected to broker")
     client.subscribe(config.mqtt.topics.evt_raw)
@@ -20,14 +23,9 @@ def on_message(client, userdata, msg):
     senlog.info("sending event {}".format(repr(msg.payload)))
     sock.sendall(msg.payload)
 
-try:
-    senlog.info('setting up socket')
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    if 'bind' in config.senseit_server:
-        sock.bind(socket.getaddrinfo(**config.senseit_server.bind)[0][4])
-    sock.connect(socket.getaddrinfo(**config.senseit_server.connect)[0][4])
-    sock.setblocking(False)
+senlog.info('setting up socket')
+with make_connection(config.senseit_server.bind, config.senseit_server.conn) as sock:
 
     mqlog.info('connnecting to MQTT')
     client = mqtt.Client()
@@ -44,8 +42,3 @@ try:
             mqlog.info("published {}".format(repr(event)))
         except BlockingIOError:
             pass
-except:
-    log.exception('error')
-    raise
-finally:
-    sock.close()

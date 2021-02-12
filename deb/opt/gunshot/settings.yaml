@@ -113,31 +113,15 @@ settings:
         label: Enable SenseIT Server
         # default: true
       bind:
-        type: section
-        title: Bind
-        settings:
-          host:
-            type: text
-            label: Host
-            hint: Local IP or Hostname (blank for default)
-          port:
-            type: number
-            label: Port
-            default: 10001
-            hint: Local Port (usually 10001)
-      connect:
-        type: section
-        title: Connect
-        settings:
-          host:
-            type: text
-            label: Host
-            hint: Remote IP or Hostname
-          port:
-            type: number
-            label: Port
-            default: 10002
-            hint: Remote Port (usually 10002)
+        type: text
+        label: Bind
+        hint: Local IP + Port (blank for auto)
+        default: :10001
+      conn:
+        type: text
+        label: Connect
+        hint: Remote IP + Port (blank for auto)
+        default: :10002
   senseit_client:
     type: section
     title: SenseIT Client
