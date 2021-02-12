@@ -6,7 +6,7 @@ ptzlog = log.getChild('ptz')
 mqlog = log.getChild('mqtt')
 
 import settings
-config = settings.load('mqtt', 'onvif', log=log.getChild('config'))
+config = settings.load('mqtt', 'onvif', 'onvif.ptz', log=log.getChild('config'))
 
 import paho.mqtt.client as mqtt
 import json
