@@ -28,7 +28,7 @@ def get_relay_token(devmgmt):
         ptzlog.info("relay #{} has token {}".format(index, repr(token)))
         return token
     else:
-        raise NotImplemented
+        raise NotImplementedError()
 
 def do_setup(devmgmt):
     ptzlog.info("setting up relay")

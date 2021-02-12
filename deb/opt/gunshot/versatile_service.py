@@ -53,9 +53,9 @@ try:
         sock.connect(socket.getaddrinfo(**config.versatile.connect)[0][4])
         sock.setblocking(False)
     elif config.versatile.protocol == "tcp_server":
-        raise NotImplemented
+        raise NotImplementedError()
     else:
-        raise NotImplemented
+        raise NotImplementedError()
 
     mqlog.info('connnecting to MQTT')
     client = mqtt.Client()
