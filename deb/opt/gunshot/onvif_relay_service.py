@@ -6,7 +6,7 @@ ptzlog = log.getChild('relay')
 mqlog = log.getChild('mqtt')
 
 import settings
-config = settings.load('mqtt', 'onvif', 'onvif_relay', log=log.getChild('config'))
+config = settings.load('mqtt', 'onvif', 'onvif.relay', log=log.getChild('config'))
 
 import paho.mqtt.client as mqtt
 
@@ -20,10 +20,10 @@ from alarm_packet import parse_pkt, Alarm, is_trigger_event
 import datetime
 
 def get_relay_token(devmgmt):
-    if config.onvif_relay.relay_type == "token":
-        return config.onvif_relay.relay_id
-    elif config.onvif_relay.relay_type == "number":
-        index = int(config.onvif_relay.relay_id)
+    if config.onvif.relay.type == "token":
+        return config.onvif.relay.id
+    elif config.onvif.relay.type == "number":
+        index = int(config.onvif.relay.id)
         relay = devmgmt.GetRelayOutputs()[index-1]
         token = relay['token']
         ptzlog.info("relay #{} has token {}".format(index, repr(token)))
@@ -36,9 +36,9 @@ def do_setup(devmgmt):
     devmgmt.SetRelayOutputSettings({
         'RelayOutputToken': get_relay_token(devmgmt),
         'Properties': {
-            'Mode': config.onvif_relay.relay.mode,
-            'DelayTime': datetime.timedelta(seconds=config.onvif_relay.relay.time),
-            'IdleState': config.onvif_relay.relay.idle,
+            'Mode': config.onvif.relay.mode,
+            'DelayTime': datetime.timedelta(seconds=config.onvif.relay.time),
+            'IdleState': config.onvif.relay.idle,
         }})
 
 def do_alarm(devmgmt):

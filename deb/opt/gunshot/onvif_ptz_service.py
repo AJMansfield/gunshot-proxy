@@ -6,7 +6,7 @@ ptzlog = log.getChild('ptz')
 mqlog = log.getChild('mqtt')
 
 import settings
-config = settings.load('mqtt', 'onvif', 'onvif_ptz', log=log.getChild('config'))
+config = settings.load('mqtt', 'onvif', 'onvif.ptz', log=log.getChild('config'))
 
 import paho.mqtt.client as mqtt
 import json
@@ -36,7 +36,7 @@ def on_message(client, userdata, msg):
 
 log.info('setting up ONVIF control')
 camera = ONVIFCamera(*decode_hostportuserpass(config.onvif.conn))
-ptz = OnvifPTZ(camera, config.onvif_ptz.limits)
+ptz = OnvifPTZ(camera, config.onvif.ptz)
 
 log.info('connnecting to MQTT')
 client = mqtt.Client()

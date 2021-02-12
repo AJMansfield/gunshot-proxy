@@ -152,47 +152,24 @@ settings:
         default: :10002
   onvif:
     type: section
-    title: ONVIF Device
-    on_edit:
-      - sudo systemctl restart gunshot@onvif_ptz.service
-      - sudo systemctl restart gunshot@onvif_relay.service
+    title: ONVIF Camera Control
     settings:
       conn:
         type: text
         label: ONVIF URL
         hint: http://user@pass:camera.example
-      host:
-        type: text
-        label: Host
-        hint: Camera IP or Hostname
-      port:
-        type: number
-        label: Port
-        default: 80
-        hint: Camera ONVIF Port (usually 80)
-      user:
-        type: text
-        label: Username
-        hint: Operator Username
-        # default: operator
-      passwd:
-        type: text
-        label: Password
-        hint: Operator Password
-        # default: password
-  onvif_ptz:
-    type: section
-    title: ONVIF PTZ
-    on_edit: sudo systemctl restart gunshot@onvif_ptz.service
-    settings:
-      enable:
-        type: checkbox
-        label: Enable ONVIF PTZ
-        # default: true
-      limits:
+        on_edit:
+          - sudo systemctl restart gunshot@onvif_ptz.service
+          - sudo systemctl restart gunshot@onvif_relay.service
+      ptz:
         type: section
-        title: Limits
+        title: PTZ
+        on_edit: sudo systemctl restart gunshot@onvif_ptz.service
         settings:
+          enable:
+            type: checkbox
+            label: Enable ONVIF PTZ
+            # default: true
           az_min:
             type: number
             label: Azimuth Min
@@ -229,29 +206,25 @@ settings:
             type: number
             label: Zoom Offset
             default: 0
-  onvif_relay:
-    type: section
-    title: ONVIF Relay
-    on_edit: sudo systemctl restart gunshot@onvif_relay.service
-    settings:
-      enable:
-        type: checkbox
-        label: Enable ONVIF Relay
-        # default: true
-      relay_type:
-        type: select
-        label: Identifier Type
-        options:
-          number: Relay Number (specify ID as a number)
-          token: Relay Token (specify ID as a string)
-        default: token
-      relay_id:
-        type: text
-        label: Relay Identifier
       relay:
         type: section
-        title: Relay Settings
+        title: Relay Alarm
+        on_edit: sudo systemctl restart gunshot@onvif_relay.service
         settings:
+          enable:
+            type: checkbox
+            label: Enable ONVIF Relay
+            # default: true
+          type:
+            type: select
+            label: Identifier Type
+            options:
+              number: Relay Number (specify ID as a number)
+              token: Relay Token (specify ID as a string)
+            default: token
+          id:
+            type: text
+            label: Relay Identifier
           mode:
             type: select
             label: Mode
