@@ -15,18 +15,13 @@ def getservbyport(port, proto=None): # wrapper to adapt kwargs to *args only api
     else:
         return socket.getservbyport(port)
 
-def get_scheme_port(scheme):
-    socket.getservbyname(scheme)
+def prefix_urlhost(urlish):
+    if '//' not in urlish:
+        return '//' + urlish
+    else:
+        return urlish
 
-def decode_addr(addr, default_proto=0, default_port=0, default_family=0, bind=False):
-    if addr == None:
-        return None
-    
-    if '//' not in addr:
-        addr = '//' + addr # add slashes so it doesn't interpret it as a path
-    
-    parse = urlparse(addr)
-
+def extract_host(parse, default_family=0, bind=False):
     host = parse.hostname or 'localhost'
 
     if bind and host=='localhost':
@@ -40,7 +35,10 @@ def decode_addr(addr, default_proto=0, default_port=0, default_family=0, bind=Fa
         host = socket.getaddrinfo(host, None, family=default_family)[0][4][0]
     except (TypeError, OSError, IndexError, socket.gaierror):
         host = socket.getaddrinfo(host, None)[0][4][0]
+    
+    return host
 
+def extract_proto(parse, host='localhost', default=None):
     try: # if the scheme is specifying a protocol, like `tcp://` or `udp://`
         proto = socket.getprotobyname(parse.scheme)
     except (TypeError, OSError):
@@ -48,10 +46,12 @@ def decode_addr(addr, default_proto=0, default_port=0, default_family=0, bind=Fa
             proto = socket.getaddrinfo(host, parse.scheme, flags=socket.AI_NUMERICHOST)[0][2]
         except (TypeError, OSError):
             try:
-                proto = socket.getprotobyname(default_proto)
+                proto = socket.getprotobyname(default)
             except (TypeError, OSError):
-                proto = default_proto
-    
+                proto = default
+    return proto
+
+def extract_port(parse, host='localhost', proto=0, default=None):
     if parse.port:
         port = parse.port
     else:
@@ -59,10 +59,12 @@ def decode_addr(addr, default_proto=0, default_port=0, default_family=0, bind=Fa
             port = socket.getaddrinfo(host, parse.scheme, proto=proto, flags=socket.AI_NUMERICHOST)[0][4][1]
         except (TypeError, OSError, IndexError):
             try:
-                port = getservbyname(default_proto, prot=proto)
+                port = getservbyname(default, prot=proto)
             except (TypeError, OSError):
-                port = default_port
-    
+                port = default
+    return port
+
+def extract_service(parse, proto):
     if parse.scheme:
         serv = parse.scheme
     else:
@@ -71,8 +73,36 @@ def decode_addr(addr, default_proto=0, default_port=0, default_family=0, bind=Fa
             socket.IPPROTO_UDP: 'udp',
         }.get(proto)
         # if no scheme, we don't want to talk anything but raw
+    return serv
+
+def decode_addr(addr, default_proto=0, default_port=0, default_family=0, bind=False):
+    if addr == None:
+        return None
+
+    addr = prefix_urlhost(addr)
+    parse = urlparse(addr)
+    host = extract_host(parse, default_family=default_family, bind=bind)
+    proto = extract_proto(parse, host=host, default=default_proto)
+    port = extract_port(parse, host=host, proto=proto, default=default_port)
+    serv = extract_service(parse, proto)
 
     return (*socket.getaddrinfo(host, port, proto=proto)[0], serv)
+
+def decode_hostport(addr):
+    addr = prefix_urlhost(addr)
+    parse = urlparse(addr)
+    host = parse.hostname
+    port = extract_port(parse)
+    return host, port
+
+def decode_hostportuserpass(addr):
+    addr = prefix_urlhost(addr)
+    parse = urlparse(addr)
+    host = parse.hostname
+    port = extract_port(parse)
+    user = parse.username
+    passw= parse.password
+    return host, port, user, passw
 
 def make_connection(
         bind=None, conn=None, # bind and conn are url-ish

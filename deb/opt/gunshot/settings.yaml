@@ -185,6 +185,10 @@ settings:
         type: checkbox
         label: Enable ONVIF PTZ
         # default: true
+      conn:
+        type: text
+        label: ONVIF URL
+        hint: http://user@pass:camera.example
       limits:
         type: section
         title: Limits
@@ -234,6 +238,10 @@ settings:
         type: checkbox
         label: Enable ONVIF Relay
         # default: true
+      conn:
+        type: text
+        label: ONVIF URL
+        hint: http://user@pass:camera.example
       relay_type:
         type: select
         label: Identifier Type

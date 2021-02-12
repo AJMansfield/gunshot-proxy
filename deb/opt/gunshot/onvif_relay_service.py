@@ -56,7 +56,7 @@ def on_message(client, userdata, msg):
     do_alarm(camera.devicemgmt)
 
 log.info('setting up ONVIF control')
-camera = ONVIFCamera(**config.onvif)
+camera = ONVIFCamera(*config.onvif.conn)
 do_setup(camera.devicemgmt)
 
 log.info('connnecting to MQTT')

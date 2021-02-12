@@ -34,7 +34,7 @@ def on_message(client, userdata, msg):
         ptz.move(az, el, None)
 
 log.info('setting up ONVIF control')
-camera = ONVIFCamera(**config.onvif)
+camera = ONVIFCamera(*config.onvif.conn)
 ptz = OnvifPTZ(camera, config.onvif_ptz.limits)
 
 log.info('connnecting to MQTT')
