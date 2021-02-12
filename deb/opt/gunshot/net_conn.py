@@ -86,7 +86,8 @@ def make_connection(
         # return RequestsConnection(conn)
         raise NotImplementedError()
     elif bind_ai and not conn_ai:
-        return ServerConnection(bind_ai, handler) # TODO ensure message 
+        return ContinuousConnection(bind_ai, conn_ai)
+        #return ServerConnection(bind_ai, handler) # TODO ensure message 
     elif conn_per_message:
         return PerMessageConnection(bind_ai, conn_ai)
     else:
