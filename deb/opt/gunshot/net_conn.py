@@ -87,7 +87,7 @@ def make_connection(
         raise NotImplementedError()
     elif bind_ai and not conn_ai:
         return ServerConnection(bind_ai, handler) # TODO ensure message 
-    elif conn_per_message or (conn_ai and not bind_ai):
+    elif conn_per_message:
         return PerMessageConnection(bind_ai, conn_ai)
     else:
         return ContinuousConnection(bind_ai, conn_ai)
@@ -123,6 +123,8 @@ class ContinuousConnection:
         return self.sock.send(msg)
     def sendall(self, msg):
         return self.sock.sendall(msg)
+    def recv(self, n):
+        return self.sock.recv(n)
 
 class PerMessageConnection:
     def __init__(self, bind_ai, conn_ai): # handler is a socketserver.BaseRequestHandler if applicable
@@ -142,6 +144,8 @@ class PerMessageConnection:
     def sendall(self, msg):
         with ContinuousConnection(self.bind, self.conn) as sock:
             return sock.sendall(msg)
+    def recv(self, n):
+        raise NotImplementedError()
     
 class ServerConnection:
     def __init__(self, bind_ai, handler=None): # handler is a socketserver.BaseRequestHandler if applicable
@@ -170,6 +174,8 @@ class ServerConnection:
         self.server.request.send(msg)
     def sendall(self, msg):
         self.server.request.sendall(msg)
+    def recv(self, n):
+        raise NotImplementedError()
 
 
 
