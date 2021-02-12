@@ -38,7 +38,7 @@ def extract_host(parse, default_family=0, bind=False):
     
     return host
 
-def extract_proto(parse, host='localhost', default=None):
+def extract_proto(parse, host='127.0.0.1', default=None):
     try: # if the scheme is specifying a protocol, like `tcp://` or `udp://`
         proto = socket.getprotobyname(parse.scheme)
     except (TypeError, OSError):
@@ -51,7 +51,7 @@ def extract_proto(parse, host='localhost', default=None):
                 proto = default
     return proto
 
-def extract_port(parse, host='localhost', proto=0, default=None):
+def extract_port(parse, host='127.0.0.1', proto=0, default=None):
     if parse.port:
         port = parse.port
     else:
