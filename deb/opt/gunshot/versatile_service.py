@@ -16,6 +16,7 @@ import json
 import socket
 
 from utils import DotDict
+from net_conn import make_connection
 
 from string import Formatter
 class SafeFormatter(Formatter):
@@ -37,25 +38,8 @@ def on_message(client, userdata, msg):
     verlog.info("sending packet {}".format(repr(output)))
     sock.send(output.encode("utf-8"))
 
-try:
-    verlog.info('setting up socket')
-
-    if config.versatile.protocol == "udp":
-        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        sock.bind(socket.getaddrinfo(**config.versatile.bind)[0][4])
-        sock.connect(socket.getaddrinfo(**config.versatile.connect)[0][4])
-        sock.setblocking(False)
-    elif config.versatile.protocol == "tcp_client":
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        sock.bind(socket.getaddrinfo(**config.versatile.bind)[0][4])
-        sock.connect(socket.getaddrinfo(**config.versatile.connect)[0][4])
-        sock.setblocking(False)
-    elif config.versatile.protocol == "tcp_server":
-        raise NotImplementedError()
-    else:
-        raise NotImplementedError()
+verlog.info('setting up socket')
+with make_connection(config.versatile.bind, config.versatile.conn) as sock:
 
     mqlog.info('connnecting to MQTT')
     client = mqtt.Client()
@@ -64,8 +48,3 @@ try:
     client.connect(**config.mqtt.server)
     
     client.loop_forever()
-except:
-    log.exception('error')
-    raise
-finally:
-    sock.close()

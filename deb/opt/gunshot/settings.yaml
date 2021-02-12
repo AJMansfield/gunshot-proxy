@@ -337,49 +337,22 @@ settings:
     type: section
     title: Versatile Packet Output
     on_edit: sudo systemctl restart gunshot@versatile.service
+    descr: |
+      Availible Substitutions:
+        {s}: seconds
+        {p}: psc
     settings:
       enable:
         type: checkbox
         label: Enable Versatile Packet Output
-      protocol:
-        type: select
-        label: Protocol
-        options:
-          tcp_client: TCP Client Mode
-          tcp_server: TCP Server Mode
-          udp: UDP Mode
       bind:
-        type: section
-        title: Listen / Bind
-        settings:
-          host:
-            type: text
-            label: Host
-            hint: Local IP or Hostname (blank for auto)
-          port:
-            type: number
-            label: Port
-            hint: Local Port (blank for auto)
-      connect:
-        type: section
-        title: Connect
-        settings:
-          host:
-            type: text
-            label: Host
-            hint: Remote IP or Hostname
-          port:
-            type: number
-            label: Port
-            hint: Remote Port
+        type: text
+        label: Bind
+        hint: Local IP + Port (blank for auto)
+      conn:
+        type: text
+        label: Bind
+        hint: Remote IP + Port (blank for auto)
       template:
-        type: section
-        title: Packet Format
-        descr: |
-          Availible Substitutions:
-            {s}: seconds
-            {p}: psc
-        settings:
-          str:
-            type: blocktext
-            label: ""
+        type: blocktext
+        label: Template
