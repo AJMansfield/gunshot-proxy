@@ -112,12 +112,11 @@ class ContinuousConnection:
 
         if self.conn:
             self.sock.connect(self.conn[4])
-            self.sock.setblocking(False)
         else:
             self.sock.listen()
-            self.sock.setblocking(False)
             self.sock.accept()
 
+        self.sock.setblocking(False)
         return self
         
     def __exit__(self, ex_type, ex_val, tb):
