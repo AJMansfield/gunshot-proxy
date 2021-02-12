@@ -131,19 +131,11 @@ settings:
         type: checkbox
         label: Enable SenseIT Client
         # default: true
-      listen:
-        type: section
-        title: Listen
-        settings:
-          host:
-            type: text
-            label: Host
-            hint: Local IP or Hostname (blank for default)
-          port:
-            type: number
-            label: Port
-            default: 10004
-            hint: Local Port (usually 10004)
+      bind:
+        type: text
+        label: Listen
+        hint: Local IP + Port (blank for auto)
+        default: :10004
   detector:
     type: section
     title: Detector
