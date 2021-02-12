@@ -161,10 +161,10 @@ class HTTPConnection:
     def __exit__(self, ex_type, ex_val, tb):
         pass
     def send(self, msg):
-        requests.put(url, msg)
+        requests.put(self.url, msg)
         return len(msg)
     def sendall(self, msg):
-        requests.put(url, msg)
+        requests.put(self.url, msg)
         return len(msg)
     def recv(self, n):
-        requests.get(url).body
+        requests.get(self.url).body
