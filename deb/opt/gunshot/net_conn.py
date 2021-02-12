@@ -109,9 +109,9 @@ class ContinuousConnection:
         self.sock = socket.socket(self.family, self.stype, self.proto)
         if self.bind: # we want to bind a specific port
             if self.bind[4][1] != 0: # we have a specific port we want to use
-                sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-            sock.bind(self.bind[4])
-        sock.connect(self.conn[4])
+                self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            self.sock.bind(self.bind[4])
+        self.sock.connect(self.conn[4])
         
     def __exit__(self, ex_type, ex_val, tb):
         if self.sock != None:
