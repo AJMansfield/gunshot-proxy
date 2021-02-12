@@ -120,9 +120,9 @@ class ContinuousConnection:
         self.sock = None
     
     def send(self, msg):
-        return self.socket.send(msg)
+        return self.sock.send(msg)
     def sendall(self, msg):
-        return self.socket.sendall(msg)
+        return self.sock.sendall(msg)
 
 class PerMessageConnection:
     def __init__(self, bind_ai, conn_ai): # handler is a socketserver.BaseRequestHandler if applicable
