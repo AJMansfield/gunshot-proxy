@@ -282,10 +282,10 @@ settings:
     type: section
     title: Versatile Packet Output
     on_edit: sudo systemctl restart gunshot@versatile.service
-    descr: |
-      Availible Substitutions:
-        {s}: seconds
-        {p}: psc
+    descr: >
+      Availible Substitutions:<br/>
+        <code>{evt.time}</code>: event timestamp, in ISO-8601 format (e.g. 2021-02-16T13:50:03.815166)<br/>
+        <code>{evt.raw}</code>: base64 encoded raw SenseIT packet data<br/>
     settings:
       enable:
         type: checkbox
