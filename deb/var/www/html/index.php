@@ -164,8 +164,8 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
                 }
               ?>
             </select>
+            <p class="text-muted"><?=get($setting["descr"])?></p>
           </div>
-          <p class="<?=$pcls?>"><?=get($setting["descr"])?></p>
         </div>
       <?php
       break;
@@ -178,8 +178,8 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
           <label for="<?=$token?>" class="col-sm-2 col-form-label"><?=get($setting["label"], $name)?></label>
           <div class="col-sm-10">
             <input id="<?=$token?>" name="<?=$token?>" type="checkbox" <?=$checked?> class="form-control">
+            <p class="text-muted"><?=get($setting["descr"])?></p>
           </div>
-          <p class="<?=$pcls?>"><?=get($setting["descr"])?></p>
         </div>
       <?php
       break;
@@ -192,8 +192,8 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
           <div class="col-sm-10">
             <input id="<?=$token?>" name="<?=$token?>" class="form-control" type="<?=$setting["type"]?>" value="<?=$value?>"
               placeholder="<?=get($setting["hint"], $name)?>">
+            <p class="text-muted"><?=get($setting["descr"])?></p>
           </div>
-          <p class="<?=$pcls?>"><?=get($setting["descr"])?></p>
         </div>
       <?php
       break;
@@ -212,8 +212,8 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
               });
             });
             </script>
+            <p class="text-muted"><?=get($setting["descr"])?></p>
           </div>
-          <p class="<?=$pcls?>"><?=get($setting["descr"])?></p>
         </div>
       <?php
       break;
@@ -233,8 +233,8 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
               });
             });
             </script>
+            <p class="text-muted"><?=get($setting["descr"])?></p>
           </div>
-          <p class="<?=$pcls?>"><?=get($setting["descr"])?></p>
         </div>
       <?php
       break;
