@@ -93,7 +93,7 @@ settings:
             default: sentri/detector/event/all
           evt_alarm:
             type: text
-            label: Alarm Events (JSON)
+            label: Filtered Alarm Events (JSON)
             default: sentri/detector/event/alarm
           evt_raw:
             type: text
@@ -120,7 +120,7 @@ settings:
       conn:
         type: text
         label: Connect
-        hint: Remote IP + Port (blank for auto)
+        hint: Remote IP + Port
         default: :10002
   senseit_client:
     type: section
@@ -134,7 +134,7 @@ settings:
       bind:
         type: text
         label: Listen
-        hint: Local IP + Port (blank for auto)
+        hint: Local IP + Port
         default: :10004
   detector:
     type: section
@@ -148,7 +148,7 @@ settings:
       bind:
         type: text
         label: Listen
-        hint: Local IP + Port (blank for auto)
+        hint: Local IP + Port
         default: :10002
   onvif:
     type: section
@@ -293,7 +293,9 @@ settings:
       conn:
         type: text
         label: Connect
-        hint: Remote IP + Port (blank for auto)
+        hint: Remote IP + Port or URL (blank for auto)
+        descr: >
+          Recognises protocol schemes <code>http://</code>, <code>https://</code>, <code>tcp://</code> and <code>udp://</code>.
       template:
         type: blocktext
         label: Template
@@ -309,6 +311,7 @@ settings:
             <code>{evt.event_type}</code>: The string "gunshot" or "non-gunshot" depending on event classification.<br/>
             <code>{evt.device_type}</code>: The string "detector" or "server" depending on packet origin.<br/>
           To output braces in the sent packet, use double braces (i.e.<code>{{</code> in the template will result in <code>{</code> in the output).
+          All other characters (including newlines) are literal.
         default: >
           {{
             "time": {time},
