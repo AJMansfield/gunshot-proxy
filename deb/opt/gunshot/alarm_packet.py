@@ -36,7 +36,7 @@ class AssertStrFixedLenEnumField(StrFixedLenEnumField):
 
 source_types = {
     b'M': 'detector',
-    b'N': 'sentri server',
+    b'N': 'server',
 }
 
 alarm_types = {
@@ -44,9 +44,9 @@ alarm_types = {
     b'I': "non-gunshot",
 # note, existence of types M,P,Q,V was only determined through reverse-engineering
 # packet layout for the following alarm types is not known (although experimentally confirmed to not be the same as the first two)
-    b'M': "engine alarm",
-    b'P': "footstep alarm",
-    b'Q': "fence alarm",
+    b'M': "engine",
+    b'P': "footstep",
+    b'Q': "fence",
     b'V': "version", 
 }
 
