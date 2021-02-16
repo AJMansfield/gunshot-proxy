@@ -302,5 +302,38 @@ settings:
           Available Substitutions:<br/>
             <code>{evt.time}</code>: Event timestamp, in ISO-8601 format (e.g. <code>2021-02-16T13:50:03.815166</code>).<br/>
             <code>{evt.raw}</code>: Base64 encoded raw SenseIT packet data.<br/>
+            <code>{evt.alarm_num}</code>: Alarm number, increments on each event (rolls over from 255 to 0).<br/>
             <code>{evt.az_raw}</code>: Detector-relative azimuth angle of the event.<br/>
             <code>{evt.el_raw}</code>: Detector-relative elevation angle of the event.<br/>
+            <code>{evt.time_detector}</code>: Detector RTC time (generally not accurate).<br/>
+            <code>{evt.event_type}</code>: The string "gunshot" or "non-gunshot" depending on event classification.<br/>
+            <code>{evt.device_type}</code>: The string "detector" or "server" depending on packet origin.<br/>
+          To output braces in the sent packet, use double braces (i.e.<code>{{</code> in the template will result in <code>{</code> in the output).
+        default: >
+          {{
+            "time": {time},
+            "raw": {raw},
+            "alarm_num": {alarm_num},
+            "el_raw": {el_raw},
+            "az_raw": {az_raw},
+            "time_detector": {time_detector},
+            "event_type": {event_type},
+            "device_type": {device_type},
+            "mic_data":{{
+              "mic0_w": {mic0_w},
+              "mic0_s": {mic0_s},
+              "mic0_d": {mic0_d},
+              "mic1_w": {mic1_w},
+              "mic1_s": {mic1_s},
+              "mic1_d": {mic1_d},
+              "mic2_w": {mic2_w},
+              "mic2_s": {mic2_s},
+              "mic2_d": {mic2_d},
+              "mic3_w": {mic3_w},
+              "mic3_s": {mic3_s},
+              "mic3_d": {mic3_d},
+            }}
+          }}
+
+
+
