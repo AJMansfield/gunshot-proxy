@@ -165,6 +165,7 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
               ?>
             </select>
           </div>
+          <p class="<?=$pcls?>"><?=get($setting["descr"])?></p>
         </div>
       <?php
       break;
@@ -178,6 +179,7 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
           <div class="col-sm-10">
             <input id="<?=$token?>" name="<?=$token?>" type="checkbox" <?=$checked?> class="form-control">
           </div>
+          <p class="<?=$pcls?>"><?=get($setting["descr"])?></p>
         </div>
       <?php
       break;
@@ -191,6 +193,7 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
             <input id="<?=$token?>" name="<?=$token?>" class="form-control" type="<?=$setting["type"]?>" value="<?=$value?>"
               placeholder="<?=get($setting["hint"], $name)?>">
           </div>
+          <p class="<?=$pcls?>"><?=get($setting["descr"])?></p>
         </div>
       <?php
       break;
@@ -210,6 +213,7 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
             });
             </script>
           </div>
+          <p class="<?=$pcls?>"><?=get($setting["descr"])?></p>
         </div>
       <?php
       break;
@@ -230,6 +234,7 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
             });
             </script>
           </div>
+          <p class="<?=$pcls?>"><?=get($setting["descr"])?></p>
         </div>
       <?php
       break;
