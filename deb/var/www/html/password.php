@@ -1,7 +1,7 @@
 <?php
 require 'includes/sudo.php';
 
-function chpasswd($user, $curpass, $newpass){
+function chpasswd($user, $curpass, $newpass1, $newpass2){
 
   $nl = '$\'\\n\''; //fully-escaped newline for herestring concatenation
 
@@ -10,10 +10,12 @@ function chpasswd($user, $curpass, $newpass){
 
   $user = escapeshellarg($user);
   $curpass = escapeshellarg($curpass);
-  $newpass = escapeshellarg($newpass);
+  $newpass1 = escapeshellarg($newpass1);
+  $newpass2 = escapeshellarg($newpass2);
+
 
   // herestring is: {sudo passwd}\n{current password for password channge}\n{enter new password}\c{confirm new password}
-  return bash('2>&1 <<<'.$sudo_pass.$nl.$curpass.$nl.$newpass.$nl.$newpass.' sudo -kS -u '.$sudo_user.' -- passwd '.$user);
+  return bash('2>&1 <<<'.$sudo_pass.$nl.$curpass.$nl.$newpass1.$nl.$newpass2.' sudo -kS -u '.$sudo_user.' -- passwd '.$user);
 }
 
 ?>
@@ -96,16 +98,21 @@ ini_set('display_errors',1); error_reporting(E_ALL);
 
   <?php
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $command = chpasswd($_POST["user"], $_POST["curpass"], $_POST["newpass"]);
+    $command = chpasswd($_POST["user"], $_POST["curpass"], $_POST["newpass"], $_POST["conpass"]);
     exec($command, $output, $return);
 
     if ($return == 0) {
-      ?><div class="card-body alert alert-success" role="alert">
+      ?><div class="card-footer alert-success" role="alert">
         <p>Password successfully updated!</p>
       </div><?php
     } else {
-      ?><div class="card-body alert alert-danger" role="alert">
-        <p>Password not updated!</p>
+      ?><div class="card-footer alert-danger" role="alert">
+        <p>Password change not accepted!</p>
+        <ul>
+          <li>Ensure the current password you entered is correct.</li>
+          <li>Ensure you typed the new password correctly.</li>
+          <li>Ensure your new password meets the password length and complexity requirements for this system.</li>
+        </ul>
       <?php
 
       $pass_output = array();
@@ -118,7 +125,7 @@ ini_set('display_errors',1); error_reporting(E_ALL);
       ?><pre><code><?php
         echo '$ passwd '.htmlspecialchars($_POST["user"])."\n";
         foreach ($pass_output as $line) {
-          echo htmlspecialchars($line);
+          echo htmlspecialchars($line)."\n";
         }
       ?></code></pre><?php
 
