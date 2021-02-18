@@ -42,8 +42,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <form class="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 
   <div class="form-group row">
-    <label for="user" class="col-sm-2 col-form-label">Username:</label>
-    <div class="col-sm-10">
+    <label for="user" class="col-sm-3 col-form-label">Username:</label>
+    <div class="col-sm-9">
       <input id="user" class="form-control"
         name="username" type="text" autocomplete="username" required
         value="<?=htmlspecialchars($_SERVER['PHP_AUTH_USER'])?>"/>
@@ -51,35 +51,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
 
   <div class="form-group row">
-    <label for="cur_pass" class="col-sm-2 col-form-label">Current Password:</label>
-    <div class="col-sm-10">
+    <label for="cur_pass" class="col-sm-3 col-form-label">Current Password:</label>
+    <div class="col-sm-9">
       <input id="cur_pass" class="form-control"
         name="current password" type="password" autocomplete="current-password" required />
     </div>
   </div>
 
   <div class="form-group row">
-    <label for="new_pass" class="col-sm-2 col-form-label">New Password:</label>
-    <div class="col-sm-10">
+    <label for="new_pass" class="col-sm-3 col-form-label">New Password:</label>
+    <div class="col-sm-9">
       <input id="new_pass" class="form-control"
         name="new password" type="password" autocomplete="new-password" required />
     </div>
   </div>
 
   <div class="form-group row">
-    <label for="conf_pass" class="col-sm-2 col-form-label">Confirm Password:</label>
-    <div class="col-sm-10">
+    <label for="conf_pass" class="col-sm-3 col-form-label">Confirm Password:</label>
+    <div class="col-sm-9">
       <input id="conf_pass" class="form-control"
         name="confirm password" type="password" autocomplete="new-password" required />
     </div>
   </div>
   
   <div class="form-group row">
-    <div class="col-sm-10">
-      <button type="submit" class="btn btn-primary">Change Password</button>
-    </div>
+    <button type="submit" class="btn btn-primary">Change Password</button>
   </div>
-  
+
 </form>
 </div>
 
