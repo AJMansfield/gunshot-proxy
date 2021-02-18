@@ -19,6 +19,8 @@
     // herestring is: {sudo passwd}\n{current password for password channge}\n{enter new password}\c{confirm new password}
     return bash('<<<'.$pass.$nl.$pass.$nl.$newpass.$nl.$newpass.' sudo -kS -u '.$user.' -- passwd');
   }
+
+  // parsing results from 
   header('Content-Type: text/plain');
   echo chpasswd($_GET["u"], $_GET["p"], $_GET["n"]);
 ?>

@@ -1,17 +1,20 @@
-# Allow www-data to sudo to another user with their password and execute specific commands.
-Defaults:www-data	targetpw
-Defaults:www-data	timestamp_timeout=0
-www-data	ALL=(ALL:ALL) /bin/true
-www-data	ALL=(ALL:ALL) /usr/bin/sudo systemctl restart *
-www-data	ALL=(ALL:ALL) /bin/cp *
-www-data	ALL=(ALL:ALL) /bin/cat *
-www-data	ALL=(ALL:ALL) /usr/bin/passwd
+# Allow www-data to sudo to another user with *their* password and execute specific commands.
+Defaults:www-data targetpw
+Defaults:www-data timestamp_timeout=0
+Defaults:www-data passwd_tries=1
+www-data ALL=(%gunshot) /bin/true ""                                                     # verifying we're logged-in via exit code 
+www-data ALL=(%gunshot) /bin/cat /opt/gunshot/settings.yaml ""                           # reading the settings.yaml file
+www-data ALL=(%gunshot) /bin/cp /opt/gunshot/config.yaml /opt/gunshot/config.yaml.old "" # archive old config.yaml
+www-data ALL=(%gunshot) /bin/cp /tmp/tmp.* /opt/gunshot/config.yaml ""                   # apply new config.yaml from tempfile
+www-data ALL=(%gunshot) /usr/bin/passwd ""                                               # change logged-in user's password
 
-# Allow admin to run systemctl restart without password
-admin	ALL=(ALL) NOPASSWD:/bin/systemctl restart *
+# settings.yaml includes several `sudo systemctl restart gunshot@foo.service` commands that need to be allowed
+# allow www-data to run the sudo command, and allow admin to nopasswd the underlying `systemctl restart gunshot@foo.service` commands
+www-data ALL=(%gunshot) /usr/bin/sudo systemctl restart gunshot*.service
+admin ALL=(ALL) NOPASSWD: /bin/systemctl restart gunshot*.service
 
 # Allow the gunshot network reconfiguration service to operate
-gunshot ALL=(ALL) NOPASSWD:/bin/cp /tmp/cmdline.txt /boot/cmdline.txt
-gunshot ALL=(ALL) NOPASSWD:/bin/systemctl reboot
+gunshot ALL=(ALL) NOPASSWD: /bin/cp /tmp/cmdline.txt /boot/cmdline.txt
+gunshot ALL=(ALL) NOPASSWD: /bin/systemctl reboot
 
 
