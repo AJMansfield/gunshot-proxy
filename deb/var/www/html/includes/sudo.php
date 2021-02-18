@@ -19,10 +19,14 @@
     return $ret == 0;
   }
 
-  if(!isset($_SERVER['PHP_AUTH_USER']) || !authenticate()){
-    header('WWW-Authenticate: Basic realm="gunshot proxy"');
-    header('HTTP/1.0 401 Unauthorized');
-    echo 'Not Authorized';
-      exit;
+  function do_pass_check(){
+    if(!isset($_SERVER['PHP_AUTH_USER']) || !authenticate()){
+      header('WWW-Authenticate: Basic realm="gunshot proxy"');
+      header('HTTP/1.0 401 Unauthorized');
+      echo 'Not Authorized';
+        exit;
+    }
   }
+
+  do_pass_check();
 ?>

@@ -38,28 +38,6 @@ function chpasswd($user, $curpass, $newpass){
 ini_set('display_errors',1); error_reporting(E_ALL);
 ?>
 
-<pre><code>
-<?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  // verify requested user is same as logged-in user
-  $command = chpasswd($_POST["user"], $_POST["curpass"], $_POST["newpass"]);
-
-  echo '$ passwd '.htmlspecialchars($_POST["user"])."\n";
-  
-  exec($command, $output, $return);
-
-  $pass_output = array();
-  $pass_filter = "/passwd: .*$/" ;
-
-  foreach ($output as $line) {
-    if(preg_match($pass_filter, $line, $matches)){
-      array_push($pass_output, $matches[0]);
-      echo htmlspecialchars($matches[0]);
-    }
-  }
-}
-?>
-</code></pre>
 
 <div class="container">
 <form class="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
@@ -102,7 +80,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
 
 </form>
+  <?php
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $command = chpasswd($_POST["user"], $_POST["curpass"], $_POST["newpass"]);
+    exec($command, $output, $return);
+
+    if ($return == 0) {
+      ?><div class="row alert alert-success" role="alert">
+        <p>Password successfully updated!</p>
+      </div><?php
+    } else {
+      ?><div class="row alert alert-danger" role="alert">
+        <p>Password not updated!</p>
+      <?php
+
+      $pass_output = array();
+      foreach ($output as $line) {
+        if(preg_match("/passwd: .*$/", $line, $matches)){
+          array_push($pass_output, $matches[0]);
+        }
+      }
+
+      ?><pre><code><?php
+        echo '$ passwd '.htmlspecialchars($_POST["user"])."\n";
+        foreach ($pass_output as $line) {
+          echo htmlspecialchars($line);
+        }
+      ?></code></pre><?php
+
+      ?></div><?php
+    }
+  }
+  ?>
 </div>
+
+
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
