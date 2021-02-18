@@ -33,17 +33,8 @@ ini_set('display_errors',1); error_reporting(E_ALL);
 ?>
 
 <?php
-if (!function_exists('is_iterable')) { // fix for PHP < 7.1.0
-  function is_iterable($var)
-  {
-      return is_array($var) || $var instanceof \Traversable;
-  }
-}
-?>
-
-<?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    echo "password changed"
+    echo "password changed";
 }
 ?>
 
