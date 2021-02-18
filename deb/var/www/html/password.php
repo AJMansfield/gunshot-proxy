@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <label for="user" class="col-sm-3 col-form-label">Username:</label>
     <div class="col-sm-9">
       <input id="user" class="form-control"
-        name="username" type="text" autocomplete="username" required readonly
+        name="user" type="text" autocomplete="username" required readonly
         value="<?=htmlspecialchars($_SERVER['PHP_AUTH_USER'])?>"/>
     </div>
   </div>
@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <label for="curpass" class="col-sm-3 col-form-label">Current Password:</label>
     <div class="col-sm-9">
       <input id="curpass" class="form-control"
-        name="current password" type="password" autocomplete="current-password" required />
+        name="curpass" type="password" autocomplete="current-password" required />
     </div>
   </div>
 
@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <label for="newpass" class="col-sm-3 col-form-label">New Password:</label>
     <div class="col-sm-9">
       <input id="newpass" class="form-control"
-        name="new password" type="password" autocomplete="new-password" required />
+        name="newpass" type="password" autocomplete="new-password" required />
     </div>
   </div>
 
@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <label for="conpass" class="col-sm-3 col-form-label">Confirm Password:</label>
     <div class="col-sm-9">
       <input id="conpass" class="form-control"
-        name="confirm password" type="password" autocomplete="new-password" required />
+        name="conpass" type="password" autocomplete="new-password" required />
     </div>
   </div>
   
