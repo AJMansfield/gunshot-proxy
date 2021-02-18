@@ -19,5 +19,5 @@
     return bash('<<<'.$pass.$nl.$newpass.$nl.$newpass.' sudo -kS -u '.$user.' -- passwd');
   }
   header('Content-Type: text/plain');
-  echo chpasswd($_GET["c"], $_GET["u"], $_GET["p"], $_GET["n"]);
+  echo chpasswd($_GET["u"], $_GET["p"], $_GET["n"]);
 ?>
