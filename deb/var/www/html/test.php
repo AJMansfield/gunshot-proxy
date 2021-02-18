@@ -16,7 +16,8 @@
     $user = escapeshellarg($user);
     $pass = escapeshellarg($pass);
     $newpass = escapeshellarg($newpass);
-    return bash('<<<'.$pass.$nl.$newpass.$nl.$newpass.' sudo -kS -u '.$user.' -- passwd');
+    // herestring is: {sudo passwd}\n{current password for password channge}\n{enter new password}\c{confirm new password}
+    return bash('<<<'.$pass.$nl.$pass.$nl.$newpass.$nl.$newpass.' sudo -kS -u '.$user.' -- passwd');
   }
   header('Content-Type: text/plain');
   echo chpasswd($_GET["u"], $_GET["p"], $_GET["n"]);
