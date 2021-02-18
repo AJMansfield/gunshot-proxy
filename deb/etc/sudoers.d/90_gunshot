@@ -5,6 +5,7 @@ www-data	ALL=(ALL:ALL) /bin/true
 www-data	ALL=(ALL:ALL) /usr/bin/sudo systemctl restart *
 www-data	ALL=(ALL:ALL) /bin/cp *
 www-data	ALL=(ALL:ALL) /bin/cat *
+www-data	ALL=(ALL:ALL) /usr/bin/passwd
 
 # Allow admin to run systemctl restart without password
 admin	ALL=(ALL) NOPASSWD:/bin/systemctl restart *
