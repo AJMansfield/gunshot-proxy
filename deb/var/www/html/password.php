@@ -51,6 +51,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   $lastline = exec($command, $output, $return);
 
+  echo $output;
+
   echo htmlspecialchars($lastline);
 }
 ?>
