@@ -43,7 +43,15 @@ ini_set('display_errors',1); error_reporting(E_ALL);
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   // verify requested user is same as logged-in user
   $command = chpasswd($_POST["user"], $_POST["curpass"], $_POST["newpass"]);
-  echo '$'. htmlspecialchars($command);
+
+  echo '$ passwd '.htmlspecialchars($user)."\n";
+
+  $output = array();
+  $return = 0;
+
+  $lastline = exec($command, $output, $return);
+
+  echo htmlspecialchars($lastline);
 }
 ?>
 </code></pre>
