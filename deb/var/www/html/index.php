@@ -83,6 +83,10 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
   }
 
   switch ($type) {
+    case "html":
+      echo $setting["content"];
+      break;
+
     case "section":
       switch ($level) {
         case 0:
@@ -227,6 +231,9 @@ function applySettings ($setting, &$config, &$restartcmds=array()) {
   }
 
   switch ($type) {
+    case "html":
+      break;
+      
     case "section":
       if (is_null($newcfg)) {
         $newcfg = array();

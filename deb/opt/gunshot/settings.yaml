@@ -2,6 +2,17 @@
 type: section
 title: Gunshot Detector Proxy Configuration
 settings:
+  user:
+    type: html
+    content: >        
+      <div class="card">
+        <div class="card-header h4">User Management</div>
+        <div class="card-body">
+          <p class="card-text">
+          </p>
+          <a href="password.php" class="btn btn-primary stretched-link">Password Changer <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
   network:
     type: section
     title: Networking
