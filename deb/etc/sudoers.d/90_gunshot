@@ -6,7 +6,7 @@ www-data ALL=(%gunshot) /bin/true ""                                            
 www-data ALL=(%gunshot) /bin/cat /opt/gunshot/settings.yaml                              # read the settings.yaml file
 www-data ALL=(%gunshot) /bin/cat /opt/gunshot/config.yaml                                # read the current config.yaml
 www-data ALL=(%gunshot) /bin/cp /opt/gunshot/config.yaml /opt/gunshot/config.yaml.old    # archive old config.yaml
-www-data ALL=(%gunshot) /bin/cp /tmp/tmp.* /opt/gunshot/config.yaml                      # apply new config.yaml from tempfile
+www-data ALL=(%gunshot) /bin/cp /tmp/* /opt/gunshot/config.yaml                          # apply new config.yaml from tempfile
 www-data ALL=(%gunshot) /usr/bin/passwd                                                  # change logged-in user's password
 
 # settings.yaml includes several `sudo systemctl restart gunshot@foo.service` commands that need to be allowed
