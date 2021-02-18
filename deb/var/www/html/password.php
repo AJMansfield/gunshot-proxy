@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   // verify requested user is same as logged-in user
   $command = chpasswd($_POST["user"], $_POST["curpass"], $_POST["newpass"]);
 
-  echo '$ passwd '.htmlspecialchars($user)."\n";
+  echo '$ passwd '.htmlspecialchars($_POST["user"])."\n";
 
   $output = array();
   $return = 0;
