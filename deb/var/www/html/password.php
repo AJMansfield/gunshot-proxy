@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   foreach ($output as $line) {
     if(preg_match($pass_filter, $line, $matches)){
-      $pass_output.push($matches[0]);
+      array_push($pass_output, $matches[0]);
       echo htmlspecialchars($matches[0]);
     }
   }
