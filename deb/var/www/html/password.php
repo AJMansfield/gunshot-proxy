@@ -13,7 +13,7 @@ function chpasswd($user, $curpass, $newpass){
   $newpass = escapeshellarg($newpass);
 
   // herestring is: {sudo passwd}\n{current password for password channge}\n{enter new password}\c{confirm new password}
-  return bash('<<<'.$sudo_pass.$nl.$curpass.$nl.$newpass.$nl.$newpass.' sudo -kS -u '.$sudo_user.' -- passwd '.$user);
+  return bash('2>&1 <<<'.$sudo_pass.$nl.$curpass.$nl.$newpass.$nl.$newpass.' sudo -kS -u '.$sudo_user.' -- passwd '.$user);
 }
 
 ?>
@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   $lastline = exec($command, $output, $return);
 
-  echo $output;
+  print_r($output);
 
   echo htmlspecialchars($lastline);
 }

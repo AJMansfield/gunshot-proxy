@@ -17,7 +17,7 @@
     $pass = escapeshellarg($pass);
     $newpass = escapeshellarg($newpass);
     // herestring is: {sudo passwd}\n{current password for password channge}\n{enter new password}\c{confirm new password}
-    return bash('<<<'.$pass.$nl.$pass.$nl.$newpass.$nl.$newpass.' sudo -kS -u '.$user.' -- passwd');
+    return bash('2>&1 <<<'.$pass.$nl.$pass.$nl.$newpass.$nl.$newpass.' sudo -kS -u '.$user.' -- passwd');
   }
 
   // parsing results from 
