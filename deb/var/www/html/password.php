@@ -1,13 +1,19 @@
 <?php
 require 'includes/sudo.php';
 
-function chpasswd($user, $pass, $newpass){
-  $nl = '$\'\\n\''; //fully-escaped newline for herestring concat
+function chpasswd($user, $curpass, $newpass){
+
+  $nl = '$\'\\n\''; //fully-escaped newline for herestring concatenation
+
+  $sudo_user = escapeshellarg($_SERVER['PHP_AUTH_USER']);
+  $sudo_pass = escapeshellarg($_SERVER['PHP_AUTH_PW']);
+
   $user = escapeshellarg($user);
-  $pass = escapeshellarg($pass);
+  $curpass = escapeshellarg($curpass);
   $newpass = escapeshellarg($newpass);
+
   // herestring is: {sudo passwd}\n{current password for password channge}\n{enter new password}\c{confirm new password}
-  return bash('<<<'.$pass.$nl.$pass.$nl.$newpass.$nl.$newpass.' sudo -kS -u '.$user.' -- passwd');
+  return bash('<<<'.$sudo_pass.$nl.$curpass.$nl.$newpass.$nl.$newpass.' sudo -kS -u '.$sudo_user.' -- passwd '.$user);
 }
 
 ?>
@@ -32,11 +38,15 @@ function chpasswd($user, $pass, $newpass){
 ini_set('display_errors',1); error_reporting(E_ALL);
 ?>
 
+<pre><code>
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    echo "password changed";
+  // verify requested user is same as logged-in user
+  $command = chpasswd($_POST["user"], $_POST["curpass"], $_POST["newpass"]);
+  echo '$'. htmlspecialchars($command);
 }
 ?>
+</code></pre>
 
 <div class="container">
 <form class="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
@@ -45,31 +55,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <label for="user" class="col-sm-3 col-form-label">Username:</label>
     <div class="col-sm-9">
       <input id="user" class="form-control"
-        name="username" type="text" autocomplete="username" required
+        name="username" type="text" autocomplete="username" required readonly
         value="<?=htmlspecialchars($_SERVER['PHP_AUTH_USER'])?>"/>
     </div>
   </div>
 
   <div class="form-group row">
-    <label for="cur_pass" class="col-sm-3 col-form-label">Current Password:</label>
+    <label for="curpass" class="col-sm-3 col-form-label">Current Password:</label>
     <div class="col-sm-9">
-      <input id="cur_pass" class="form-control"
+      <input id="curpass" class="form-control"
         name="current password" type="password" autocomplete="current-password" required />
     </div>
   </div>
 
   <div class="form-group row">
-    <label for="new_pass" class="col-sm-3 col-form-label">New Password:</label>
+    <label for="newpass" class="col-sm-3 col-form-label">New Password:</label>
     <div class="col-sm-9">
-      <input id="new_pass" class="form-control"
+      <input id="newpass" class="form-control"
         name="new password" type="password" autocomplete="new-password" required />
     </div>
   </div>
 
   <div class="form-group row">
-    <label for="conf_pass" class="col-sm-3 col-form-label">Confirm Password:</label>
+    <label for="conpass" class="col-sm-3 col-form-label">Confirm Password:</label>
     <div class="col-sm-9">
-      <input id="conf_pass" class="form-control"
+      <input id="conpass" class="form-control"
         name="confirm password" type="password" autocomplete="new-password" required />
     </div>
   </div>
