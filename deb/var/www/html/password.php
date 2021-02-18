@@ -45,15 +45,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $command = chpasswd($_POST["user"], $_POST["curpass"], $_POST["newpass"]);
 
   echo '$ passwd '.htmlspecialchars($_POST["user"])."\n";
+  
+  exec($command, $output, $return);
 
-  $output = array();
-  $return = 0;
+  $pass_output = array();
+  $pass_filter = "/passwd: .*$/" ;
 
-  $lastline = exec($command, $output, $return);
-
-  print_r($output);
-
-  echo htmlspecialchars($lastline);
+  foreach ($output as $line) {
+    if(preg_match($pass_filter, $line, $matches)){
+      $pass_output.push($matches[0]);
+      echo htmlspecialchars($matches[0]);
+    }
+  }
 }
 ?>
 </code></pre>
