@@ -39,22 +39,48 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <div class="container">
-  <form class="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+<form class="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 
-  <label for="user">Username:</label>
-  <input id="user" name="username" type="text" autocomplete="username" required value="<?=htmlspecialchars($_SERVER['PHP_AUTH_USER'])?>"/>
+  <div class="form-group row">
+    <label for="user" class="col-sm-2 col-form-label">Username:</label>
+    <div class="col-sm-10">
+      <input id="user" class="form-control"
+        name="username" type="text" autocomplete="username" required
+        value="<?=htmlspecialchars($_SERVER['PHP_AUTH_USER'])?>"/>
+    </div>
+  </div>
 
-  <label for="cur_pass">Current Password:</label>
-  <input type="password" id="cur_pass" name="current password" autocomplete="current-password" required>
+  <div class="form-group row">
+    <label for="cur_pass" class="col-sm-2 col-form-label">Current Password:</label>
+    <div class="col-sm-10">
+      <input id="cur_pass" class="form-control"
+        name="current password" type="password" autocomplete="current-password" required />
+    </div>
+  </div>
 
-  <label for="new1_pass">New Password:</label>
-  <input type="password" id="pass" name="new password" autocomplete="new-password" required>
+  <div class="form-group row">
+    <label for="new_pass" class="col-sm-2 col-form-label">New Password:</label>
+    <div class="col-sm-10">
+      <input id="new_pass" class="form-control"
+        name="new password" type="password" autocomplete="new-password" required />
+    </div>
+  </div>
 
-  <label for="new2_pass">Confirm Password:</label>
-  <input type="password" id="pass" name="confirm new password" autocomplete="new-password" required>
+  <div class="form-group row">
+    <label for="conf_pass" class="col-sm-2 col-form-label">Confirm Password:</label>
+    <div class="col-sm-10">
+      <input id="conf_pass" class="form-control"
+        name="confirm password" type="password" autocomplete="new-password" required />
+    </div>
+  </div>
   
-  <button type="submit">Change Password</button>
-  </form>
+  <div class="form-group row">
+    <div class="col-sm-10">
+      <button type="submit" class="btn btn-primary">Change Password</button>
+    </div>
+  </div>
+  
+</form>
 </div>
 
 <!-- Optional JavaScript -->
