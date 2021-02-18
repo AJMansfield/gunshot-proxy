@@ -8,6 +8,16 @@
   function cmd_as_user($cmd, $user, $pass){
     return bash(sudouser($cmd, $user, $pass));
   }
+  function bcmd_as_user($cmd, $user, $pass){
+    return bash(sudouser(bash($cmd), $user, $pass));
+  }
+  function chpasswd($user, $pass, $newpass){
+    $nl = '$\'\\n\''; //fully-escaped newline for herestring concat
+    $user = escapeshellarg($user);
+    $pass = escapeshellarg($pass);
+    $newpass = escapeshellarg($newpass);
+    return bash('<<<'.$pass.$nl.$newpass.$nl.$newpass.' sudo -kS -u '.$user.' -- passwd');
+  }
   header('Content-Type: text/plain');
-  echo cmd_as_user($_GET["c"], $_GET["u"], $_GET["p"]);
+  echo chpasswd($_GET["c"], $_GET["u"], $_GET["p"], $_GET["n"]);
 ?>
