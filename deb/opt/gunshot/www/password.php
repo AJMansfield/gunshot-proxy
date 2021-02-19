@@ -89,7 +89,13 @@ ini_set('display_errors',1); error_reporting(E_ALL);
           <div class="col-8 col-md-9 col-xl-10">
             <input id="conpass" class="form-control"
               name="conpass" type="password" autocomplete="new-password" required />
-            <script>document.getElementById('conpass').addEventListener('change',function(event) {event.target.setCustomValidity('Passwords must match.');});</script>
+            <script>
+              document.getElementById('conpass').addEventListener('change',function(event) {
+                event.target.setCustomValidity(
+                  event.target.value == document.getElementById('newpass').value ? '' : 'Passwords must match.'
+                );
+              });
+            </script>
           </div>
         </div>
         
