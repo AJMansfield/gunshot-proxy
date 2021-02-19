@@ -283,10 +283,12 @@ function applySettings ($setting, &$config, &$restartcmds=array()) {
 
     case "yaml":
     default:
-      var_dump($_POST, $token, $config);
       $newcfg = yaml_parse($_POST[$token]);
+      gatherRestartCmdsRecursive($setting, $newcfg, $config, $restartcmds);
       break;
   }
+
+  // TODO: need to recursively accumulate on_edit commands when editing raw YAML
 
   $changed = $changed || (strcmp(yaml_emit($newcfg), yaml_emit($config)) != 0);
 
@@ -306,14 +308,41 @@ function applySettings ($setting, &$config, &$restartcmds=array()) {
   $config = $newcfg;
   return $changed;
 }
+
+function gatherRestartCmdsRecursive($setting, $newcfg, $oldcfg, &$restartcmds=array()) {
+
+  $changed = $changed || (strcmp(yaml_emit($newcfg), yaml_emit($oldcfg)) != 0);
+
+  if ($changed){
+    if (array_key_exists("on_edit", $setting)) {
+      if (is_iterable($setting["on_edit"])) {
+        foreach ($setting["on_edit"] as $key => $cmd) {
+          if (strcmp($key, $token_name) == 0) continue;
+          array_push($restartcmds, $cmd);
+        }
+      } else {
+        array_push($restartcmds, $setting["on_edit"]);
+      }
+    }
+
+    if ($setting["type"] == "section") {
+      foreach ($setting["settings"] as $key => $inner_setting) {
+        if (strcmp($key, $token_name) == 0) continue;
+        gatherRestartCmdsRecursive($inner_setting, get($newcfg[$key]), get($oldcfg[$key]), $restartcmds);
+      }
+    }
+  }
+}
 ?>
 
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $restartcmds = array();
   $changed = applySettings($settings, $config, $restartcmds);
+  var_dump($restartcmds);
+  /*if ($changed) {
 
-  if ($changed) {
+    
     $mktemp = trim(`mktemp`); // already know mktemp is clean , don't need to escape
     yaml_emit_file($mktemp, $config);
     `chmod 444 $mktemp`;
@@ -325,7 +354,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     foreach ($restartcmds as $cmd) {
       exec_as_user($cmd);
     }
-  }
+  }*/
 }
 ?>
 

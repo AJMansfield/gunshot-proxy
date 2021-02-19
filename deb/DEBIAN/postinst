@@ -28,7 +28,7 @@ echo "skipping python3 -m pip install -r /opt/gunshot/requirements.txt"
 systemctl daemon-reload
 systemctl enable gunshot.target
 
-systemctl enable gunshot_network_config.service
+#systemctl enable gunshot_network_config.service
 
 systemctl enable gunshot@event.service
 systemctl enable gunshot@senseit_server.service
