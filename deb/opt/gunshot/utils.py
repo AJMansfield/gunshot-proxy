@@ -47,7 +47,7 @@ class DotDict(dict):
             self[key] = value
 
     def __missing__(self, key):
-        return ""
+        return DotDict({}) # an empty dict that can just be dereferenced forever
 
     def __str__(self):
         return json.dumps(self)

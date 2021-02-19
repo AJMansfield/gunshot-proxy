@@ -300,7 +300,8 @@ settings:
             <code>{evt.event_type}</code>: The string "gunshot" or "non-gunshot" depending on event classification.<br/>
             <code>{evt.device_type}</code>: The string "detector" or "server" depending on packet origin.<br/>
           To output braces in the sent packet, use double braces (i.e.<code>{{</code> in the template will result in <code>{</code> in the output).
-          All other characters (including newlines) are literal.
+          All other characters (including newlines) are literal.<br/>
+          Composite objects are formatted as JSON by default.
         default: >
           {{
             "time": {evt.time},
