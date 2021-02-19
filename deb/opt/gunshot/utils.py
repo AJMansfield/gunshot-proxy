@@ -25,8 +25,6 @@ def socketcontext(*args, **kw):
     finally:
         s.close()
 
-import json
-import collections
 
 class DotDict(dict):
     """
@@ -41,6 +39,7 @@ class DotDict(dict):
     __delattr__ = dict.__delitem__
 
     def __init__(self, dct):
+        import collections
         for key, value in dct.items():
             if isinstance(value, collections.Mapping):
                 value = DotDict(value)
@@ -49,5 +48,13 @@ class DotDict(dict):
     def __missing__(self, key):
         return DotDict({}) # an empty dict that can just be dereferenced forever
 
-    def __str__(self):
-        return json.dumps(self)
+    def __format__(self, spec):
+        if spec == "json":
+            import json
+            return json.dumps(self)
+        elif spec == "yaml":
+            import yaml
+            return yaml.safe_dump(self)
+        else:
+            return str(self)
+

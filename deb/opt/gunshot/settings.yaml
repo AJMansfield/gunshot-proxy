@@ -289,7 +289,7 @@ settings:
         type: blocktext
         label: Template
         descr: >
-          Template supports full python format string syntax.
+          Template supports <a href="https://docs.python.org/3/library/string.html#format-string-syntax">full python format string syntax</a>.
           Available Substitutions:<br/>
             <code>{evt.time}</code>: Event timestamp, in ISO-8601 format (e.g. <code>2021-02-16T13:50:03.815166</code>).<br/>
             <code>{evt.raw}</code>: Base64 encoded raw SenseIT packet data.<br/>
@@ -301,7 +301,7 @@ settings:
             <code>{evt.device_type}</code>: The string "detector" or "server" depending on packet origin.<br/>
           To output braces in the sent packet, use double braces (i.e.<code>{{</code> in the template will result in <code>{</code> in the output).
           All other characters (including newlines) are literal.<br/>
-          Composite objects are formatted as JSON by default.
+          Composite objects can be automatically formatted as YAML or JSON by specifying "yaml" or "json" as a format specifier (e.g. <code>{evt:yaml}</code>.
         default: >
           {{
             "time": {evt.time},
