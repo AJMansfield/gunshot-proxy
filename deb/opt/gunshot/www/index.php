@@ -283,11 +283,8 @@ function applySettings ($setting, &$config, &$restartcmds=array()) {
 
     case "yaml":
     default:
-      if (array_key_exists($token, $_POST)) {
-        $newcfg = yaml_parse($_POST[$token]);
-      } else {
-        $newcfg = get($setting["default"]);
-      }
+      dump_vars($_POST, $token, $config);
+      $newcfg = yaml_parse($_POST[$token]);
       break;
   }
 
