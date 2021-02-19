@@ -1,1 +1,2 @@
 /opt/gunshot/config.yaml
+/etc/nginx/sites-available/gunshot.conf
