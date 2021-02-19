@@ -310,7 +310,8 @@ function applySettings ($setting, &$config, &$restartcmds=array()) {
 }
 
 function gatherRestartCmdsRecursive($setting, $newcfg, $oldcfg, &$restartcmds=array()) {
-
+  global $token_name;
+  
   $changed = strcmp(yaml_emit($newcfg), yaml_emit($oldcfg)) != 0;
 
   if ($changed){
