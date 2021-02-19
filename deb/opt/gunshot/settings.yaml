@@ -246,7 +246,7 @@ settings:
       url:
         type: text
         label: URL
-        hint: e.g. http://username@password:mycamera.mydomain/rcp.xml
+        hint: http://username@password:mycamera.mydomain/rcp.xml
       limits:
         type: section
         title: Limits
@@ -282,7 +282,7 @@ settings:
       conn:
         type: text
         label: Connect
-        hint: Remote IP + Port or URL (blank for auto)
+        hint: Remote URL (blank for auto)
         descr: >
           Recognises protocol schemes <code>http://</code>, <code>https://</code>, <code>tcp://</code> and <code>udp://</code>.
       template:
