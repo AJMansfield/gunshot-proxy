@@ -341,6 +341,7 @@ function gatherRestartCmdsRecursive($setting, $newcfg, $oldcfg, &$restartcmds=ar
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $restartcmds = array();
   $changed = applySettings($settings, $config, $restartcmds);
+  $restartcmds = array_unique($restartcmds);
   if ($changed) {
 
     
