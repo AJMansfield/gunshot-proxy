@@ -283,7 +283,7 @@ function applySettings ($setting, &$config, &$restartcmds=array()) {
 
     case "yaml":
     default:
-      dump_vars($_POST, $token, $config);
+      var_dump($_POST, $token, $config);
       $newcfg = yaml_parse($_POST[$token]);
       break;
   }
