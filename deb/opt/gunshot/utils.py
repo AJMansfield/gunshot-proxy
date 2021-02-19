@@ -52,9 +52,6 @@ class DotDict(dict):
         if spec == "json":
             import json
             return json.dumps(self)
-        elif spec == "yaml":
-            import yaml
-            return yaml.dump(self)
         else:
             return str(self)
 

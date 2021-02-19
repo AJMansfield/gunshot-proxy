@@ -291,17 +291,20 @@ settings:
         descr: >
           Template supports <a href="https://docs.python.org/3/library/string.html#format-string-syntax">full python format string syntax</a>.
           Available Substitutions:<br/>
-            <code>{evt.time}</code>: Event timestamp, in ISO-8601 format (e.g. <code>2021-02-16T13:50:03.815166</code>).<br/>
-            <code>{evt.raw}</code>: Base64 encoded raw SenseIT packet data.<br/>
-            <code>{evt.alarm_num}</code>: Alarm number, increments on each event (rolls over from 255 to 0).<br/>
-            <code>{evt.az_raw}</code>: Detector-relative azimuth angle of the event.<br/>
-            <code>{evt.el_raw}</code>: Detector-relative elevation angle of the event.<br/>
-            <code>{evt.time_detector}</code>: Detector RTC time (generally not accurate).<br/>
-            <code>{evt.event_type}</code>: The string "gunshot" or "non-gunshot" depending on event classification.<br/>
-            <code>{evt.device_type}</code>: The string "detector" or "server" depending on packet origin.<br/>
+          <dl>
+            <dt><code>{cfg}</code></dt><dd>Gunshot proxy configuration (from this and all other services).</dd>
+            <dt><code>{evt}</code></dt><dd>Event data for the current event, which includes a number of elements:</dd>
+            <dt><code>{evt.time}</code></dt><dd>Event timestamp, in ISO-8601 format (e.g. <code>2021-02-16T13:50:03.815166</code>).</dd>
+            <dt><code>{evt.alarm_num}</code></dt><dd>Alarm number, increments on each event before rolling over to 0 at 255.</dd>
+            <dt><code>{evt.az_raw}</code></dt><dd>Detector-relative azimuth angle of the event.</dd>
+            <dt><code>{evt.el_raw}</code></dt><dd>Detector-relative elevation angle of the event.</dd>
+            <dt><code>{evt.event_type}</code></dt><dd>The string "gunshot" or "non-gunshot" depending on event classification.</dd>
+            <dt><code>{net}</code></dt><dd>Coming soon: network status information.</dd>
+            <dt><code>{gps}</code></dt><dd>Coming soon: GPS information.</dd>
+          </dl>
           To output braces in the sent packet, use double braces (i.e.<code>{{</code> in the template will result in <code>{</code> in the output).
           All other characters (including newlines) are literal.<br/>
-          Composite objects can be automatically formatted as YAML or JSON by specifying "yaml" or "json" as a format specifier (e.g. <code>{evt:yaml}</code>.
+          Composite objects can be automatically formatted as JSON by specifying it as a format specifier (e.g. <code>{evt:json}</code>.
         default: >
           {{
             "time": {evt.time},
