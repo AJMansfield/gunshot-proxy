@@ -1,3 +1,3 @@
-/opt/gunshot/config.yaml
-/opt/gunshot/config.yaml.old
+/etc/opt/gunshot/config.yaml
+/etc/opt/gunshot/config.yaml.old
 /etc/nginx/sites-available/gunshot.conf

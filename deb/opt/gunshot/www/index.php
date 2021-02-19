@@ -1,6 +1,6 @@
 <?php
 $settings_filename = "/opt/gunshot/settings.yaml"; // setting schema definition
-$config_filename = "/opt/gunshot/config.yaml"; // output settings file
+$config_filename = "/etc/opt/gunshot/config.yaml"; // output settings file
 require 'includes/sudo.php';
 ?>
 <!doctype html>
