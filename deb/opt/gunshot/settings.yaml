@@ -161,7 +161,7 @@ settings:
         settings:
           enable:
             type: checkbox
-            label: Enable
+            label: Enable PTZ
           az_min:
             type: number
             label: Azimuth Min
@@ -205,7 +205,7 @@ settings:
         settings:
           enable:
             type: checkbox
-            label: Enable
+            label: Enable Relay
           type:
             type: select
             label: Identifier Type
