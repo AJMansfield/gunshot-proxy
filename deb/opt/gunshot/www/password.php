@@ -80,7 +80,7 @@ ini_set('display_errors',1); error_reporting(E_ALL);
           <label for="newpass" class="col-4 col-md-3 col-xl-2 col-form-label text-right">New Password:</label>
           <div class="col-8 col-md-9 col-xl-10">
             <input id="newpass" class="form-control"
-              name="newpass" type="password" autocomplete="new-password" required />
+              name="newpass" type="password" autocomplete="new-password" required minlength="8"/>
           </div>
         </div>
 
@@ -89,6 +89,7 @@ ini_set('display_errors',1); error_reporting(E_ALL);
           <div class="col-8 col-md-9 col-xl-10">
             <input id="conpass" class="form-control"
               name="conpass" type="password" autocomplete="new-password" required />
+            <script>document.getElementById('conpass').addEventListener('change',function(event) {event.target.setCustomValidity('Passwords must match.');});</script>
           </div>
         </div>
         
