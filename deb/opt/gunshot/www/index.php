@@ -92,7 +92,7 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
         case 0:
         case 1:
           $d1cls = "";
-          $hcls = "invisible";
+          $hcls = "d-none";
           $d2cls = "";
           $pcls = "";
           break;
@@ -111,7 +111,7 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
       }
       ?>
         <div id="<?=$token?>" class="<?=$d1cls?>">
-          <div class="<?=$hcls?>"><?=get($setting["title"], $name)?></div>
+          <div class="<?=$hcls?>"><a name="<?=$name?>"><?=get($setting["title"], $name)?></a></div>
           <div class="<?=$d2cls?>">
             <p class="<?=$pcls?>"><?=get($setting["descr"])?></p>
             <?php
@@ -128,8 +128,8 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
     case "select":
       ?>
         <div class="form-group row">
-          <label for="<?=$token?>" class="col-sm-2 col-form-label"><?=get($setting["label"], $name)?></label>
-          <div class="col-sm-10">
+          <label for="<?=$token?>" class="col-sm-4 col-form-label text-right"><?=get($setting["label"], $name)?></label>
+          <div class="col-sm-8">
             <select id="<?=$token?>" name="<?=$token?>" class="form-control">
               <?php
                 foreach ($setting["options"] as $ovalue => $option) {
@@ -152,8 +152,8 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
       $checked = $value ? "checked" : "";
       ?>
         <div class="form-group row">
-          <label for="<?=$token?>" class="col-sm-2 col-form-label"><?=get($setting["label"], $name)?></label>
-          <div class="col-sm-10">
+          <label for="<?=$token?>" class="col-sm-4 col-form-label text-right"><?=get($setting["label"], $name)?></label>
+          <div class="col-sm-8">
             <input id="<?=$token?>" name="<?=$token?>" type="checkbox" <?=$checked?> class="form-control">
             <p class="text-muted"><?=get($setting["descr"])?></p>
           </div>
@@ -165,8 +165,8 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
     case "number":
       ?>
         <div class="form-group row">
-          <label for="<?=$token?>" class="col-sm-2 col-form-label"><?=get($setting["label"], $name)?></label>
-          <div class="col-sm-10">
+          <label for="<?=$token?>" class="col-sm-4 col-form-label text-right"><?=get($setting["label"], $name)?></label>
+          <div class="col-sm-8">
             <input id="<?=$token?>" name="<?=$token?>" class="form-control" type="<?=$setting["type"]?>" value="<?=$value?>"
               placeholder="<?=get($setting["hint"], $name)?>">
             <p class="text-muted"><?=get($setting["descr"])?></p>
@@ -178,8 +178,8 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
     case "blocktext":
       ?>
         <div class="form-group row">
-          <label for="<?=$token?>" class="col-sm-2 col-form-label"><?=get($setting["label"], $name)?></label>
-          <div class="col-sm-10">
+          <label for="<?=$token?>" class="col-sm-4 col-form-label text-right"><?=get($setting["label"], $name)?></label>
+          <div class="col-sm-8">
             <textarea id="<?=$token?>" name="<?=$token?>" class="form-control"><?=$value?></textarea>
             <script>
             $(document).ready(function() {
@@ -199,8 +199,8 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
     default:
       ?>
         <div class="form-group row">
-          <label for="<?=$token?>" class="col-sm-2 col-form-label"><?=get($setting["label"], $name)?></label>
-          <div class="col-sm-10">
+          <label for="<?=$token?>" class="col-sm-4 col-form-label text-right"><?=get($setting["label"], $name)?></label>
+          <div class="col-sm-8">
             <textarea id="<?=$token?>" name="<?=$token?>" class="form-control"><?=yaml_emit($value)?></textarea>
             <script>
             $(document).ready(function() {
@@ -333,7 +333,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <div class="container">
-  <form class="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+  <div class="pb-2 mt-4 mb-2 border-bottom">
+    <h1>Gunshot Proxy Config</h1>
+  </div>
   <div class="card">
     <div class="card-body">
       <a href="password.php" class="btn btn-primary">
@@ -342,11 +344,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
         </svg>
       </a>
+      <a href="password.php" class="btn btn-primary">
+        Password Changer
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+        </svg>
+      </a>
     </div>
   </div>
+  <form class="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
   <?= displaySettingForm($settings, $config, "config") ?>
-  <div class="form-group row">
-    <div class="col-sm-10">
+  <div class="card position-sticky" style="bottom: 0; z-index: 4;">
+    <div class="card-body">
       <button type="submit" class="btn btn-primary">Apply Settings and Restart Affected Services</button>
     </div>
   </div>
