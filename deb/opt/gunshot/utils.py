@@ -1,4 +1,5 @@
 
+
 def translate(value, leftMin, leftMax, rightMin, rightMax):
     # Figure out how 'wide' each range is
     leftSpan = leftMax - leftMin
@@ -23,7 +24,10 @@ def socketcontext(*args, **kw):
         yield s
     finally:
         s.close()
-    
+
+import json
+import collections
+
 class DotDict(dict):
     """
     a dictionary that supports dot notation 
@@ -36,9 +40,15 @@ class DotDict(dict):
     __setattr__ = dict.__setitem__
     __delattr__ = dict.__delitem__
 
-    def __init__(self, dct):
-        import collections
+    def __init__(self, dct, missing_val=""):
         for key, value in dct.items():
             if isinstance(value, collections.Mapping):
                 value = DotDict(value)
             self[key] = value
+        self._miss = missing_val
+
+    def __missing__(self, key):
+        return self._miss
+
+    def __str__(self):
+        return json.dumps(self)
