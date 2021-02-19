@@ -47,3 +47,5 @@ systemctl restart gunshot@onvif_ptz.service
 systemctl restart gunshot@onvif_relay.service
 systemctl restart gunshot@rcp_ptz.service
 systemctl restart gunshot@versatile.service
+
+systemctl reload nginx
