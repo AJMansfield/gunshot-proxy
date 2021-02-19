@@ -294,10 +294,12 @@ settings:
           and <code>{evt}</code> is data for the currently-processed event.<br/>
           Composite objects can be automatically formatted as JSON by specifying it as a format specifier (e.g. <code>{evt:json}</code>).
         default: >
-          <unit>{cfg.network.hostname}</unit>
-          <time>{evt.time}</time>
-          <el>{evt.el_raw}</el>
-          <az>{evt.az_raw}</az>
+          <alarm xmlns="http://example.com/my_alarm_format">
+            <unit>{cfg.network.hostname}</unit>
+            <time>{evt.time}</time>
+            <el>{evt.el_raw}</el>
+            <az>{evt.az_raw}</az>
+          </alarm>
 
 
 
