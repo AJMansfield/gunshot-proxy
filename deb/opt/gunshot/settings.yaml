@@ -72,11 +72,11 @@ settings:
         settings:
           evt_all:
             type: text
-            label: All Events (JSON)
+            label: All Events
             default: sentri/detector/event/all
           evt_alarm:
             type: text
-            label: Filtered Events (JSON)
+            label: Filtered Events
             default: sentri/detector/event/alarm
           evt_raw:
             type: text
