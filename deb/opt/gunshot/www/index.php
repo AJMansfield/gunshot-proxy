@@ -284,7 +284,7 @@ function applySettings ($setting, &$config, &$restartcmds=array()) {
     case "yaml":
     default:
       $newcfg = yaml_parse($_POST[$token]);
-      gatherRestartCmdsRecursive($setting, $newcfg, $config, $restartcmds);
+      $changed = $changed || gatherRestartCmdsRecursive($setting, $newcfg, $config, $restartcmds);
       break;
   }
 
@@ -311,7 +311,7 @@ function applySettings ($setting, &$config, &$restartcmds=array()) {
 
 function gatherRestartCmdsRecursive($setting, $newcfg, $oldcfg, &$restartcmds=array()) {
 
-  $changed = $changed || (strcmp(yaml_emit($newcfg), yaml_emit($oldcfg)) != 0);
+  $changed = strcmp(yaml_emit($newcfg), yaml_emit($oldcfg)) != 0;
 
   if ($changed){
     if (array_key_exists("on_edit", $setting)) {
@@ -332,6 +332,7 @@ function gatherRestartCmdsRecursive($setting, $newcfg, $oldcfg, &$restartcmds=ar
       }
     }
   }
+  return $changed;
 }
 ?>
 
