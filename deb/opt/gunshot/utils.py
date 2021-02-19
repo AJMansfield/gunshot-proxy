@@ -40,15 +40,14 @@ class DotDict(dict):
     __setattr__ = dict.__setitem__
     __delattr__ = dict.__delitem__
 
-    def __init__(self, dct, missing_val=""):
+    def __init__(self, dct):
         for key, value in dct.items():
             if isinstance(value, collections.Mapping):
                 value = DotDict(value)
             self[key] = value
-        self._miss = missing_val
 
     def __missing__(self, key):
-        return self._miss
+        return ""
 
     def __str__(self):
         return json.dumps(self)
