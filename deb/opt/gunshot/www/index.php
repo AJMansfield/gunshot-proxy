@@ -141,7 +141,7 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
                 }
               ?>
             </select>
-            <p class="text-muted"><?=get($setting["descr"])?></p>
+            <?php if (isset($setting["descr"])) {?> <p class="text-muted"><?=$setting["descr"]?></p> <?php } ?>
           </div>
         </div>
       <?php
@@ -155,7 +155,7 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
           <label for="<?=$token?>" class="col-4 col-md-3 col-lg-2 col-form-label text-right"><?=get($setting["label"], $name)?></label>
           <div class="col-8 col-md-9 col-lg-10">
             <input id="<?=$token?>" name="<?=$token?>" type="checkbox" <?=$checked?> class="form-control">
-            <p class="text-muted"><?=get($setting["descr"])?></p>
+            <?php if (isset($setting["descr"])) {?> <p class="text-muted"><?=$setting["descr"]?></p> <?php } ?>
           </div>
         </div>
       <?php
@@ -169,7 +169,7 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
           <div class="col-8 col-md-9 col-lg-10">
             <input id="<?=$token?>" name="<?=$token?>" class="form-control" type="<?=$setting["type"]?>" value="<?=$value?>"
               placeholder="<?=get($setting["hint"], $name)?>">
-            <p class="text-muted"><?=get($setting["descr"])?></p>
+            <?php if (isset($setting["descr"])) {?> <p class="text-muted"><?=$setting["descr"]?></p> <?php } ?>
           </div>
         </div>
       <?php
@@ -189,7 +189,7 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
               });
             });
             </script>
-            <p class="text-muted"><?=get($setting["descr"])?></p>
+            <?php if (isset($setting["descr"])) {?> <p class="text-muted"><?=$setting["descr"]?></p> <?php } ?>
           </div>
         </div>
       <?php
@@ -210,7 +210,7 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
               });
             });
             </script>
-            <p class="text-muted"><?=get($setting["descr"])?></p>
+            <?php if (isset($setting["descr"])) {?> <p class="text-muted"><?=$setting["descr"]?></p> <?php } ?>
           </div>
         </div>
       <?php
