@@ -60,33 +60,33 @@ ini_set('display_errors',1); error_reporting(E_ALL);
       <div class="card-header h4">Change Password</div>
       <div class="card-body">
         <div class="form-group row">
-          <label for="user" class="col-4 col-md-3 col-lg-2 col-form-label text-right">Username:</label>
-          <div class="col-8 col-md-9 col-lg-10">
+          <label for="user" class="col-4 col-md-3 col-xl-2 col-form-label text-right">Username:</label>
+          <div class="col-8 col-md-9 col-xl-10">
             <input id="user" class="form-control"
-              name="user" type="text" autocomplete="username" required readonly
+              name="user" type="text" autocomplete="username" required
               value="<?=htmlspecialchars($_SERVER['PHP_AUTH_USER'])?>"/>
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="curpass" class="col-4 col-md-3 col-lg-2 col-form-label text-right">Current Password:</label>
-          <div class="col-8 col-md-9 col-lg-10">
+          <label for="curpass" class="col-4 col-md-3 col-xl-2 col-form-label text-right">Current Password:</label>
+          <div class="col-8 col-md-9 col-xl-10">
             <input id="curpass" class="form-control"
               name="curpass" type="password" autocomplete="current-password" required />
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="newpass" class="col-4 col-md-3 col-lg-2 col-form-label text-right">New Password:</label>
-          <div class="col-8 col-md-9 col-lg-10">
+          <label for="newpass" class="col-4 col-md-3 col-xl-2 col-form-label text-right">New Password:</label>
+          <div class="col-8 col-md-9 col-xl-10">
             <input id="newpass" class="form-control"
               name="newpass" type="password" autocomplete="new-password" required />
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="conpass" class="col-4 col-md-3 col-lg-2 col-form-label text-right">Confirm Password:</label>
-          <div class="col-8 col-md-9 col-lg-10">
+          <label for="conpass" class="col-4 col-md-3 col-xl-2 col-form-label text-right">Confirm Password:</label>
+          <div class="col-8 col-md-9 col-xl-10">
             <input id="conpass" class="form-control"
               name="conpass" type="password" autocomplete="new-password" required />
           </div>
