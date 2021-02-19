@@ -289,22 +289,10 @@ settings:
         type: blocktext
         label: Template
         descr: >
-          Template supports <a href="https://docs.python.org/3/library/string.html#format-string-syntax">full python format string syntax</a>.
-          Available Substitutions:<br/>
-          <dl class="row">
-            <dt class="col-1"><code>{cfg}</code></dt><dd>Gunshot proxy configuration (from this and all other services).</dd>
-            <dt class="col-1"><code>{evt}</code></dt><dd>Event data for the current event, which includes a number of elements:</dd>
-            <dt class="col-1"><code>{evt.time}</code></dt><dd>Event timestamp, in ISO-8601 format (e.g. <code>2021-02-16T13:50:03.815166</code>).</dd>
-            <dt class="col-1"><code>{evt.alarm_num}</code></dt><dd>Alarm number, increments on each event before rolling over to 0 at 255.</dd>
-            <dt class="col-1"><code>{evt.az_raw}</code></dt><dd>Detector-relative azimuth angle of the event.</dd>
-            <dt class="col-1"><code>{evt.el_raw}</code></dt><dd>Detector-relative elevation angle of the event.</dd>
-            <dt class="col-1"><code>{evt.event_type}</code></dt><dd>The string "gunshot" or "non-gunshot" depending on event classification.</dd>
-            <dt class="col-1"><code>{net}</code></dt><dd>Coming soon: network status information.</dd>
-            <dt class="col-1"><code>{gps}</code></dt><dd>Coming soon: GPS information.</dd>
-          </dl>
-          To output braces in the sent packet, use double braces (i.e.<code>{{</code> in the template will result in <code>{</code> in the output).
-          All other characters (including newlines) are literal.<br/>
-          Composite objects can be automatically formatted as JSON by specifying it as a format specifier (e.g. <code>{evt:json}</code>.
+          Template supports <a href="https://docs.python.org/3/library/string.html#format-string-syntax">full python format string syntax</a>.<br/>
+          A number of objects are available to use: <code>{cfg}</code> pulls data from the unit configuration (i.e. the rest of this page)
+          and <code>{evt}</code> is data for the currently-processed event.<br/>
+          Composite objects can be automatically formatted as JSON by specifying it as a format specifier (e.g. <code>{evt:json}</code>).
         default: >
           <unit>{cfg.network.hostname}</unit>
           <time>{evt.time}</time>
