@@ -311,7 +311,7 @@ function applySettings ($setting, &$config, &$restartcmds=array()) {
 
 function gatherRestartCmdsRecursive($setting, $newcfg, $oldcfg, &$restartcmds=array()) {
   global $token_name;
-  
+
   $changed = strcmp(yaml_emit($newcfg), yaml_emit($oldcfg)) != 0;
 
   if ($changed){
@@ -341,8 +341,7 @@ function gatherRestartCmdsRecursive($setting, $newcfg, $oldcfg, &$restartcmds=ar
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $restartcmds = array();
   $changed = applySettings($settings, $config, $restartcmds);
-  var_dump($restartcmds);
-  /*if ($changed) {
+  if ($changed) {
 
     
     $mktemp = trim(`mktemp`); // already know mktemp is clean , don't need to escape
@@ -356,7 +355,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     foreach ($restartcmds as $cmd) {
       exec_as_user($cmd);
     }
-  }*/
+  }
 }
 ?>
 
