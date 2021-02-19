@@ -333,6 +333,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <div class="container">
+  <form class="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
   <div class="card">
     <div class="card-body">
       <a href="password.php" class="btn btn-primary">
@@ -343,7 +344,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </a>
     </div>
   </div>
-  <form class="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
   <?= displaySettingForm($settings, $config, "config") ?>
   <div class="form-group row">
     <div class="col-sm-10">
