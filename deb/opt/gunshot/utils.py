@@ -54,7 +54,7 @@ class DotDict(dict):
             return json.dumps(self)
         elif spec == "yaml":
             import yaml
-            return yaml.safe_dump(self)
+            return yaml.dump(self)
         else:
             return str(self)
 
