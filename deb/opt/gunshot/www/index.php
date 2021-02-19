@@ -128,8 +128,8 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
     case "select":
       ?>
         <div class="form-group row">
-          <label for="<?=$token?>" class="col-sm-4 col-form-label text-right"><?=get($setting["label"], $name)?></label>
-          <div class="col-sm-8">
+          <label for="<?=$token?>" class="col-4 col-md-2 col-form-label text-right"><?=get($setting["label"], $name)?></label>
+          <div class="col-8 col-md-10">
             <select id="<?=$token?>" name="<?=$token?>" class="form-control">
               <?php
                 foreach ($setting["options"] as $ovalue => $option) {
@@ -152,8 +152,8 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
       $checked = $value ? "checked" : "";
       ?>
         <div class="form-group row">
-          <label for="<?=$token?>" class="col-sm-4 col-form-label text-right"><?=get($setting["label"], $name)?></label>
-          <div class="col-sm-8">
+          <label for="<?=$token?>" class="col-4 col-md-2 col-form-label text-right"><?=get($setting["label"], $name)?></label>
+          <div class="col-8 col-md-10">
             <input id="<?=$token?>" name="<?=$token?>" type="checkbox" <?=$checked?> class="form-control">
             <p class="text-muted"><?=get($setting["descr"])?></p>
           </div>
@@ -165,8 +165,8 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
     case "number":
       ?>
         <div class="form-group row">
-          <label for="<?=$token?>" class="col-sm-4 col-form-label text-right"><?=get($setting["label"], $name)?></label>
-          <div class="col-sm-8">
+          <label for="<?=$token?>" class="col-4 col-md-2 col-form-label text-right"><?=get($setting["label"], $name)?></label>
+          <div class="col-8 col-md-10">
             <input id="<?=$token?>" name="<?=$token?>" class="form-control" type="<?=$setting["type"]?>" value="<?=$value?>"
               placeholder="<?=get($setting["hint"], $name)?>">
             <p class="text-muted"><?=get($setting["descr"])?></p>
@@ -178,8 +178,8 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
     case "blocktext":
       ?>
         <div class="form-group row">
-          <label for="<?=$token?>" class="col-sm-4 col-form-label text-right"><?=get($setting["label"], $name)?></label>
-          <div class="col-sm-8">
+          <label for="<?=$token?>" class="col-4 col-md-2 col-form-label text-right"><?=get($setting["label"], $name)?></label>
+          <div class="col-8 col-md-10">
             <textarea id="<?=$token?>" name="<?=$token?>" class="form-control"><?=$value?></textarea>
             <script>
             $(document).ready(function() {
@@ -199,8 +199,8 @@ function displaySettingForm ($setting, $config, $name, $level=1) {
     default:
       ?>
         <div class="form-group row">
-          <label for="<?=$token?>" class="col-sm-4 col-form-label text-right"><?=get($setting["label"], $name)?></label>
-          <div class="col-sm-8">
+          <label for="<?=$token?>" class="col-4 col-md-2 col-form-label text-right"><?=get($setting["label"], $name)?></label>
+          <div class="col-8 col-md-10">
             <textarea id="<?=$token?>" name="<?=$token?>" class="form-control"><?=yaml_emit($value)?></textarea>
             <script>
             $(document).ready(function() {
