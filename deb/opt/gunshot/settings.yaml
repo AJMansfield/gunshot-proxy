@@ -39,23 +39,6 @@ settings:
       ntp0_ip:
         type: text
         label: NTP Server
-  events:
-    type: section
-    title: Event Types
-    on_edit:
-      - sudo systemctl restart gunshot@event.service
-      - sudo systemctl restart gunshot@onvif_ptz.service
-      - sudo systemctl restart gunshot@onvif_relay.service
-      - sudo systemctl restart gunshot@rcp_ptz.service
-    settings:
-      gunshot:
-        type: checkbox
-        label: gunshot
-        default: true
-      non-gunshot:
-        type: checkbox
-        label: non-gunshot
-        default: true
   mqtt:
     type: section
     title: MQTT Broker Settings
@@ -93,7 +76,7 @@ settings:
             default: sentri/detector/event/all
           evt_alarm:
             type: text
-            label: Filtered Alarm Events (JSON)
+            label: Filtered Events (JSON)
             default: sentri/detector/event/alarm
           evt_raw:
             type: text
@@ -103,6 +86,19 @@ settings:
             type: text
             label: Raw Commands
             default: sentri/detector/command/raw
+  events:
+    type: section
+    title: Event Filtering
+    on_edit: sudo systemctl restart gunshot@event.service
+    settings:
+      gunshot:
+        type: checkbox
+        label: gunshot
+        default: true
+      non-gunshot:
+        type: checkbox
+        label: non-gunshot
+        default: true
   senseit_server:
     type: section
     title: SenseIT Server
@@ -110,8 +106,7 @@ settings:
     settings:
       enable:
         type: checkbox
-        label: Enable SenseIT Server
-        # default: true
+        label: Enable
       bind:
         type: text
         label: Bind
@@ -129,8 +124,7 @@ settings:
     settings:
       enable:
         type: checkbox
-        label: Enable SenseIT Client
-        # default: true
+        label: Enable
       bind:
         type: text
         label: Listen
@@ -138,13 +132,12 @@ settings:
         default: :10004
   detector:
     type: section
-    title: Detector
+    title: SenseIT Sentry Detector
     on_edit: sudo systemctl restart gunshot@detector.service
     settings:
       enable:
         type: checkbox
-        label: Enable Detector
-        # default: true
+        label: Enable
       bind:
         type: text
         label: Listen
@@ -157,7 +150,7 @@ settings:
       conn:
         type: text
         label: ONVIF URL
-        hint: http://user@pass:camera.example
+        hint: http://username@password:mycamera.mydomain/
         on_edit:
           - sudo systemctl restart gunshot@onvif_ptz.service
           - sudo systemctl restart gunshot@onvif_relay.service
@@ -168,8 +161,7 @@ settings:
         settings:
           enable:
             type: checkbox
-            label: Enable ONVIF PTZ
-            # default: true
+            label: Enable
           az_min:
             type: number
             label: Azimuth Min
@@ -213,8 +205,7 @@ settings:
         settings:
           enable:
             type: checkbox
-            label: Enable ONVIF Relay
-            # default: true
+            label: Enable
           type:
             type: select
             label: Identifier Type
@@ -251,13 +242,11 @@ settings:
     settings:
       enable:
         type: checkbox
-        label: Enable RCP PTZ
-        # default: true
+        label: Enable
       url:
         type: text
         label: URL
         hint: e.g. http://username@password:mycamera.mydomain/rcp.xml
-        # default: http://10.0.2.3/rcp.xml
       limits:
         type: section
         title: Limits
@@ -285,7 +274,7 @@ settings:
     settings:
       enable:
         type: checkbox
-        label: Enable Versatile Packet Output
+        label: Enable
       bind:
         type: text
         label: Bind
