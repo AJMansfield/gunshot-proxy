@@ -2,7 +2,7 @@
 set -x
 
 # Create system user to run the gunshot services
-useradd gunshot --system --no-create-home --user-group
+useradd gunshot --system --create-home --user-group
 
 # Create admin user with default pass "password", for authenticating from the webpage and performing actions
 useradd admin \
@@ -51,3 +51,4 @@ systemctl restart gunshot@rcp_ptz.service
 systemctl restart gunshot@versatile.service
 
 systemctl reload nginx
+
