@@ -1,0 +1,4 @@
+#!/bin/bash
+
+dpkg-divert --remove --package gunshot-proxy --rename \
+           /etc/nginx/sites-available/default

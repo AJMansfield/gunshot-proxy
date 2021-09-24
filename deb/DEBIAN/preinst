@@ -1,0 +1,5 @@
+#!/bin/bash
+
+dpkg-divert --add --package gunshot-proxy --rename \
+  --divert /etc/nginx/sites-available/default.disabled \
+           /etc/nginx/sites-available/default
