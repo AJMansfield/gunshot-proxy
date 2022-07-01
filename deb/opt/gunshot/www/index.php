@@ -21,7 +21,7 @@ require 'includes/sudo.php';
   <link rel="stylesheet" href="static/codemirror.min.css">
   <script src="static/yaml.min.js"></script>
 
-  <title>Gunshot Detector Proxy Configuration</title>
+  <title>Gunshot Detector Proxy Configuration v1.3.2</title>
 </head>
 <body>
 

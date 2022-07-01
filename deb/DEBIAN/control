@@ -1,5 +1,5 @@
 Package: gunshot-proxy
-Version: 1.3.1
+Version: 1.3.2
 Section: base
 Priority: optional
 Architecture: all
@@ -9,7 +9,8 @@ Depends: python3,
  nginx-light, 
  php7.4 | php7.3,
  php7.4-yaml | php7.3-yaml,
- php7.4-fpm | php7.3-yaml
+ php7.4-fpm | php7.3-fpm
+Conflicts: apache2
 Maintainer: Anson Mansfield <amansfield@mantaro.com>
 Description: Gunshot Proxy
  Services and configuration for proxying Safety Dynamics 
