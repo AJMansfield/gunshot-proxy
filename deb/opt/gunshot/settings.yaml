@@ -1,6 +1,6 @@
 
 type: section
-title: Gunshot Detector Proxy Configuration
+title: Gunshot Detector Proxy Configuration v1.3.1
 settings:
   network:
     type: section
