@@ -1,4 +1,9 @@
 #!/bin/bash
+
+dpkg-divert --add --package gunshot-proxy --rename \
+  --divert /etc/nginx/sites-available/default.disabled \
+           /etc/nginx/sites-available/default
+
 set -x
 
 # Create system user to run the gunshot services
@@ -11,6 +16,7 @@ useradd admin \
   --groups gunshot
 
 # Give members of the gunshot group the ability to modify the config files
+chown root:root /etc/sudoers.d/90_gunshot
 chown gunshot:gunshot /opt/gunshot/
 chown gunshot:gunshot /etc/opt/gunshot/config.yaml
 chown gunshot:gunshot /etc/opt/gunshot/config.yaml.old
