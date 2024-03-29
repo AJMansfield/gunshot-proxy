@@ -1,0 +1,21 @@
+#!/bin/bash
+
+
+remote="$1"
+url="$2"
+
+z40=0000000000000000000000000000000000000000
+
+IFS=' '
+while read local_ref local_sha remote_ref remote_sha
+do
+  if [[ $local_ref == "refs/tags/v"* ]]; then
+    control_version=$(git show $local_ref:gushot-proxy/DEBIAN/control | grep -oP 'Version: \K(.+)')
+    if [[ ! $local_ref == "refs/tags/v${control_version}" ]]; then
+      echo "Version tag $local_ref does not match control version $control_version, rejecting tag." >&2;
+      exit 1
+    fi
+  fi
+done
+
+exit 0
