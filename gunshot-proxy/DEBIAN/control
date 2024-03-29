@@ -1,5 +1,5 @@
 Package: gunshot-proxy
-Version: 1.3.4-rc1
+Version: 1.3.4
 Section: base
 Priority: optional
 Architecture: all
